@@ -68,7 +68,7 @@ public class ProductController {
         Integer pageSize = 9;
         PageHelper.startPage(pageNum, pageSize);
         List<ProductPO> listProduct = productService.listProduct(newDto);
-        PageInfo<ProductPO> pageInfo = new PageInfo<ProductPO>(listProduct);
+        PageInfo<ProductPO> pageInfo = new PageInfo<>(listProduct);
         return ResultPO.success().add("pageInfo", pageInfo).add("product", listProduct);
     }
 
@@ -86,7 +86,7 @@ public class ProductController {
         Integer pageSize = 9;
         PageHelper.startPage(pageNum, pageSize);
         List<Dto> listProduct = productService.listNewProduct();
-        PageInfo<Dto> pageInfo = new PageInfo<Dto>(listProduct);
+        PageInfo<Dto> pageInfo = new PageInfo<>(listProduct);
         return ResultPO.success().add("pageInfo", pageInfo).add("product", listProduct);
     }
 
@@ -106,7 +106,7 @@ public class ProductController {
         Integer pageSize = 12;
         PageHelper.startPage(pageNum, pageSize, "createdtime DESC");
         List<ProductPO> listProduct = productService.findProductByUid(userModel.getId());
-        PageInfo<ProductPO> pageInfo = new PageInfo<ProductPO>(listProduct);
+        PageInfo<ProductPO> pageInfo = new PageInfo<>(listProduct);
         return ResultPO.success().add("pageInfo", pageInfo).add("product", listProduct);
     }
 
@@ -180,8 +180,7 @@ public class ProductController {
     @RequestMapping(value = "/queryProductDetail/{product_id}", method = RequestMethod.POST)
     @ResponseBody
     public ResultPO queryProductDetail(@PathVariable String product_id) {
-        Dto queryDto = Dtos.newDto();
-        queryDto = productService.queryProductDetail(Dtos.newDto("id", product_id));
+        Dto queryDto = productService.queryProductDetail(Dtos.newDto("id", product_id));
         return ResultPO.success().add("product", queryDto);
     }
 
@@ -221,7 +220,7 @@ public class ProductController {
         UserModel userModel = cacheUserDataService.getUserModel(juid);
         PageHelper.startPage(pageNum, 12, "createdtime DESC");
         List<Dto> list = productService.getCollectList(userModel.getId());
-        PageInfo<Dto> pageInfo = new PageInfo<Dto>(list);
+        PageInfo<Dto> pageInfo = new PageInfo<>(list);
         return ResultPO.success().add("pageInfo", pageInfo);
     }
 

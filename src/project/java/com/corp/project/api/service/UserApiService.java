@@ -24,10 +24,6 @@ public class UserApiService {
     public boolean updateUser(AosUserPO aosUserPO) {
         Integer flag = 0;
         flag = aosUserDao.updateByKey(aosUserPO);
-        if (flag == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return flag == 0 ? false : true;
     }
 }

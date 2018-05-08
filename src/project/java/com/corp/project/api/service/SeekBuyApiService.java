@@ -1,6 +1,5 @@
 package com.corp.project.api.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +43,7 @@ public class SeekBuyApiService {
      * @return
      */
     public List<SeekbuyPO> findSeekByUid(Integer uid) {
-        List<SeekbuyPO> list = new ArrayList<>();
-        list = seekbuyDao.list(Dtos.newDto("uid", uid));
-        return list;
+        return seekbuyDao.list(Dtos.newDto("uid", uid));
     }
 
     /**
@@ -56,9 +53,7 @@ public class SeekBuyApiService {
      * @return
      */
     public List<Dto> selectAllSeek(Dto qDto) {
-        List<Dto> list = new ArrayList<>();
-        list = sqlDao.list("SeekbuyDao.queryAllSeeks", qDto);
-        return list;
+        return sqlDao.list("SeekbuyDao.queryAllSeeks", qDto);
     }
 
     /**

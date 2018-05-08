@@ -23,7 +23,6 @@ public class CategoryService {
      */
     public List<CategoryPO> listCategory() {
         PageHelper.orderBy("id");
-        List<CategoryPO> list = categoryDao.list(null);
-        return list;
+        return categoryDao.list(null);
     }
 }

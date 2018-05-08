@@ -1,6 +1,5 @@
 package com.corp.project.api.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,10 +74,9 @@ public class SeekBuyController {
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @RequestParam(value = "juid") String juid) {
         UserModel userModel = cacheUserDataService.getUserModel(juid);
-        List<SeekbuyPO> list = new ArrayList<>();
         Integer pageSize = 10;
         PageHelper.startPage(pageNum, pageSize, "createdtime DESC");
-        list = seekBuyApiService.findSeekByUid(userModel.getId());
+        List<SeekbuyPO> list = seekBuyApiService.findSeekByUid(userModel.getId());
         PageInfo<SeekbuyPO> pageInfo = new PageInfo<>(list);
         return ResultPO.success().add("pageInfo", pageInfo);
     }
@@ -101,7 +99,7 @@ public class SeekBuyController {
         Integer pageSize = 12;
         PageHelper.startPage(pageNum, pageSize, "createdtime DESC");
         List<Dto> list = seekBuyApiService.selectAllSeek(qDto);
-        PageInfo<Dto> pageInfo = new PageInfo<Dto>(list);
+        PageInfo<Dto> pageInfo = new PageInfo<>(list);
         return ResultPO.success().add("pageInfo", pageInfo);
     }
 

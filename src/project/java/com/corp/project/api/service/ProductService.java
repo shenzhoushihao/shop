@@ -1,6 +1,5 @@
 package com.corp.project.api.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +37,7 @@ public class ProductService {
      * @return
      */
     public List<ProductPO> listProduct(Dto newDto) {
-        List<ProductPO> list = sqlDao.list("ProductDao.queryProductlist", newDto);
-        return list;
+        return sqlDao.list("ProductDao.queryProductlist", newDto);
     }
 
     /**
@@ -49,8 +47,7 @@ public class ProductService {
      * @return
      */
     public List<Dto> listNewProduct() {
-        List<Dto> list = sqlDao.list("ProductDao.queryNewProductlist", null);
-        return list;
+        return sqlDao.list("ProductDao.queryNewProductlist", null);
     }
 
     /**
@@ -60,9 +57,7 @@ public class ProductService {
      * @return
      */
     public List<ProductPO> findProductByUid(Integer uid) {
-        List<ProductPO> list = new ArrayList<>();
-        list = ProductDao.list(Dtos.newDto("uid", uid));
-        return list;
+        return ProductDao.list(Dtos.newDto("uid", uid));
     }
 
     /**
@@ -72,8 +67,7 @@ public class ProductService {
      * @return
      */
     public Dto queryProductDetail(Dto inDto) {
-        Dto queryDto = (Dto) sqlDao.selectOne("ProductDao.queryProductDetail", inDto);
-        return queryDto;
+        return (Dto) sqlDao.selectOne("ProductDao.queryProductDetail", inDto);
     }
 
 
@@ -84,8 +78,7 @@ public class ProductService {
      * @return
      */
     public List<Dto> getCollectList(Integer uid) {
-        List<Dto> list = sqlDao.list("ProductDao.querycollectDetail", Dtos.newDto("uid", uid));
-        return list;
+        return sqlDao.list("ProductDao.querycollectDetail", Dtos.newDto("uid", uid));
     }
 
 
@@ -117,7 +110,7 @@ public class ProductService {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
             return false;
         }
         count = ProductDao.insert(productPO);
@@ -141,15 +134,10 @@ public class ProductService {
             MultiFileUpload.deleteFile(productPO.getImgsrc());
             flag = ProductDao.deleteByKey(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
             return false;
         }
-        if (flag == 0) {
-            return false;
-        } else {
-            return true;
-        }
-
+        return flag == 0 ? false : true;
     }
 
     /**
@@ -165,11 +153,7 @@ public class ProductService {
         productPO.setStatus(status);
         Integer flag = 0;
         flag = ProductDao.updateByKey(productPO);
-        if (flag == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return flag == 0 ? false : true;
     }
 
     /**
