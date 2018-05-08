@@ -28,6 +28,8 @@ public class MultiFileUpload {
     // 加载资源文件aos.properties
     private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("aos");
 
+    private MultiFileUpload() {}
+
     // 得到文件的绝对路径
     public static String getfilePath() {
         return bundle.getString("filepath");
@@ -42,7 +44,7 @@ public class MultiFileUpload {
     }
 
     public static Map<String, Object> fileUpLoad(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         // 从request中获取文件
         try {
             MultipartHttpServletRequest multipartRequest = null;
@@ -111,7 +113,7 @@ public class MultiFileUpload {
         try {
             file.transferTo(targetFile);// 上传
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         }
         return newName;
     }
@@ -129,11 +131,7 @@ public class MultiFileUpload {
         File file = new File(filepath);
         // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
         if (file.exists() && file.isFile()) {
-            if (file.delete()) {
-                return true;
-            } else {
-                return false;
-            }
+            return file.delete() ? true : false;
         } else {
             return false;
         }

@@ -1,6 +1,5 @@
 package com.corp.project.api.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +35,7 @@ public class BaseDataService {
     public List<CategoryPO> getCategory(HttpModel httpModel) {
         Dto pDto = httpModel.getInDto();
         pDto.setOrder("id");
-        List<CategoryPO> list = categoryDao.list(pDto);
-        return list;
+        return categoryDao.list(pDto);
     }
 
     /**
@@ -46,8 +44,7 @@ public class BaseDataService {
     public List<PricetypePO> getPriceType(HttpModel httpModel) {
         Dto pDto = httpModel.getInDto();
         pDto.setOrder("id");
-        List<PricetypePO> list = pricetypeDao.list(pDto);
-        return list;
+        return pricetypeDao.list(pDto);
     }
 
     /**
@@ -59,8 +56,7 @@ public class BaseDataService {
     public List<AdbannersPO> getBanners(HttpModel httpModel) {
         Dto pDto = httpModel.getInDto();
         pDto.setOrder("id");
-        List<AdbannersPO> list = adbannersDao.list(pDto);
-        return list;
+        return adbannersDao.list(pDto);
     }
 
     /**
@@ -71,9 +67,7 @@ public class BaseDataService {
      */
     public List<AosOrgPO> getColleges(HttpModel httpModel) {
         Dto pDto = httpModel.getInDto();
-        List<AosOrgPO> list = new ArrayList<>();
-        list = aosOrgDao.list(pDto);
-        return list;
+        return aosOrgDao.list(pDto);
     }
 
     /**
@@ -83,8 +77,6 @@ public class BaseDataService {
      * @return
      */
     public AosOrgPO getOnlyCollege(Integer college_id) {
-        AosOrgPO aosOrgPO = new AosOrgPO();
-        aosOrgPO = aosOrgDao.selectByKey(college_id);
-        return aosOrgPO;
+        return aosOrgDao.selectByKey(college_id);
     }
 }
