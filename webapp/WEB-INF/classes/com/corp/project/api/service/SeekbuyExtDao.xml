@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- seekbuy[seekbuy]SQL自动映射 -->
+<mapper namespace="SeekbuyDao">
+
+	<!-- 查询持久化对象 -->
+	<select id="queryAllSeeks" parameterType="Dto" resultType="Dto">	
+		SELECT		seekbuy.bid,  <!-- bid -->
+					seekbuy.title,  <!-- title -->
+					seekbuy.description,  <!-- description -->
+					seekbuy.uid,  <!-- uid -->
+					aos_user.account,  <!-- 用户登录帐号 -->	
+		  			aos_user.name,  <!-- 用户姓名 -->
+		  			aos_user.sex,  <!-- 性别 -->
+		  			aos_user.college_id,  <!-- 所属部门流水号 -->
+		  			aos_org.cname,
+		  			aos_user.email,  <!-- 电子邮件 -->
+		  			aos_user.telephone,  <!-- 联系电话 -->
+					seekbuy.createdtime  <!-- createdtime -->
+		FROM 		seekbuy,aos_user
+		LEFT JOIN   aos_org ON aos_org.id = aos_user.college_id
+		WHERE		aos_user.id = seekbuy.uid
+		<if test="bid != null and bid != ''">
+			AND seekbuy.bid = #{bid}
+		</if>
+	</select>
+</mapper>

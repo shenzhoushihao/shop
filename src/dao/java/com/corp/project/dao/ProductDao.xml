@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- product[product]SQL自动映射 -->
+<!--  注意:此文件由AOS平台自动生成-禁止手工修改 2018-05-03 17:09:55 -->
+<mapper namespace="com.corp.project.dao.ProductDao">
+	
+	<!-- 插入一个数据持久化对象(插入字段为传入PO实体的非空属性) -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="ProductPO">
+		INSERT INTO product (
+		<if test="pname != null and pname != ''">
+	         pname, <!-- 产品名称 -->
+		</if>
+		<if test="imgsrc != null and imgsrc != ''">
+	         imgsrc, <!-- 产品图片 -->
+		</if>
+		<if test="oldprice != null and oldprice != ''">
+	         oldprice, <!-- 市场价格 -->
+		</if>
+		<if test="newprice != null and newprice != ''">
+	         newprice, <!-- 当前价格 -->
+		</if>
+		<if test="status != null and status != ''">
+	         status, <!-- 是否上架 -->
+		</if>
+		<if test="stocknum != null">
+	         stocknum, <!-- 库存 -->
+		</if>
+		<if test="type != null">
+	         type, <!-- 类别 -->
+		</if>
+		<if test="description != null and description != ''">
+	         description, <!-- description -->
+		</if>
+		<if test="user_id != null">
+	         user_id, <!-- user_id -->
+		</if>
+		<if test="createdtime != null and createdtime != ''">
+	         createdtime, <!-- 发布时间 -->
+		</if>
+		<if test="updatedtime != null and updatedtime != ''">
+	         updatedtime, <!-- 上架时间 -->
+		</if>
+	          id
+		)VALUES(
+		<if test="pname != null and pname != ''">
+	          #{pname, jdbcType=VARCHAR}, <!-- 产品名称 -->
+	    </if>
+		<if test="imgsrc != null and imgsrc != ''">
+	          #{imgsrc, jdbcType=VARCHAR}, <!-- 产品图片 -->
+	    </if>
+		<if test="oldprice != null and oldprice != ''">
+	          #{oldprice, jdbcType=VARCHAR}, <!-- 市场价格 -->
+	    </if>
+		<if test="newprice != null and newprice != ''">
+	          #{newprice, jdbcType=VARCHAR}, <!-- 当前价格 -->
+	    </if>
+		<if test="status != null and status != ''">
+	          #{status, jdbcType=VARCHAR}, <!-- 是否上架 -->
+	    </if>
+		<if test="stocknum != null">
+	          #{stocknum, jdbcType=INTEGER}, <!-- 库存 -->
+	    </if>
+		<if test="type != null">
+	          #{type, jdbcType=INTEGER}, <!-- 类别 -->
+	    </if>
+		<if test="description != null and description != ''">
+	          #{description, jdbcType=VARCHAR}, <!-- description -->
+	    </if>
+		<if test="user_id != null">
+	          #{user_id, jdbcType=INTEGER}, <!-- user_id -->
+	    </if>
+		<if test="createdtime != null and createdtime != ''">
+	          #{createdtime, jdbcType=VARCHAR}, <!-- 发布时间 -->
+	    </if>
+		<if test="updatedtime != null and updatedtime != ''">
+	          #{updatedtime, jdbcType=VARCHAR}, <!-- 上架时间 -->
+	    </if>
+	          null
+		)
+	</insert>
+	
+	<!-- 插入一个数据持久化对象(含所有字段) -->
+	<insert id="insertAll" useGeneratedKeys="true" keyProperty="id" parameterType="ProductPO">
+		INSERT INTO product (
+		    <include refid="column" />
+		)
+		VALUES (
+		    #{id, jdbcType=INTEGER},  <!-- 流水号 -->
+		    #{pname, jdbcType=VARCHAR},  <!-- 产品名称 -->
+		    #{imgsrc, jdbcType=VARCHAR},  <!-- 产品图片 -->
+		    #{oldprice, jdbcType=VARCHAR},  <!-- 市场价格 -->
+		    #{newprice, jdbcType=VARCHAR},  <!-- 当前价格 -->
+		    #{status, jdbcType=VARCHAR},  <!-- 是否上架 -->
+		    #{stocknum, jdbcType=INTEGER},  <!-- 库存 -->
+		    #{type, jdbcType=INTEGER},  <!-- 类别 -->
+		    #{description, jdbcType=VARCHAR},  <!-- description -->
+		    #{user_id, jdbcType=INTEGER},  <!-- user_id -->
+		    #{createdtime, jdbcType=VARCHAR},  <!-- 发布时间 -->
+		    #{updatedtime, jdbcType=VARCHAR}  <!-- 上架时间 -->
+		)
+	</insert>
+
+	<!-- 根据主键修改数据持久化对象 -->
+	<update id="updateByKey" parameterType="ProductPO">
+		UPDATE product
+		<set>
+			<if test="id != null">
+		          id = #{id, jdbcType=INTEGER},  <!-- 流水号 -->
+			</if>
+			<if test="pname != null">
+		          pname = #{pname, jdbcType=VARCHAR},  <!-- 产品名称 -->
+			</if>
+			<if test="imgsrc != null">
+		          imgsrc = #{imgsrc, jdbcType=VARCHAR},  <!-- 产品图片 -->
+			</if>
+			<if test="oldprice != null">
+		          oldprice = #{oldprice, jdbcType=VARCHAR},  <!-- 市场价格 -->
+			</if>
+			<if test="newprice != null">
+		          newprice = #{newprice, jdbcType=VARCHAR},  <!-- 当前价格 -->
+			</if>
+			<if test="status != null">
+		          status = #{status, jdbcType=VARCHAR},  <!-- 是否上架 -->
+			</if>
+			<if test="stocknum != null">
+		          stocknum = #{stocknum, jdbcType=INTEGER},  <!-- 库存 -->
+			</if>
+			<if test="type != null">
+		          type = #{type, jdbcType=INTEGER},  <!-- 类别 -->
+			</if>
+			<if test="description != null">
+		          description = #{description, jdbcType=VARCHAR},  <!-- description -->
+			</if>
+			<if test="user_id != null">
+		          user_id = #{user_id, jdbcType=INTEGER},  <!-- user_id -->
+			</if>
+			<if test="createdtime != null">
+		          createdtime = #{createdtime, jdbcType=VARCHAR},  <!-- 发布时间 -->
+			</if>
+			<if test="updatedtime != null">
+		          updatedtime = #{updatedtime, jdbcType=VARCHAR},  <!-- 上架时间 -->
+			</if>
+		</set>
+		WHERE  id = #{id}
+	</update>
+	
+	<!-- 根据主键删除数据持久化对象 -->
+	<delete id="deleteByKey">
+		DELETE FROM product WHERE  id = #{id}
+	</delete>
+
+	<!-- 根据主键查询并返回数据持久化对象 -->
+	<select id="selectByKey" resultType="ProductPO">
+		SELECT
+		<include refid="column" />
+		FROM product WHERE  id = #{id}
+	</select>
+
+	<!-- 根据唯一组合条件查询并返回数据持久化对象 -->
+	<select id="selectOne" parameterType="Dto" resultType="ProductPO">
+		SELECT
+		    <include refid="column" />
+		FROM product
+		<where>
+		    <include refid="equal" />
+		</where>		
+	</select>
+
+	<!-- 根据Dto查询并返回数据持久化对象集合 -->
+	<select id="list" parameterType="Dto" resultType="ProductPO">
+		SELECT
+			<include refid="column" />	
+		FROM product
+		<where>
+		    <include refid="equal" />
+		</where>	
+	</select>
+
+	<!-- 根据Dto查询并返回分页数据持久化对象集合 -->
+	<select id="listPage" parameterType="Dto" resultType="ProductPO" useCache="false">
+	    SELECT
+			<include refid="column" />	
+		FRoM product
+		<where>
+		    <include refid="equal" />
+		</where>	
+	</select>
+	
+	<!-- 根据Dto模糊查询并返回数据持久化对象集合(字符型字段模糊匹配，其余字段精确匹配) -->
+	<select id="like" parameterType="Dto" resultType="ProductPO">
+		SELECT
+			<include refid="column" />	
+		FROM product
+		<where>
+		    <include refid="like" />
+		</where>	
+	</select>
+
+	<!-- 根据Dto模糊查询并返回分页数据持久化对象集合(字符型字段模糊匹配，其余字段精确匹配) -->
+	<select id="likePage" parameterType="Dto" resultType="ProductPO" useCache="false">
+	    SELECT
+			<include refid="column" />	
+		FRoM product
+		<where>
+		    <include refid="like" />
+		</where>	
+	</select>
+	
+	<!-- 根据Dto统计行数 -->
+	<select id="rows" resultType="Integer" parameterType="Dto">
+		SELECT COUNT(1) AS aos_rows_ FROM product
+		<where>
+		    <include refid="equal" />
+		</where>
+	</select>
+	
+	<!-- 根据数学表达式进行数学运算 -->
+	<select id="calc" parameterType="Dto" resultType="String">
+		SELECT
+			${_expr}
+		FROM product
+		<where>
+		    <include refid="equal" />
+		</where>
+	</select>
+	
+	<!-- 表字段 -->
+	<sql id="column">
+		  id,  <!-- 流水号 -->
+		  pname,  <!-- 产品名称 -->
+		  imgsrc,  <!-- 产品图片 -->
+		  oldprice,  <!-- 市场价格 -->
+		  newprice,  <!-- 当前价格 -->
+		  status,  <!-- 是否上架 -->
+		  stocknum,  <!-- 库存 -->
+		  type,  <!-- 类别 -->
+		  description,  <!-- description -->
+		  user_id,  <!-- user_id -->
+		  createdtime,  <!-- 发布时间 -->
+		  updatedtime  <!-- 上架时间 -->
+	</sql>
+	
+	<!-- 表字段(用于外表的关联时引用) -->
+	<sql id="column2">
+		  product.id,  <!-- 流水号 -->
+		  product.pname,  <!-- 产品名称 -->
+		  product.imgsrc,  <!-- 产品图片 -->
+		  product.oldprice,  <!-- 市场价格 -->
+		  product.newprice,  <!-- 当前价格 -->
+		  product.status,  <!-- 是否上架 -->
+		  product.stocknum,  <!-- 库存 -->
+		  product.type,  <!-- 类别 -->
+		  product.description,  <!-- description -->
+		  product.user_id,  <!-- user_id -->
+		  product.createdtime,  <!-- 发布时间 -->
+		  product.updatedtime  <!-- 上架时间 -->
+	</sql>
+
+	<!-- Where精确匹配字段 -->
+	<sql id="equal">
+	   <if test="id != null ">
+		      AND id = #{id}  <!-- 流水号 -->
+		</if>
+	    <if test="pname != null and pname != ''">
+		      AND pname = #{pname}  <!-- 产品名称 -->
+		</if>
+	    <if test="imgsrc != null and imgsrc != ''">
+		      AND imgsrc = #{imgsrc}  <!-- 产品图片 -->
+		</if>
+	    <if test="oldprice != null and oldprice != ''">
+		      AND oldprice = #{oldprice}  <!-- 市场价格 -->
+		</if>
+	    <if test="newprice != null and newprice != ''">
+		      AND newprice = #{newprice}  <!-- 当前价格 -->
+		</if>
+	    <if test="status != null and status != ''">
+		      AND status = #{status}  <!-- 是否上架 -->
+		</if>
+	   <if test="stocknum != null ">
+		      AND stocknum = #{stocknum}  <!-- 库存 -->
+		</if>
+	   <if test="type != null ">
+		      AND type = #{type}  <!-- 类别 -->
+		</if>
+	    <if test="description != null and description != ''">
+		      AND description = #{description}  <!-- description -->
+		</if>
+	   <if test="user_id != null ">
+		      AND user_id = #{user_id}  <!-- user_id -->
+		</if>
+	    <if test="createdtime != null and createdtime != ''">
+		      AND createdtime = #{createdtime}  <!-- 发布时间 -->
+		</if>
+	    <if test="updatedtime != null and updatedtime != ''">
+		      AND updatedtime = #{updatedtime}  <!-- 上架时间 -->
+		</if>
+	</sql>
+	
+	<!-- Where模糊匹配字段 -->
+	<sql id="like">
+	    <if test="pname != null and pname != ''">
+		      AND pname like '${pname}%'  <!-- 产品名称 -->
+		</if>
+	    <if test="imgsrc != null and imgsrc != ''">
+		      AND imgsrc like '${imgsrc}%'  <!-- 产品图片 -->
+		</if>
+	    <if test="oldprice != null and oldprice != ''">
+		      AND oldprice like '${oldprice}%'  <!-- 市场价格 -->
+		</if>
+	    <if test="newprice != null and newprice != ''">
+		      AND newprice like '${newprice}%'  <!-- 当前价格 -->
+		</if>
+	    <if test="status != null and status != ''">
+		      AND status like '${status}%'  <!-- 是否上架 -->
+		</if>
+	    <if test="description != null and description != ''">
+		      AND description like '${description}%'  <!-- description -->
+		</if>
+	    <if test="createdtime != null and createdtime != ''">
+		      AND createdtime like '${createdtime}%'  <!-- 发布时间 -->
+		</if>
+	    <if test="updatedtime != null and updatedtime != ''">
+		      AND updatedtime like '${updatedtime}%'  <!-- 上架时间 -->
+		</if>
+	</sql>
+	
+</mapper>

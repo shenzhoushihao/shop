@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="/shop/static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+		<script src="/shop/static/bootstrap/holder.min.js" type="text/javascript"></script>
+		<script src="/shop/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="/shop/static/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../static/css/goods.css" />
+
+		<link rel="stylesheet" href="/shop/static/css/common.css" />
+		<script src="/shop/static/js/common.js" type="text/javascript"></script>
+		<script src="../../static/js/jquery.cookie.js" type="text/javascript"></script>
+		<script src="/shop/static/js/jquery.form.js" type="text/javascript"></script>
+		<title>需求信息</title>
+	</head>
+
+	<body>
+		<!--
+        	作者：offline
+        	时间：2018-05-03
+        	描述：弹框
+        -->
+		<div id="modalList">
+
+		</div>
+		<div class="container-fluid">
+			<!--
+            	作者：offline
+            	时间：2018-05-03
+            	描述：头部
+            -->
+			<div id="top">
+
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<table class="table table-hover" id="buyDetail">
+
+					</table>
+				</div>
+			</div>
+			<!--
+            	作者：offline
+            	时间：2018-05-03
+            	描述：尾部
+            -->
+			<div id="tail">
+
+			</div>
+		</div>
+		<script type="text/javascript">
+			/**
+			 * 加载页面
+			 */
+			$(function($) {
+				reload();
+				var sid = $.cookie("seek_id");
+				selectbuydetail(sid);
+			});
+
+			function selectbuydetail(sid) {
+				$.ajax({
+					type: "post",
+					url: "/shop/api/seekbuy/selectAllSeek",
+					data: {
+						bid: sid
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							createForm(result);
+						}
+					}
+				});
+			}
+
+			/**
+			 * 构造表单
+			 * @param {Object} result
+			 *
+			 */
+			function createForm(result) {
+				$("#buyDetail").empty();
+				$.each(result.map.pageInfo.list, function(index, item) {
+					var trone = $("<tr></tr>").append($("<td></td>").text("需求标题").css("text-align", "center").css("width", "200px"))
+						.append($("<td></td>").text(item.title).css("text-align", "center").css("width", "200px"));
+
+					var trtwo = $("<tr></tr>").append($("<td></td>").text("联系人").css("text-align", "center").css("width", "200px"))
+						.append($("<td></td>").text(item.name).css("text-align", "center").css("width", "200px"))
+						.append($("<td></td>").text("学院").css("text-align", "center").css("width", "200px"))
+						.append($("<td></td>").text(item.cname).css("text-align", "center").css("width", "200px"));
+
+					var trthree = $("<tr></tr>").append($("<td></td>").text("电子邮箱").css("text-align", "center").css("width", "200px"))
+						.append($("<td></td>").text(item.email).css("text-align", "center").css("width", "200px"))
+						.append($("<td></td>").text("手机号码").css("text-align", "center").css("width", "200px"))
+						.append($("<td></td>").text(item.telephone).css("text-align", "center").css("width", "200px"));
+					var trfour = $("<tr></tr>").append($("<td></td>").text("需求标题").css("text-align", "center").css("width", "200px"))
+						.append($("<td></td>").attr("colspan", "3").text(item.description));
+
+					$("#buyDetail").appendTo(trone).append(trtwo).append(trthree).append(trfour);
+				});
+			}
+		</script>
+	</body>
+
+</html>

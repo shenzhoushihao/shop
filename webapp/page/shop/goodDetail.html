@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>商品详细信息</title>
+		<script src="/shop/static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+		<script src="/shop/static/bootstrap/holder.min.js" type="text/javascript"></script>
+		<script src="/shop/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="/shop/static/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="/shop/static/css/goods.css" charset="UTF-8" />
+
+		<link rel="stylesheet" type="text/css" href="/shop/static/css/common.css" />
+		<script src="/shop/static/js/common.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+		<!--
+        	作者：offline
+        	时间：2018-05-03
+        	描述：弹框
+        -->
+		<div id="modalList">
+
+		</div>
+		<div class="container-fluid">
+			<!--
+            	作者：offline
+            	时间：2018-05-03
+            	描述：头部
+            -->
+			<div id="top">
+
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<table class="table table-hover" id="goodsDetail">
+
+					</table>
+				</div>
+			</div>
+			<!--
+            	作者：offline
+            	时间：2018-05-03
+            	描述：尾部
+            -->
+			<div id="tail">
+
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			/**
+			 * 加载页面
+			 */
+			$(function($) {
+				reload();
+				var product_id = getCookie("product_id");
+				query(product_id);
+			});
+
+			/**
+			 * 查询商品详细
+			 * @param {Object} product_id
+			 */
+			function query(product_id) {
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/product/queryProductDetail/" + product_id,
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							createDetail(result);
+						}
+					}
+				});
+			}
+
+			/**
+			 * 创建表单
+			 * 
+			 */
+			function createDetail(result) {
+				$("#goodsDetail").empty();
+				var key = "text-align";
+				var value = "center";
+				var key1 = "margin-top";
+				var value1 = "20px";
+				var images;
+				if(result.map.product.imgsrc == null || result.map.product.imgsrc == '' || result.map.product.imgsrc == 'undefined') {
+					images = 'a.jpg';
+				} else {
+					images = result.map.product.imgsrc;
+				}
+				var img = $("<tr></tr>").append($("<td></td>").css("width", "1024px").css("height", "600px")
+					.css(key, value).attr("colspan", "4")
+					.append($("<img></img>").attr("src", "/shop/images/" + images)));
+
+				var trone = $("<tr></tr>").append($("<td></td>").text("商品编号").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text(result.map.product.id).css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text("商品名称").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text(result.map.product.pname).css("width", "200px").css("font-size", "large")).css(key1, value1);
+
+				var trtwo = $("<tr></tr>").append($("<td></td>").text("商品库存").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text(result.map.product.stocknum).css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text("状态").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text(result.map.product.status == 1 ? "售卖中" : "停止售卖").css("width", "200px").css("font-size", "large")).css(key1, value1);
+
+				var trthree = $("<tr></tr>").append($("<td></td>").text("市场价格").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").append($("<del></del>").text("¥ " + result.map.product.oldprice).css("width", "200px").css("font-size", "large")))
+					.append($("<td></td>").text("售卖价格").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text("¥ " + result.map.product.newprice).css("color", "red").css("width", "200px").css("font-size", "large")).css(key1, value1);
+
+				var trfour = $("<tr></tr>").append($("<td></td>").text("发布时间").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text(result.map.product.createdtime).css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text("联系人").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text(result.map.product.name).css("width", "200px").css("font-size", "large")).css(key1, value1);
+
+				var trfive = $("<tr></tr>").append($("<td></td>").text("联系人性别").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text(result.map.product.sex == 1 ? "男" : "女").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text("所属学院").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text(result.map.product.cname).css("width", "200px").css("font-size", "large")).css(key1, value1);
+
+				var trsix = $("<tr></tr>").append($("<td></td>").text("电子邮箱").css("width", "100px").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text(result.map.product.email).css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text("手机号码").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").text(result.map.product.telephone).css("width", "200px").css("font-size", "large")).css(key1, value1);
+
+				var trseven = $("<tr></tr>").append($("<td></td>").text("商品描述").css("width", "200px").css("font-size", "large"))
+					.append($("<td></td>").attr("colspan", "3").append($("<p></p>").text(result.map.product.description))).css(key1, value1);
+
+				$("#goodsDetail").append(img).append(trone).append(trtwo).append(trthree)
+					.append(trfour).append(trfive).append(trsix).append(trseven);
+			}
+		</script>
+	</body>
+
+</html>

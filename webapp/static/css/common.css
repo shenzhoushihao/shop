@@ -1,0 +1,99 @@
+#head {
+	background-color: #B2DBA1;
+}
+
+.cssword p:nth-child(2) {
+	font-size: 75px;
+	font-weight: 400;
+	font-family: "华文行楷";
+	color: #B22222;
+	text-align: center;
+	margin-top: 30px;
+}
+
+.cssword p:nth-child(3) {
+	font-size: 20px;
+	font-weight: bold;
+	font-family: "楷体";
+	color: #1E90FF;
+	text-align: right;
+}
+
+.cssword p:nth-child(4) span {
+	scrolldelay: "3000";
+	font-family: "微软雅黑";
+	marquee-loop: 3;
+	color: red;
+}
+
+nav.distance {
+	margin: 0px;
+	background: #555555;
+}
+
+div.distance ul:first-child li {
+	margin-left: 50px;
+}
+
+div.distance ul:last-child {
+	margin-right: 30px;
+}
+
+div.distance ul:last-child li {
+	margin-top: 10px;
+	margin-right: 4px;
+}
+
+div.distance ul:last-child li:first-child {
+	margin-right: 30px;
+}
+
+div.distance ul.message li:nth-child(3) {
+	font-family: "宋体";
+	font-size: large;
+	margin-right: 60px;
+	display: none;
+	color: #C1E2B3;
+}
+
+#index,
+#buy,
+#myCart,
+#httpback,
+#personinfo {
+	color: #F9F2F4;
+}
+
+
+/* 登录框*/
+
+#login_form div:nth-child(1) {
+	font-size: larger;
+	color: red;
+	text-align: center;
+}
+
+
+/* 提示框*/
+
+#content div:nth-child(1) {
+	font-size: larger;
+	font-weight: bold;
+	text-align: center;
+}
+
+#content div:nth-child(2) {
+	text-align: center;
+	font-size: large;
+}
+
+
+/*尾部*/
+
+div.tail {
+	font-size: 20px;
+	font-family: "宋体";
+	text-align: center;
+	font-weight: 100;
+	background-color: #BCE8F1;
+}

@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="/shop/static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+		<script src="/shop/static/bootstrap/holder.min.js" type="text/javascript"></script>
+		<script src="/shop/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="/shop/static/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/shop/static/css/person.css" />
+
+		<link rel="stylesheet" href="/shop/static/css/common.css" />
+		<script src="/shop/static/js/common.js" type="text/javascript"></script>
+		<script src="../../static/js/jquery.cookie.js" type="text/javascript"></script>
+		<script src="/shop/static/js/jquery.form.js" type="text/javascript"></script>
+		<title>个人信息管理</title>
+	</head>
+
+	<body>
+		<!--
+        	作者：offline
+        	时间：2018-05-03
+        	描述：弹框
+        -->
+		<div id="modalList">
+
+		</div>
+		<div class="container-fluid">
+			<!--
+            	作者：offline
+            	时间：2018-05-03
+            	描述：头部
+            -->
+			<div id="top">
+
+			</div>
+
+			<div class="row main">
+				<div class="col-md-3">
+					<div class="list-group" id="listgroup">
+						<a href="#" class="list-group-item" data-src="q1">个人信息</a>
+						<a href="#" class="list-group-item" data-src="q2">编辑信息</a>
+						<a href="#" class="list-group-item" data-src="q3">修改密码</a>
+						<a href="#" class="list-group-item" data-src="q4">我的商品</a>
+						<a href="#" class="list-group-item" data-src="q5">我的求购</a>
+						<a href="#" class="list-group-item" data-src="q6">发布商品</a>
+						<a href="#" class="list-group-item" data-src="q7">发布求购</a>
+						<a href="#" class="list-group-item" data-src="q8">退出</a>
+					</div>
+				</div>
+				<div class="col-md-9 show">
+					<div id="q1" style="display:none;">
+						<table class="table table-hover">
+							<thead style="font-size:large;font-family:Microsoft YaHei;">
+								<tr>
+									<th>属性名</th>
+									<th>属性值</th>
+								</tr>
+							</thead>
+							<tbody id="info1" style=" margin-top: 10px; font-family:Microsoft YaHei;">
+
+							</tbody>
+						</table>
+					</div>
+					<div id="q2" style="display:none;">
+						<table class="table table-hover">
+							<thead style="font-size:large;font-family:Microsoft YaHei;">
+								<tr>
+									<th>属性名</th>
+									<th>属性值</th>
+								</tr>
+							</thead>
+							<tbody id="info2" style=" margin-top: 10px; font-family:Microsoft YaHei;">
+
+							</tbody>
+						</table>
+					</div>
+					<div id="q3" style="display:none;">
+						<table class="table table-hover ">
+							<thead>
+								<th>姓名</th>
+								<th>2士大夫</th>
+								<th>3</th>
+							</thead>
+							<tbody>
+								<td>1</td>
+								<td>2士大夫</td>
+								<td>3</td>
+							</tbody>
+						</table>
+					</div>
+					<div id="q4" style="display:none;">
+						<div class="row">
+							<table class="table table-hover ">
+								<thead style="font-size:large;font-family:Microsoft YaHei;">
+									<tr>
+										<th>编码</th>
+										<th>名称</th>
+										<th>售价</th>
+										<th>库存</th>
+										<th>是否在架</th>
+										<th>移除</th>
+										<th>下架</th>
+									</tr>
+								</thead>
+								<tbody id="info4" style=" margin-top: 10px; font-family:Microsoft YaHei;">
+
+								</tbody>
+							</table>
+						</div>
+						<div class="row">
+							<div class="col-md-10 col-md-offset-2" id="build_page_info">
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-11 col-md-offset-1" id="build_pageNav">
+
+							</div>
+						</div>
+					</div>
+
+					<div id="q5" style="display:none;">
+						<div class="row">
+							<table class="table table-hover ">
+								<thead style="font-size:large;font-family:Microsoft YaHei;">
+									<tr>
+										<th>编码</th>
+										<th>标题</th>
+										<th>创建日期</th>
+										<th>移除</th>
+										<th>查看</th>
+									</tr>
+								</thead>
+								<tbody id="info5" style=" margin-top: 10px; font-family:Microsoft YaHei;">
+
+								</tbody>
+							</table>
+						</div>
+						<div class="row">
+							<div class="col-md-10 col-md-offset-2" id="build_page_info1">
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-11 col-md-offset-1" id="build_pageNav1">
+
+							</div>
+						</div>
+					</div>
+
+					<div id="q6" style="display:none;">
+						<div class="row">
+							<div class="col-md-2"></div>
+							<div class="col-md-8">
+								<form id="product" action="/shop/api/product/insertMyProduct" method="post" enctype="multipart/form-data">
+									<div class="form-group" style="display:none">
+										<label for="juid">juid</label>
+										<input type="input" class="form-control" name="juid" id="juid" placeholder="juid">
+									</div>
+									<div class="form-group">
+										<label for="pname">名称</label>
+										<input type="input" class="form-control" name="pname" id="pname" placeholder="名称">
+									</div>
+									<div class="form-group">
+										<label for="imgsrc">图片</label>
+										<input type="file" name="imgsrc" id="imgsrc">
+									</div>
+									<div class="form-group">
+										<label for="description">描述</label>
+										<textarea class="form-control" name="description" id="description" rows="4" placeholder="description"></textarea>
+									</div>
+
+									<div class="form-group">
+										<label for="oldprice">原价</label>
+										<input type="input" class="form-control" name="oldprice" id="oldprice" placeholder="¥">
+									</div>
+									<div class="form-group">
+										<label for="newprice">售价</label>
+										<input type="input" class="form-control" name="newprice" id="newprice" placeholder="¥">
+									</div>
+									<div class="form-group">
+										<label for="newprice">类别</label>
+										<select class="form-control" name="type" id="type">
+											<option value="1" selected="">手机</option>
+											<option value="2">电脑</option>
+											<option value="3">配件</option>
+											<option value="4">电器</option>
+											<option value="5">书籍</option>
+											<option value="6">娱乐</option>
+											<option value="7">运动</option>
+											<option value="8">代步</option>
+											<option value="9">其他</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="stocknum">库存</label>
+										<input type="input" class="form-control" name="stocknum" id="stocknum" placeholder="如：50">
+									</div>
+									<div class="form-group">
+										<label for="stocknum">是否上架:&nbsp;&nbsp;&nbsp;</label>
+										<label class="radio-inline">
+                             		    		<input type="radio" name="status" id="s1" value="1">是
+                             			</label>
+										<label class="radio-inline">
+  											<input type="radio" name="status" id="s2" value="0">否
+										</label>
+									</div>
+									<button class="btn btn-success" id="submitProduct">Submit</button>
+								</form>
+							</div>
+							<div class="col-md-2"></div>
+						</div>
+					</div>
+
+					<div id="q7" style="display:none;">
+						<div class="row">
+							<div class="col-md-2"></div>
+							<div class="col-md-8">
+								<form id="frombuy" action="/shop/api/seekbuy/saveSeekBuy" method="post">
+									<div class="form-group" style="display:none">
+										<label for="juid">juid</label>
+										<input type="input" class="form-control" name="juid" id="juid2" placeholder="juid">
+									</div>
+									<div class="form-group">
+										<label for="title">标题</label>
+										<input type="input" class="form-control" name="title" id="title" placeholder="title">
+									</div>
+									<div class="form-group">
+										<label for="description">描述</label>
+										<textarea class="form-control" name="description" id="descrip" rows="4" placeholder="description"></textarea>
+									</div>
+									<button type="submit" style="margin-top: 10px; margin-left: 200px; margin-bottom: 10px;" class="btn btn-success">Submit</button>
+								</form>
+							</div>
+							<div class="col-md-2"></div>
+						</div>
+					</div>
+
+					<div id="q8" style="display:none;">
+						<p>
+
+						</p>
+					</div>
+
+				</div>
+			</div>
+
+			<!--
+            	作者：offline
+            	时间：2018-05-03
+            	描述：尾部
+            -->
+			<div id="tail">
+
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			$(function($) {
+				reload();
+				//查询个人信息
+				//queryUserInfo();
+				//获取学院列表
+				getcollege();
+				//为表单加载juid
+				loadJuid();
+			});
+			/**
+			 * 为表单加载juid
+			 */
+			function loadJuid() {
+				var juid = getCookie("juid");
+				$("#juid").val(juid);
+				$("#juid2").val(juid);
+			}
+			/*
+			 * 查询个人信息
+			 */
+			function queryUserInfo() {
+
+				var juid = getCookie("juid");
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/home/getUserInfo",
+					data: {
+						juid: juid
+					},
+					dataType: "json",
+					success: function(result) {
+						createInfo(result);
+						editUserInfo(result);
+					}
+				});
+			}
+
+			/**
+			 *获取学院
+			 */
+			var coll = $("<select></select>").addClass("form-control").css("width", "200px").attr("name", "college").attr("id", "nums");
+
+			function getcollege() {
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/base/getColleges",
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							coll.empty();
+							$.each(result.map.college, function(index, item) {
+								coll.append($("<option></option>").append(item.cname).attr("value", item.id));
+							});
+						}
+					}
+				});
+			}
+
+			/ * * 构造新的个人信息表格 * /
+
+			function createInfo(result) {
+				$("#info1").empty();
+				var pkey = "padding-top";
+				var pad = "10px";
+
+				var uid = $("<tr></tr>").css("display", "none").append($("<td></td>").text("用户ID").css("text-align", "center"))
+					.append($("<td></td>").text(result.map.userInfo.id).css("text-align", "center"));
+
+				var account = $("<tr></tr> ").css(pkey, pad).append($("<td></td>").text("用户账号").css("text-align", "center"))
+					.append($("<td></td>").text(result.map.userInfo.account).css("text-align", "center"));
+
+				var name = $("<tr></tr>").css(pkey, pad).append($("<td></td>").text("用户名称").css("text-align", "center"))
+					.append($("<td></td>").text(result.map.userInfo.name).css("text-align", "center"));
+
+				var sex = $("<tr></tr>").css(pkey, pad).append($("<td ></td>").text("性别").css("text-align", "center"))
+					.append($("<td></td>").text(result.map.userInfo.sex == 1 ? "男" : "女").css("text-align", "center"));
+
+				var college_id = $("<tr></tr>").css("display", "none").css(pkey, pad).append($("<td></td>").text("学院ID").css("text-align", "center"))
+					.append($("<td></td>").text(result.map.userInfo.college_id).css("text-align", "center"));
+
+				var college = $("<tr></tr>").css(pkey, pad).append($("<td></td>").text("学院").css("text-align", "center"))
+					.append($("<td></td>").text(result.map.userInfo.college).css("text-align", "center"));
+
+				var email = $("<tr></tr>").append($("<td></td>").css(pkey, pad).text("电子邮箱").css("text-align", "center"))
+					.append($("<td ></td>").text(result.map.userInfo.email).css("text-align", "center"));
+
+				var telephone = $("<tr></tr>").css(pkey, pad).append($("<td></td>").text("手机号码").css("text-align", "center"))
+					.append($("<td></td>").text(result.map.userInfo.telephone).css("text-align", "center"));
+
+				var createdtime = $("<tr></tr>").css(pkey, pad).append($("<td></td>").text("创建时间").css("text-align", "center"))
+					.append($("<td></td>").text(result.map.userInfo.createdtime).css("text-align", "center"));
+				$("#info1").append(uid).append(account).append(name).append(sex).append(college_id).append(college).append(email).append(telephone).append(createdtime);
+			}
+
+			function editUserInfo(result) {
+				$("#info2").empty();
+				var pkey = "padding-top";
+				var pad = "10px";
+				var uid = $("<tr></tr>").css("display", "none").append($("<td></td>").text("用户ID").css("text-align", "center"))
+					.append($("<td></td>").append($("<input></input>").attr("name", "id").val(result.map.userInfo.id)).css("text-align", "center"));
+
+				var account = $("<tr></tr>").css(pkey, pad).append($("<td></td>").text("用户账号").css("text-align", "center"))
+					.append($("<td></td>").text(result.map.userInfo.account).css("text-align", "center"));
+
+				var name = $("<tr></tr>").css(pkey, pad).append($("<td></td>").text("用户名称").css("text-align", "center"))
+					.append($("<td></td>").append($("<input></input>").attr("name", "cname").val(result.map.userInfo.name)).css("text-align", "center"));
+
+				var sex = $("<tr></tr>").css(pkey, pad).append($("<td></td>").text("性别").css("text-align", "center"))
+					.append($("<td></td>").text(result.map.userInfo.sex == 1 ? "男" : "女").css("text-align", "center"));
+
+				var college_id = $("<tr></tr>").css("display", "none").css(pkey, pad).append($("<td></td >").text("学院ID ").css("text-align", "center"))
+					.append($("<td></td>").text(result.map.userInfo.college_id).css("text-align", "center"));
+
+				//给下拉选赋予值
+				setlist(result.map.userInfo.college_id);
+
+				var college = $("<tr></tr>").append($("<td></td>").css(pkey, pad).text("学院").css("text-align", "center"))
+					.append($("<td></td>").append(coll).css("padding-left", "290px"));
+
+				var email = $("<tr></tr>").css(pkey, pad).css(pkey, pad).append($("<td></td>").text("电子邮箱").css("text-align", "center"))
+					.append($("<td></td>").append($("<input></input>").attr("name", "email").val(result.map.userInfo.email)).css("text-align", "center"));
+
+				var telephone = $("<tr></tr>").css(pkey, pad).append($("<td></td>").text("手机号码").css("text-align", "center"))
+					.append($("<td></td>").append($("<input></input>").attr("name", "telephone").val(result.map.userInfo.telephone)).css("text-align", "center"));
+
+				var btnp = $("<td></td>").attr("colspan", "2").css("text-align", "center").append($("<a></a>").addClass("btn btn-primary").text("更新").attr("role", "button").attr("href", "#").attr("id", "update"));
+
+				$("#info2").append(uid).append(account).append(name).append(sex).append(college_id).append(college).append(email).append(telephone).append(btnp);
+			}
+			/**
+			 *给下拉选赋予值
+			 */
+			function setlist(lid) {
+				var numbers = coll.find("option"); //获取select下拉框的所有值
+				for(var j = 1; j < numbers.length; j++) {
+					if($(numbers[j]).val() == lid) {
+						$(numbers[j]).attr("selected", "selected");
+					}
+				}
+			}
+			/**
+			 *更新信息
+			 */
+			$(document).on("click", "#update", function() {
+				/*
+				 * 校验email
+				 */
+				var email = $("#info2").find("input[name='email']").val();
+				var regName = /^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/;
+				if(!(regName.test(email))) {
+					showOnlyMsg("邮箱格式不合法！");
+					return false;
+				}
+
+				/*
+				 * 校验手机号
+				 */
+				var telephone = $("#info2").find("input[name='telephone']").val();
+				regName = /^[1][3,4,5,7,8][0-9]{9}$/;
+				if(!(regName.test(telephone))) {
+					showOnlyMsg("手机号码格式不正确！");
+					return false;
+				}
+
+				var juid = getCookie("juid");
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/user/update/" + juid,
+					data: {
+						id: $("#info2").find("input[name='id']").val(),
+						name: $("#info2").find("input[name='cname']").val(),
+						college_id: $("select[id='nums']").val(),
+						email: email,
+						telephone: telephone
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							showMsg(result);
+							checklogin();
+						} else {
+							showMsg(result);
+						}
+					}
+				});
+			});
+
+			/**
+			 * 发布商品
+			 */
+			$("#submitProduct").click(function() {
+				$("#product").submit(function() {
+					$(this).ajaxSubmit(function(result) {
+						showMsg(result);
+						if(result.result) {
+							$("#q6").hide();
+							$("#q4").show(function() {
+								queryProductList(1);
+							});
+						}
+					});
+					return false;
+				});
+
+			});
+
+			/**
+			 * 发布新需求
+			 */
+			$("#frombuy").click(function() {
+				$(this).ajaxSubmit(function(result) {
+					showMsg(result);
+					if(result.result) {
+						$("#q7").hide();
+						$("#q5").show(function() {
+							selectSeekBuy(1);
+						});
+					}
+				});
+				return false;
+			});
+
+			/**
+			 * 创建查询需求列表
+			 * @param {Object} pn
+			 */
+			function selectSeekBuy(pn) {
+				var juid = getCookie("juid");
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/seekbuy/listSeekBuy",
+					data: {
+						pageNum: pn,
+						juid: juid
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							createSeekBuyList(result);
+							build_page_nav("#build_pageNav1", result);
+							build_page_info1("#build_page_info1", result);
+						}
+					}
+				});
+			}
+
+			/**
+			 * 创建需求列表
+			 * @param {Object} result
+			 */
+			function createSeekBuyList(result) {
+				$("#info5").empty();
+				$.each(result.map.pageInfo.list, function(index, item) {
+					var delbtn = $("<button></button>").text("移除")
+						.addClass("btn btn-danger btn-sm deletebuy").attr("data-src", item.bid);
+					var lookbtn = $("<button></button>").text("查看")
+						.addClass("btn btn-success btn-sm look").attr("data-src", item.bid);
+					var tr = $("<tr></tr>").append($("<td></td>").text(item.bid).css("text-align", "center"))
+						.append($("<td></td>").text(item.title).css("text-align", "center"))
+						.append($("<td></td>").text(item.createdtime).css("text-align", "center"))
+						.append($("<td></td>").append(delbtn).css("text-align", "center"))
+						.append($("<td></td>").append(lookbtn).css("text-align", "center"));
+					$("#info5").append(tr);
+				});
+			}
+
+			/**
+			 * 查看需求
+			 */
+
+			$(document).on("click", ".look", function() {
+				var bid = $(this).attr("data-src");
+				$.cookie('the_cookie', null);
+				$.cookie('seek_id', bid, {
+					expires: 1
+				});
+				window.location.href = "../../page/shop/goods.html";
+			});
+
+			/**
+			 * 删除需求
+			 */
+			$(document).on("click", ".deletebuy", function() {
+				var bid = $(this).attr("data-src");
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/seekbuy/deleteSeek",
+					dataType: "json",
+					data: {
+						bid: bid
+					},
+					success: function(result) {
+						if(result.result) {
+							selectSeekBuy(1);
+							showMsg(result);
+						} else {
+							showMsg(result);
+						}
+					}
+				});
+			});
+
+			/**
+			 * 列表组动画
+			 */
+			$("#listgroup").children("a").mouseover(function() {
+				$(this).addClass("active");
+			});
+			$("#listgroup").children("a").mouseout(function() {
+				$(this).removeClass("active");
+			});
+
+			/**
+			 * 中间显示区的调整
+			 */
+			$("#listgroup").children("a").click(function() {
+				var datasrc = $(this).attr("data-src");
+				$.each({
+					q1,
+					q2,
+					q3,
+					q4,
+					q5,
+					q6,
+					q7,
+					q8
+				}, function(index, item) {
+					if(index == datasrc) {
+						if(index == 'q4') {
+							queryProductList(1);
+						} else if(index == 'q6') {
+							$("#product").clearForm();
+							//为表单加载juid
+							loadJuid();
+						}
+						if(index == 'q5') {
+							selectSeekBuy(1);
+						} else if(index == 'q7') {
+							$("#frombuy").clearForm();
+							//为表单加载juid
+							loadJuid();
+						}
+						$("#" + index).show();
+					} else {
+						$("#" + index).hide();
+					}
+					//获取用户信息
+					queryUserInfo();
+				});
+			});
+
+			/**
+			 * 查询商品列表
+			 */
+			function queryProductList(pn) {
+				var juid = getCookie("juid");
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/product/getMyProduct",
+					data: {
+						pageNum: pn,
+						juid: juid
+					},
+					dataType: "json",
+					success: function(result) {
+						createProductList(result);
+						build_page_nav("#build_pageNav", result);
+						build_page_info(result);
+					}
+				});
+			}
+
+			/**
+			 * 删除商品
+			 */
+			$(document).on("click", ".deleteproduct", function() {
+				var id = $(this).attr("data-src");
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/product/deleteMyProduct",
+					data: {
+						id: id
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							showMsg(result);
+							queryProductList(1);
+						} else {
+							showMsg(result);
+						}
+					}
+				});
+			});
+
+			/**
+			 * 商品上架
+			 */
+			$(document).on("click", ".upproduct", function() {
+				var id = $(this).attr("data-src");
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/product/updateMyProduct",
+					data: {
+						id: id,
+						status: '1'
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							showMsg(result);
+							queryProductList(1);
+						} else {
+							showMsg(result);
+						}
+					}
+				});
+			});
+
+			/**
+			 * 商品下架
+			 */
+			$(document).on("click", ".downproduct", function() {
+				var id = $(this).attr("data-src");
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/product/updateMyProduct",
+					data: {
+						id: id,
+						status: '0'
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							showMsg(result);
+							queryProductList(1);
+						} else {
+							showMsg(result);
+						}
+					}
+				});
+			});
+
+			/**
+			 * 构造商品表格
+			 * @param {Object} result
+			 */
+			function createProductList(result) {
+				$("#info4").empty();
+				var key = "text-align";
+				var value = "center";
+				$.each(result.map.product, function(index, item) {
+					var delbtn = $("<button></button>").text("移除")
+						.addClass("btn btn-danger btn-sm deleteproduct").attr("data-src", item.id);
+					var upbtn = $("<button></button>").text("上架")
+						.addClass("btn btn-success btn-sm upproduct").attr("data-src", item.id);
+					var downbtn = $("<button></button>").text("下架")
+						.addClass("btn btn-info btn-sm downproduct").attr("data-src", item.id);
+					var btn = item.status == 1 ? downbtn : upbtn;
+
+					var tr = $("<tr></tr>").append($("<td></td>").css(key, value).text(item.id))
+						.append($("<td></td>").css(key, value).append($("<a></a>").text(item.pname)))
+						.append($("<td></td>").css(key, value).text(item.newprice))
+						.append($("<td></td>").css(key, value).text(item.stocknum))
+						.append($("<td></td>").css(key, value).text(item.status == 1 ? '是' : '否'))
+						.append($("<td></td>").css(key, value).append(delbtn))
+						.append($("<td></td>").css(key, value).append(btn));
+					$("#info4").append(tr);
+				});
+			}
+
+			/*
+			 * 构造导航条
+			 */
+			function build_page_nav(ele, result) {
+				$(ele).empty();
+
+				var ul = $("<ul></ul>").addClass("pagination");
+				var firstPage = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+				var prePage = $("<li></li>").append($("<a></a>").append("&laquo;").attr("href", "#"));
+
+				if(result.map.pageInfo.hasPreviousPage == false) {
+					firstPage.addClass("disabled");
+					prePage.addClass("disabled");
+				} else {
+					firstPage.click(function() {
+						queryProductList(1);
+					});
+					prePage.click(function() {
+						queryProductList(result.map.pageInfo.pageNum - 1);
+					});
+				}
+
+				var nextPage = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "#"));
+				var lastPage = $("<li></li>").append($("<a></a>").append("尾页").attr("href", "#"));
+
+				if(result.map.pageInfo.hasNextPage == false) {
+					nextPage.addClass("disabled");
+					lastPage.addClass("disabled");
+				} else {
+					nextPage.click(function() {
+						queryProductList(result.map.pageInfo.pageNum + 1);
+					});
+					lastPage.click(function() {
+						queryProductList(result.map.pageInfo.pages);
+					});
+				}
+				ul.append(firstPage).append(prePage);
+				//遍历页码
+				$.each(result.map.pageInfo.navigatepageNums, function(index, item) {
+					var listPage = $("<li></li>").append($("<a></a>").append(item).attr("href", "#"));
+					if(result.map.pageInfo.pageNum == item) {
+						listPage.addClass("active");
+					}
+					listPage.click(function() {
+						queryProductList(item);
+					});
+					ul.append(listPage);
+				});
+				ul.append(nextPage).append(lastPage);
+				var nav = $("<nav></nav>").append(ul).appendTo(ele);
+			}
+
+			/**
+			 * 退出系统
+			 */
+			$("#listgroup").find("a[data-src='q8']").click(function() {
+				var juid = getCookie("juid");
+				if(confirm("确定退出登录吗？")) {　　 //点击确定后操作
+					$.ajax({
+						type: "POST",
+						url: "/shop/api/user/logout",
+						data: {
+							juid: juid
+						},
+						dataType: "json",
+						success: function(result) {
+							if(result.result) {
+								removeCookie("juid");
+								showMsg(result);
+								window.location.href = '/shop/index.html';
+							}
+						}
+					});
+				}
+			});
+		</script>
+	</body>
+
+</html>

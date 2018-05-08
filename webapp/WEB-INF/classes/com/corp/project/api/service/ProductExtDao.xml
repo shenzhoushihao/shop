@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- product[product]SQL自动映射 -->
+<mapper namespace="ProductDao">
+
+    <!-- 查询产品 -->
+	<select id="queryProductlist" parameterType="Dto" resultType="ProductPO">
+		SELECT    product.id,  <!-- 流水号 -->
+				  product.pname,  <!-- 产品名称 -->
+				  product.imgsrc,  <!-- 产品图片 -->
+				  product.oldprice,  <!-- 市场价格 -->
+				  product.newprice,  <!-- 当前价格 -->
+				  product.status,  <!-- 是否上架 -->
+				  product.stocknum,  <!-- 库存 -->
+				  product.type,  <!-- 类别 -->
+				  product.description,  <!-- description -->
+				  product.user_id,  <!-- user_id -->
+				  product.createdtime,  <!-- 发布时间 -->
+				  product.updatedtime  <!-- 上架时间 -->
+		FROM 
+		          product
+		WHERE
+		          product.status=1   
+	    <if test="pname != null and pname != ''">
+		          AND pname LIKE '%${pname}%'
+		</if>
+	    <if test="price == 1">
+		          AND newprice <![CDATA[<=]]> 50
+		</if>
+		<if test="price == 2">
+		          AND newprice <![CDATA[>]]> 50 AND newprice <![CDATA[<=]]> 100
+		</if>
+		<if test="price == 3">
+		          AND newprice <![CDATA[>]]> 100 AND newprice <![CDATA[<=]]> 200
+		</if>
+		<if test="price == 4">
+		          AND newprice <![CDATA[>]]> 200 AND newprice <![CDATA[<=]]> 300
+		</if>
+		<if test="price == 5">
+		          AND newprice <![CDATA[>]]> 300 AND newprice <![CDATA[<=]]> 500
+		</if>
+		<if test="price == 6">
+		          AND newprice <![CDATA[>]]> 500
+		</if>
+	    <if test="type != null ">
+		      AND type = #{type}  <!-- 类别 -->
+		</if>
+		ORDER BY  
+				product.createdtime  DESC
+				<if test="order != null and order != ''">
+		       		,#{order} DESC
+		        </if>
+	</select>
+	
+	<!-- 查询新上架产品 -->
+	<select id="queryNewProductlist" parameterType="Dto" resultType="Dto">
+		 SELECT   product.id,  <!-- 流水号 -->
+				  product.pname,  <!-- 产品名称 -->
+				  product.imgsrc,  <!-- 产品图片 -->
+				  product.oldprice,  <!-- 市场价格 -->
+				  product.newprice,  <!-- 当前价格 -->
+				  product.status,  <!-- 是否上架 -->
+				  product.stocknum,  <!-- 库存 -->
+				  product.type,  <!-- 类别 -->
+				  product.description,  <!-- description -->
+				  product.user_id,  <!-- user_id -->
+				  aos_user.name,   <!-- name -->
+				  product.createdtime,  <!-- 发布时间 -->
+				  product.updatedtime  <!-- 上架时间 -->
+		 FROM
+		 		  product
+		 LEFT JOIN 
+		          aos_user ON aos_user.id = product.user_id
+		 WHERE  product.status=1 AND product.stocknum <![CDATA[>]]> 0
+		 ORDER BY 
+		 		product.updatedtime DESC,product.createdtime DESC
+	</select>
+	
+	<!-- 查询商品详细 -->
+	<select id="queryProductDetail" parameterType="Dto" resultType="Dto">
+		SELECT		  product.id,  <!-- 流水号 -->
+					  product.pname,  <!-- 产品名称 -->
+					  product.imgsrc,  <!-- 产品图片 -->
+					  product.oldprice,  <!-- 市场价格 -->
+					  product.newprice,  <!-- 当前价格 -->
+					  product.status,  <!-- 是否上架 -->
+					  product.stocknum,  <!-- 库存 -->
+					  product.type,  <!-- 类别 -->
+					  product.description,  <!-- description -->
+					  product.user_id,  <!-- user_id -->
+		  			  aos_user.name,  <!-- 用户姓名 -->
+		              aos_user.sex,  <!-- 性别 -->
+		 			  aos_user.college_id,  <!-- 所属部门流水号 -->
+		 			  aos_org.cname,
+		              aos_user.email,  <!-- 电子邮件 -->
+		  			  aos_user.telephone,  <!-- 联系电话 -->
+					  aos_user.name,   <!-- name -->
+					  product.createdtime,  <!-- 发布时间 -->
+					  product.updatedtime  <!-- 上架时间 -->
+		FROM 
+					  product,
+					  aos_user
+		LEFT JOIN     aos_org  ON aos_user.college_id = aos_org.id
+		WHERE		  product.user_id = aos_user.id
+		AND			  product.id = #{id}
+	</select>
+	
+	<!-- 查询收藏详细 -->
+	<select id="querycollectDetail" parameterType="Dto" resultType="Dto">
+		SELECT		collect.id,  <!-- 流水号 -->
+					product.pname,  <!-- 产品名称 -->
+					collect.pid, <!-- 收藏产品 -->
+					collect.num, <!-- 收藏次数 -->
+					collect.createdtime <!-- 收藏日期 -->
+		FROM 		product,
+					collect
+		WHERE		product.id = collect.pid
+		AND         collect.uid = #{uid}
+	</select>
+</mapper>

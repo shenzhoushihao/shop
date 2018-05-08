@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 注意:此文件由SHOP平台手动生成 -->
+<mapper namespace="com.corp.project.httpback.dao.BaseDataRepository">
+
+	<!-- 查询学院列表 -->
+	<select id="listCollegeCombox" parameterType="Dto" resultType="Dto">
+		SELECT id AS value,cname AS display FROM aos_org ORDER BY id ASC
+	</select>
+</mapper>

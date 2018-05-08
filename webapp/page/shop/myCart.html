@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="/shop/static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+		<script src="/shop/static/bootstrap/holder.min.js" type="text/javascript"></script>
+		<script src="/shop/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="/shop/static/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="/shop/static/css/myCart.css" charset="UTF-8" />
+
+		<link rel="stylesheet" href="/shop/static/css/common.css" />
+		<script src="/shop/static/js/common.js" type="text/javascript"></script>
+		<title>收藏车</title>
+	</head>
+
+	<body>
+		<!--
+        	作者：offline
+        	时间：2018-05-03
+        	描述：弹框
+        -->
+		<div id="modalList">
+
+		</div>
+		<div class="container-fluid">
+			<!--
+            	作者：offline
+            	时间：2018-05-03
+            	描述：头部
+            -->
+			<div id="top">
+
+			</div>
+			<div class="row cart">
+				<div class="col-md-12">
+					<table class="table table-hover" id="goodsDetail">
+						<thead style="font-size:large;font-family:Microsoft YaHei;">
+							<tr>
+								<th>商品编号</th>
+								<th>商品名称</th>
+								<th>收藏次数</th>
+								<th>收藏日期</th>
+								<th>移除</th>
+								<th>联系它</th>
+							</tr>
+						</thead>
+						<tbody id="tcoll" style="margin-top: 10px; font-family:Microsoft YaHei;">
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8 col-md-offset-3" id="build_page_info">
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2" id="build_pageNav">
+
+				</div>
+			</div>
+			<!--
+            	作者：offline
+            	时间：2018-05-03
+            	描述：尾部
+            -->
+			<div id="tail ">
+
+			</div>
+		</div>
+		<script type="text/javascript ">
+			$(function($) {
+				reload();
+				selectCollect(1);
+			});
+
+			function selectCollect(pn) {
+				var juid = getCookie("juid");
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/product/getCollectList",
+					data: {
+						juid: juid,
+						pageNum: pn
+					},
+					dataType: "json",
+					success: function(result) {
+						createCollist(result);
+						build_page_nav(result);
+						build_page_info(result);
+					}
+				});
+			}
+
+			function createCollist(result) {
+				$("#tcoll").empty();
+				var key = "text-align";
+				var value = "center";
+				$.each(result.map.pageInfo.list, function(index, item) {
+					var delbtn = $("<button></button>").text("移除")
+						.addClass("btn btn-danger btn-sm deletecol")
+						.attr("data-src", item.id).attr("id_value", item.pid);
+					var conn = $("<button></button>").text("牵手")
+						.addClass("btn btn-success btn-sm connect")
+						.attr("data-src", item.id).attr("id_value", item.pid);
+
+					var tr = $("<tr></tr>").append($("<td></td>").text(item.id).css(key, value))
+						.append($("<td></td>").text(item.pname).css(key, value))
+						.append($("<td></td>").text(item.num).css(key, value))
+						.append($("<td></td>").text(item.createdtime).css(key, value))
+						.append($("<td></td>").append(delbtn).css(key, value))
+						.append($("<td></td>").append(conn).css(key, value)).appendTo($("#tcoll"));
+				});
+			}
+
+			/**
+			 * 移除
+			 */
+			$(document).on("click", ".deletecol", function() {
+				var pid = $(this).attr("data-src");
+				$.ajax({
+					type: "post",
+					url: "/shop/api/product/deleteCollect",
+					data: {
+						pid: pid
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							showMsg(result);
+							selectCollect(1);
+						} else {
+							showMsg(result);
+						}
+					}
+				});
+			});
+
+			/**
+			 * 牵手
+			 */
+			$(document).on("click", ".connect", function() {
+				var product_id = $(this).attr("id_value");
+				setCookie("product_id", product_id, 3600000);
+				window.open("/shop/page/shop/goodDetail.html");
+			});
+
+			/*
+			 * 构造导航条
+			 */
+			function build_page_nav(result) {
+				$("#build_pageNav").empty();
+
+				var ul = $("<ul></ul>").addClass("pagination");
+				var firstPage = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+				var prePage = $("<li></li>").append($("<a></a>").append("&laquo;").attr("href", "#"));
+
+				if(result.map.pageInfo.hasPreviousPage == false) {
+					firstPage.addClass("disabled");
+					prePage.addClass("disabled");
+				} else {
+					firstPage.click(function() {
+						selectCollect(1);
+					});
+					prePage.click(function() {
+						selectCollect(result.map.pageInfo.pageNum - 1);
+					});
+				}
+
+				var nextPage = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "#"));
+				var lastPage = $("<li></li>").append($("<a></a>").append("尾页").attr("href", "#"));
+
+				if(result.map.pageInfo.hasNextPage == false) {
+					nextPage.addClass("disabled");
+					lastPage.addClass("disabled");
+				} else {
+					nextPage.click(function() {
+						selectCollect(result.map.pageInfo.pageNum + 1);
+					});
+					lastPage.click(function() {
+						selectCollect(result.map.pageInfo.pages);
+					});
+				}
+				ul.append(firstPage).append(prePage);
+				//遍历页码
+				$.each(result.map.pageInfo.navigatepageNums, function(index, item) {
+					var listPage = $("<li></li>").append($("<a></a>").append(item).attr("href", "#"));
+					if(result.map.pageInfo.pageNum == item) {
+						listPage.addClass("active");
+					}
+					listPage.click(function() {
+						qselectCollect(item);
+					});
+					ul.append(listPage);
+				});
+				ul.append(nextPage).append(lastPage);
+				var nav = $("<nav></nav>").append(ul).appendTo("#build_pageNav");
+			}
+		</script>
+	</body>
+
+</html>

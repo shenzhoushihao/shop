@@ -1,0 +1,42 @@
+div.header{
+	font-family: "华文行楷";
+	background-color: #B2DBA1;
+	text-align: center;
+}
+div.header h1{
+	font-size: 50px;
+	color:#B22222;
+}
+div.header span{
+	font-size: 20px;
+}
+div.header p span{
+	font-size: 15px;
+	font-family: "微软雅黑";
+	color: red;
+	scrolldelay: "3000";
+}
+#listgroup{
+	margin-top:30px;
+	font-size: 20px;
+	text-align: center;
+}
+#main{
+	height: 100%;
+}
+
+
+
+
+
+
+
+
+
+div.tail{
+	font-size: 20px;
+	font-family: "宋体";
+	text-align: center;
+	font-weight: 100;
+	background-color: #BCE8F1;;
+}

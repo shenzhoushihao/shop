@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="/shop/static/bootstrap/css/bootstrap.min.css" />
+		<script src="/shop/static/js/common.js" type="text/javascript" />
+		<script src="/shop/static/js/verify.js" type="text/javascript" />
+	</head>
+
+	<body>
+		<!--
+        	作者：offline
+        	时间：2018-03-21
+        	描述：提示模态框
+  		-->
+		<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content" id="content">
+					<div class="modal-header">
+						提示消息：
+					</div>
+					<div class="modal-body">
+						<p>fgh </p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--
+        	作者：offline
+        	时间：2018-03-27
+        	描述：弹出登录框
+        -->
+		<div id="login_modal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">用户登录</h4>
+					</div>
+					<div class="modal-body">
+						<form id="login_form">
+							<div>
+								<span></span>
+							</div>
+							<div class="form-group">
+								<label for="account">学号</label>
+								<input type="text" class="form-control" name="account" id="account" placeholder="学号">
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group">
+								<label for="password">密码</label>
+								<input type="password" class="form-control" name="password" id="password" placeholder="Password">
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group">
+								<label>滑动验证码</label>
+								<div id="mpanel1">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-success" id="modal_login">登录</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

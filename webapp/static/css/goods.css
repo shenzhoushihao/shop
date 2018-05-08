@@ -1,0 +1,11 @@
+#goodsDetail tr td:first {
+	font-family: "Microsoft YaHei";
+	font-size: large;
+	margin-top: 10px;
+}
+
+#buyDetail tr th {
+	font-family: "Microsoft YaHei";
+	font-size: large;
+	text-align: center;
+}

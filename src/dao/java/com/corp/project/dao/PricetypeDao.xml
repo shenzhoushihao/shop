@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- pricetype[pricetype]SQL自动映射 -->
+<!--  注意:此文件由AOS平台自动生成-禁止手工修改 2018-05-03 16:16:30 -->
+<mapper namespace="com.corp.project.dao.PricetypeDao">
+	
+	<!-- 插入一个数据持久化对象(插入字段为传入PO实体的非空属性) -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="PricetypePO">
+		INSERT INTO pricetype (
+		<if test="pricename != null and pricename != ''">
+	         pricename, <!-- pricename -->
+		</if>
+		<if test="description != null and description != ''">
+	         description, <!-- description -->
+		</if>
+	          id
+		)VALUES(
+		<if test="pricename != null and pricename != ''">
+	          #{pricename, jdbcType=VARCHAR}, <!-- pricename -->
+	    </if>
+		<if test="description != null and description != ''">
+	          #{description, jdbcType=VARCHAR}, <!-- description -->
+	    </if>
+	          null
+		)
+	</insert>
+	
+	<!-- 插入一个数据持久化对象(含所有字段) -->
+	<insert id="insertAll" useGeneratedKeys="true" keyProperty="id" parameterType="PricetypePO">
+		INSERT INTO pricetype (
+		    <include refid="column" />
+		)
+		VALUES (
+		    #{id, jdbcType=INTEGER},  <!-- id -->
+		    #{pricename, jdbcType=VARCHAR},  <!-- pricename -->
+		    #{description, jdbcType=VARCHAR}  <!-- description -->
+		)
+	</insert>
+
+	<!-- 根据主键修改数据持久化对象 -->
+	<update id="updateByKey" parameterType="PricetypePO">
+		UPDATE pricetype
+		<set>
+			<if test="id != null">
+		          id = #{id, jdbcType=INTEGER},  <!-- id -->
+			</if>
+			<if test="pricename != null">
+		          pricename = #{pricename, jdbcType=VARCHAR},  <!-- pricename -->
+			</if>
+			<if test="description != null">
+		          description = #{description, jdbcType=VARCHAR},  <!-- description -->
+			</if>
+		</set>
+		WHERE  id = #{id}
+	</update>
+	
+	<!-- 根据主键删除数据持久化对象 -->
+	<delete id="deleteByKey">
+		DELETE FROM pricetype WHERE  id = #{id}
+	</delete>
+
+	<!-- 根据主键查询并返回数据持久化对象 -->
+	<select id="selectByKey" resultType="PricetypePO">
+		SELECT
+		<include refid="column" />
+		FROM pricetype WHERE  id = #{id}
+	</select>
+
+	<!-- 根据唯一组合条件查询并返回数据持久化对象 -->
+	<select id="selectOne" parameterType="Dto" resultType="PricetypePO">
+		SELECT
+		    <include refid="column" />
+		FROM pricetype
+		<where>
+		    <include refid="equal" />
+		</where>		
+	</select>
+
+	<!-- 根据Dto查询并返回数据持久化对象集合 -->
+	<select id="list" parameterType="Dto" resultType="PricetypePO">
+		SELECT
+			<include refid="column" />	
+		FROM pricetype
+		<where>
+		    <include refid="equal" />
+		</where>	
+	</select>
+
+	<!-- 根据Dto查询并返回分页数据持久化对象集合 -->
+	<select id="listPage" parameterType="Dto" resultType="PricetypePO" useCache="false">
+	    SELECT
+			<include refid="column" />	
+		FRoM pricetype
+		<where>
+		    <include refid="equal" />
+		</where>	
+	</select>
+	
+	<!-- 根据Dto模糊查询并返回数据持久化对象集合(字符型字段模糊匹配，其余字段精确匹配) -->
+	<select id="like" parameterType="Dto" resultType="PricetypePO">
+		SELECT
+			<include refid="column" />	
+		FROM pricetype
+		<where>
+		    <include refid="like" />
+		</where>	
+	</select>
+
+	<!-- 根据Dto模糊查询并返回分页数据持久化对象集合(字符型字段模糊匹配，其余字段精确匹配) -->
+	<select id="likePage" parameterType="Dto" resultType="PricetypePO" useCache="false">
+	    SELECT
+			<include refid="column" />	
+		FRoM pricetype
+		<where>
+		    <include refid="like" />
+		</where>	
+	</select>
+	
+	<!-- 根据Dto统计行数 -->
+	<select id="rows" resultType="Integer" parameterType="Dto">
+		SELECT COUNT(1) AS aos_rows_ FROM pricetype
+		<where>
+		    <include refid="equal" />
+		</where>
+	</select>
+	
+	<!-- 根据数学表达式进行数学运算 -->
+	<select id="calc" parameterType="Dto" resultType="String">
+		SELECT
+			${_expr}
+		FROM pricetype
+		<where>
+		    <include refid="equal" />
+		</where>
+	</select>
+	
+	<!-- 表字段 -->
+	<sql id="column">
+		  id,  <!-- id -->
+		  pricename,  <!-- pricename -->
+		  description  <!-- description -->
+	</sql>
+	
+	<!-- 表字段(用于外表的关联时引用) -->
+	<sql id="column2">
+		  pricetype.id,  <!-- id -->
+		  pricetype.pricename,  <!-- pricename -->
+		  pricetype.description  <!-- description -->
+	</sql>
+
+	<!-- Where精确匹配字段 -->
+	<sql id="equal">
+	   <if test="id != null ">
+		      AND id = #{id}  <!-- id -->
+		</if>
+	    <if test="pricename != null and pricename != ''">
+		      AND pricename = #{pricename}  <!-- pricename -->
+		</if>
+	    <if test="description != null and description != ''">
+		      AND description = #{description}  <!-- description -->
+		</if>
+	</sql>
+	
+	<!-- Where模糊匹配字段 -->
+	<sql id="like">
+	    <if test="pricename != null and pricename != ''">
+		      AND pricename like '${pricename}%'  <!-- pricename -->
+		</if>
+	    <if test="description != null and description != ''">
+		      AND description like '${description}%'  <!-- description -->
+		</if>
+	</sql>
+	
+</mapper>

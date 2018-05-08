@@ -1,0 +1,27 @@
+div.btn_multi {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+button.button {
+	padding-right: 20px;
+	width: 100px;
+}
+
+div.new_goods p {
+	margin-top: 20px;
+	font-family: "隶书";
+	font-size: 30px;
+	font-weight: 100;
+	text-align: center;
+	color: hotpink;
+}
+
+div.quickshow div:first-child {
+	margin-top: 2px;
+	height: 250px;
+}
+
+#selectInfo button {
+	display: none;
+}

@@ -1,0 +1,4 @@
+*.class
+.git
+.DS_Store
+/aoslogs/

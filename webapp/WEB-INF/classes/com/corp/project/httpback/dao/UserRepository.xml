@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 注意:此文件由SHOP平台手动生成  -->
+<mapper namespace="com.corp.project.httpback.dao.UserRepository">
+
+	<!-- 查询用户列表  -->
+	<select id="listPage" parameterType="Dto" resultType="Dto">
+		SELECT  aos_user.id,  		<!-- 流水号 -->
+		  		aos_user.account,   <!-- 用户登录帐号 -->
+			  	aos_user.password,  <!-- 密码 -->
+			  	aos_user.name,  	<!-- 用户姓名 -->
+			  	aos_user.sex,  		<!-- 性别 -->
+			  	aos_user.status,  	<!-- 用户状态 -->
+			  	aos_user.college_id,  <!-- 所属部门流水号 -->
+			  	aos_org.cname,   	  <!-- 所属部门 -->
+			  	aos_user.email,       <!-- 电子邮件 -->
+			  	aos_user.telephone,   <!-- 联系电话 -->
+			  	aos_user.is_del,      <!-- 是否已删除 -->
+			  	aos_user.createdtime  <!-- 创建时间 -->
+		FROM
+				aos_user
+		LEFT JOIN  aos_org  ON  aos_user.college_id=aos_org.id
+		<where>
+			<if test="account != null and account != ''">
+		       aos_user.account = #{account}  <!-- 用户登录帐号 -->
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询学院列表  -->
+	<select id="listCollegeCombox" parameterType="Dto" resultType="Dto">
+		SELECT id AS value,cname AS display FROM aos_org ORDER BY id ASC
+	</select>
+</mapper>

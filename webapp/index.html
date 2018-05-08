@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>首页</title>
+		<script src="static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+		<script src="static/bootstrap/holder.min.js" type="text/javascript"></script>
+		<script src="static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="static/js/verify.js" type="text/javascript"></script>
+		<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/style.css" charset="UTF-8" />
+		<link rel="stylesheet" type="text/css" href="static/css/verify.css" />
+
+		<link rel="stylesheet" href="static/css/common.css" />
+		<script src="static/js/common.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+		<!--
+        	作者：offline
+        	时间：2018-05-03
+        	描述：弹框
+        -->
+		<div id="modalList">
+
+		</div>
+
+		<div class="container-fluid">
+			<!--
+            	作者：offline
+            	时间：2018-05-03
+            	描述：头部
+            -->
+			<div id="top">
+
+			</div>
+			<!--
+            	作者：offline
+            	时间：2018-02-25
+            	描述：筛选框
+            -->
+			<div class="row btn_multi">
+				<div class="col-md-3 col-md-offset-3">
+					<div class="btn-group" id="Category">
+						<button type="button" class="btn btn-default button">类别</button>
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    						<span class="caret"></span>
+    						<span class="sr-only">Toggle Dropdown</span>
+  						</button>
+						<ul class="dropdown-menu">
+
+						</ul>
+					</div>
+
+					<div class="btn-group" id="priceType">
+						<button type="button" class="btn btn-default button">价格</button>
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    						<span class="caret"></span>
+    						<span class="sr-only">Toggle Dropdown</span>
+  						</button>
+						<ul class="dropdown-menu">
+
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-3" id="selectInfo">
+					<button type="button" class="btn btn-default" aria-label="Left Align">
+						<span></span>
+						&nbsp;&nbsp;<span class="glyphicon glyphicon-remove removeselect1" aria-hidden="true"></span>
+					</button>
+					<button type="button" class="btn btn-default" aria-label="Left Align">
+						<span></span>
+  						&nbsp;&nbsp;<span class="glyphicon glyphicon-remove removeselect2" aria-hidden="true"></span>
+					</button>
+				</div>
+				<!--
+                	作者：offline
+                	时间：2018-02-25
+                	描述：输入框组
+                -->
+				<div class="col-md-3">
+					<div class="input-group">
+						<input type="text" class="form-control" id="searchforname" placeholder="Search for Name...">
+						<span class="input-group-btn">
+    						<button class="btn btn-success" type="button" id="blurGo">Go!</button>
+  						</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<!--
+                	作者：offline
+                	时间：2018-02-23
+                	描述：左侧信息区
+                -->
+				<div class="col-md-3 quickshow">
+					<div class="row">
+						<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+							<div class="carousel-inner" role="listbox" id="banners">
+
+							</div>
+
+							<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+								<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+								<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+							<ol class="carousel-indicators">
+								<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+								<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+								<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+							</ol>
+						</div>
+					</div>
+					<!--
+                    	作者：offline
+                    	时间：2018-02-25
+                    	描述：新上榜物件
+                    -->
+					<div class="row new_goods">
+						<p>新上榜物品</p>
+						<table class="table table-hover">
+							<thead>
+								<th>序列号</th>
+								<th>物品名称</th>
+								<th>联系人</th>
+							</thead>
+							<tbody id="newCargo">
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+				<!--
+                	作者：offline
+                	时间：2018-02-23
+                	描述：中间物品展示区
+                -->
+				<div class="col-md-9 imgheightsize">
+
+					<div class="row" id="cargoOne">
+					</div>
+					<div class="row" id="cargoTwo">
+					</div>
+					<div class="row" id="cargoThree">
+					</div>
+
+					<div class="row">
+						<div class="col-md-8 col-md-offset-3" id="build_page_info">
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8 col-md-offset-2" id="build_pageNav">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--
+            	作者：offline
+            	时间：2018-05-03
+            	描述：尾部
+            -->
+			<div id="tail">
+
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			/*
+			 * 加载页面完成的工作
+			 */
+			$(function($) {
+				reload();
+				//查询商品
+				requestGoods(1);
+				//查询广告条幅
+				queryAdbanners();
+				//查询新上榜商品
+				loadNewCargo();
+			});
+
+			var item_id; //类别id
+			var price; //价格id
+			var searchforname; //  模糊查询
+
+			$("#blurGo").click(function() {
+				searchforname = $("#searchforname").val();
+				requestGoods(1);
+			});
+
+			/*
+			 * 加载新上架的商品
+			 */
+			function loadNewCargo() {
+				$.ajax({
+					url: "/shop/api/product/listNewProducts",
+					type: "POST",
+					success: function(result) {
+						if(result.result) {
+							$("#newCargo").empty();
+							$.each(result.map.product, function(index, item) {
+								var num = $("<td></td>").text(index + 1);
+								var cargoname = $("<td></td>").append($("<a></a>").addClass("productindex").attr("id_value", item.id).attr("href", "#").text(item.pname));
+								var name = $("<td></td>").text(item.name);
+
+								var tr;
+								if(index % 2 == 0) {
+									tr = $("<tr></tr>").addClass("success")
+								} else {
+									tr = $("<tr></tr>").addClass("active")
+								}
+								tr.append(num).append(cargoname).append(name).appendTo($("#newCargo"));
+							});
+						}
+					}
+				});
+			}
+
+			/*
+			 * 查询广告条幅
+			 */
+			function queryAdbanners() {
+				$.ajax({
+					url: "/shop/api/base/getBanners",
+					type: "POST",
+					success: function(result) {
+						if(result.result) {
+							$("#banners").empty();
+							$.each(result.map.banners, function(index, item) {
+
+								var ads;
+								if(index == 0) {
+									ads = $("<div></div>").addClass("item active");
+								} else {
+									ads = $("<div></div>").addClass("item");
+								}
+
+								ads.append($("<a></a>").addClass("productindex").attr("id_value", item.cargo_id).attr("href", "#")
+										.append($("<img></img>").attr("src", "poolimg/" + item.imgsrc)))
+									.append($("<div></div>").addClass("carousel-caption").text(item.description)
+										.css("font-size", "10px"));
+								ads.appendTo($("#banners"));
+							});
+						}
+					}
+				});
+			}
+
+			/*
+			 * 请求查询商品
+			 */
+			function requestGoods(pn) {
+				$.ajax({
+					url: "/shop/api/product/listProduct",
+					type: "POST",
+					data: {
+						"pageNum": pn,
+						"price": price,
+						"type": item_id,
+						"pname": searchforname,
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							/*
+							 * 清空样式和数据
+							 */
+							$("#cargoOne").empty();
+							$("#cargoTwo").empty();
+							$("#cargoThree").empty();
+							/*
+							 * 构造中央商品区
+							 */
+							$.each(result.map.product, function(index, item) {
+								// 图片区
+								var img;
+								if((item.imgsrc) == null || (item.imgsrc) == undefined || (item.imgsrc) == "") {
+									img = $("<img></img>").addClass("img-responsive").attr("src", "images/a.jpg");
+								} else {
+									img = $("<img></img>").addClass("img-responsive").attr("src", "images/" + item.imgsrc);
+								}
+								img.css("width", "300px").css("height", "250px");
+
+								//信息区
+								var delp;
+								if((item.oldprice) == null || (item.oldprice) == undefined || (item.oldprice) == "") {
+									delp = $("<p></p>").append($("<del></del>").text(""))
+										.append($("<span></span>").text("¥ " + item.oldprice)
+											.css("color", "red")
+											.css("font-size", "20px"));
+								} else {
+									delp = $("<p></p>").append($("<del></del>").text("¥ " + item.oldprice + "  ").css("font-size", "20px"))
+										.append($("<span></span>").text("¥ " + item.newprice)
+											.css("color", "red")
+											.css("font-size", "20px"));
+								}
+
+								//名称区
+								var cargoName = $("<a></a>").addClass("productindex").text(item.pname).css("font-size", "25px")
+									.attr("id_value", item.id).attr("href", "#");
+
+								//按钮区
+								var btnp = $("<p></p>").append($("<a></a>").addClass("btn btn-primary connect").text("联系它").attr("id_value", item.id)
+										.attr("role", "button").attr("href", "#").css("margin-left", "90px").css("margin-right", "10px"))
+									.append($("<a></a>").addClass("btn btn-success collect").text("收藏").attr("id_value", item.id).attr("ppname", item.pname)
+										.attr("role", "button").attr("href", "#"));
+								//商品整合
+								var cargo = $("<div></div>")
+									.addClass("col-md-4")
+									.append($("<div></div>").addClass("thumbnail")
+										.append(img)
+										.append($("<div></div>").addClass("caption")
+											.append(cargoName)
+											.append(delp)
+											.append(btnp)));
+								if(index < 3) {
+									cargo.appendTo($("#cargoOne"));
+								} else if(index < 6) {
+									cargo.appendTo($("#cargoTwo"));
+								} else if(index < 9) {
+									cargo.appendTo($("#cargoThree"));
+								}
+							});
+							/*
+							 * 构造导航条,分页数据
+							 */
+							build_page_nav(result);
+							build_page_info(result)
+						}
+					}
+				});
+			}
+
+			/*
+			 * 筛选框（类别、价格）
+			 */
+			$("#Category").click(function() {
+				$("#Category ul").empty();
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/base/getCategory",
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							$.each(result.map.category, function(index, item) {
+								$("#Category ul").append($("<li></li>")
+									.addClass("Category")
+									.append($("<a></a>")
+										.append(item.cname)
+										.attr("name", item.cname)
+										.attr("item_id", item.id)
+										.attr("href", "#")));
+							});
+						}
+					}
+				});
+			});
+
+			$("#priceType").click(function() {
+				$("#priceType ul").empty();
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/base/getPriceType",
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							$.each(result.map.priceType, function(index, item) {
+								$("#priceType ul").append($("<li></li>")
+									.addClass("priceType")
+									.append($("<a></a>")
+										.append(item.pricename + "(" + item.description + ")")
+										.attr("name", item.pricename + "(" + item.description + ")")
+										.attr("price_id", item.id)
+										.attr("href", "#")));
+							});
+						}
+					}
+				});
+			});
+
+			/*
+			 * 筛选框选择
+			 */
+			$(document).on("click", ".Category", function() {
+				var type = $("#selectInfo button:eq(0)");
+				type.css("display", "inline");
+				item_id = $(this).children().attr("item_id");
+				var name = $(this).children().attr("name");
+				type.children().eq(0).text(name);
+				requestGoods(1);
+			});
+
+			$(document).on("click", ".priceType", function() {
+				var type = $("#selectInfo button:eq(1)");
+				type.css("display", "inline");
+				price = $(this).children().attr("price_id");
+				var name = $(this).children().attr("name");
+				type.children().eq(0).text(name);
+				requestGoods(1);
+			});
+
+			/*
+			 * 消除筛选
+			 */
+			$(".removeselect1").click(function() {
+				item_id = null;
+				$(this).prev("span").text("");
+				$(this).parent().css("display", "none");
+				requestGoods(1);
+			});
+			/*
+			 * 消除筛选
+			 */
+			$(".removeselect2").click(function() {
+				price = null;
+				$(this).prev("span").text("");
+				$(this).parent().css("display", "none");
+				requestGoods(1);
+			});
+
+			/*
+			 * 构造导航条
+			 */
+			function build_page_nav(result) {
+				$("#build_pageNav").empty();
+
+				var ul = $("<ul></ul>").addClass("pagination");
+				var firstPage = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+				var prePage = $("<li></li>").append($("<a></a>").append("&laquo;").attr("href", "#"));
+
+				if(result.map.pageInfo.hasPreviousPage == false) {
+					firstPage.addClass("disabled");
+					prePage.addClass("disabled");
+				} else {
+					firstPage.click(function() {
+						requestGoods(1);
+					});
+					prePage.click(function() {
+						requestGoods(result.map.pageInfo.pageNum - 1);
+					});
+				}
+
+				var nextPage = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "#"));
+				var lastPage = $("<li></li>").append($("<a></a>").append("尾页").attr("href", "#"));
+
+				if(result.map.pageInfo.hasNextPage == false) {
+					nextPage.addClass("disabled");
+					lastPage.addClass("disabled");
+				} else {
+					nextPage.click(function() {
+						requestGoods(result.map.pageInfo.pageNum + 1);
+					});
+					lastPage.click(function() {
+						requestGoods(result.map.pageInfo.pages);
+					});
+				}
+				ul.append(firstPage).append(prePage);
+				//遍历页码
+				$.each(result.map.pageInfo.navigatepageNums, function(index, item) {
+					var listPage = $("<li></li>").append($("<a></a>").append(item).attr("href", "#"));
+					if(result.map.pageInfo.pageNum == item) {
+						listPage.addClass("active");
+					}
+					listPage.click(function() {
+						requestGoods(item);
+					});
+					ul.append(listPage);
+				});
+				ul.append(nextPage).append(lastPage);
+				var nav = $("<nav></nav>").append(ul).appendTo("#build_pageNav");
+			}
+
+			/**
+			 * 点击进入详情
+			 */
+			$(document).on("click", ".productindex", function() {
+				var juid = getCookie("juid");
+				if(juid == false) {
+					showOnlyMsg("您还没有登录！");
+					return false;
+				}
+				var product_id = $(this).attr("id_value");
+				setCookie("product_id", product_id, 3600000);
+				window.open("/shop/page/shop/goodDetail.html");
+			});
+
+			/**
+			 * 联系它
+			 */
+			$(document).on("click", ".connect", function() {
+				var juid = getCookie("juid");
+				if(juid == false) {
+					showOnlyMsg("您还没有登录！");
+					return false;
+				}
+				var product_id = $(this).attr("id_value");
+				removeCookie("product_id");
+				setCookie("product_id", product_id, 3600000);
+				window.open("/shop/page/shop/goodDetail.html");
+
+			});
+			/**
+			 * 收藏
+			 */
+			$(document).on("click", ".collect", function() {
+				var juid = getCookie("juid");alert(juid);
+				if(juid == false) {
+					showOnlyMsg("您还没有登录！");
+					return false;
+				}
+				var product_id = $(this).attr("id_value");
+				var ppname = $(this).attr("ppname");
+				$.ajax({
+					type: "post",
+					url: "/shop/api/product/collectProduct/" + product_id + "/" + juid,
+					data: {
+						ppname: ppname
+					},
+					dataType: "json",
+					success: function(result) {
+						showMsg(result);
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,28 @@
+div.main,
+div.show {
+	margin-top: 20px;
+}
+
+div.show thead tr th {
+	font-family: "Microsoft YaHei";
+	font-size: large;
+	text-align: center;
+}
+
+div.show tbody tr td {
+	margin-top: 10px;
+	font-family: Microsoft YaHei;
+	font-size: large;
+	text-align: center;
+}
+
+#listgroup {
+	font-size: 20px;
+	text-align: center;
+}
+
+#q6 button {
+	margin-top: 10px;
+	margin-left: 200px;
+	margin-bottom: 10px;
+}
