@@ -196,6 +196,9 @@ public class ProductController {
     public ResultPO collectProduct(@PathVariable Integer product_id, @PathVariable String juid,
             @RequestParam(value = "ppname") String ppname) {
         UserModel userModel = cacheUserDataService.getUserModel(juid);
+        if (AOSUtils.isEmpty(userModel)) {
+            return ResultPO.fail().add("msg", "收藏" + ppname + "失败！您还没有登录！");
+        }
         boolean flag = true;
         flag = productService.collectProduct(product_id, userModel.getId(), 1);
         if (flag) {

@@ -1,27 +1,3 @@
-/*
- *Cookies的使用 
- */
-function setCookie(key, value, day) {
-	var nowDay = new Date();
-	nowDay.setDate(nowDay.getTime() + day);
-	document.cookie = key + '=' + value + ';expires=' + nowDay;
-}
-
-function removeCookie(key) {
-	setCookie(key, '', -1); //这里只需要把Cookie保质期退回一天便可以删除
-}
-
-function getCookie(key) {
-	var cookieArr = document.cookie.split('; ');
-	for(var i = 0; i < cookieArr.length; i++) {
-		var arr = cookieArr[i].split('=');
-		if(arr[0] === key) {
-			return arr[1];
-		}
-	}
-	return false;
-}
-
 /**
  * 加载页面
  */
@@ -43,7 +19,7 @@ function reload() {
 var info;
 
 function checklogin() {
-	var juid = getCookie('juid');
+	var juid = $.cookie('juid');
 	$.ajax({
 		type: "POST",
 		url: "/shop/api/home/islogin",
@@ -120,8 +96,9 @@ $("#modal_login").click(function() {
 			dataType: "json",
 			success: function(result) {
 				if(result.msg == 'success') {
-					setCookie('juid', result.map.juid, 6000 * 3600);
-					checklogin();
+					$.cookie('juid', result.map.juid, {
+						path: '/shop'
+					});
 					$("#login_modal").modal("hide");
 					$('#content div:eq(1) p').text(result.map.msg);
 					$("#myModal").modal("show");
@@ -208,13 +185,9 @@ $("#index").click(function() {
  * 收藏车
  */
 $("#myCart").click(function() {
-	var juid = getCookie("juid");
-	if(juid == false) {
-		$('#content div:eq(1) p').text("您还没有登录！");
-		$("#myModal").modal("show");
-		setTimeout(function() {
-			$('#myModal').modal('hide');
-		}, 2000);
+	var juid = $.cookie('juid');
+	if(juid == undefined || juid == 'null') {
+		showOnlyMsg("您还没有登录！");
 		return false;
 	}
 	window.location.href = "/shop/page/shop/myCart.html";
@@ -230,8 +203,8 @@ $("#httpback").click(function() {
  * 我的跳转
  */
 $("#personinfo").click(function() {
-	var juid = getCookie("juid");
-	if(juid == false) {
+	var juid = $.cookie('juid');
+	if(juid == undefined || juid == 'null') {
 		$('#content div:eq(1) p').text("您还没有登录！");
 		$("#myModal").modal("show");
 		setTimeout(function() {
@@ -239,15 +212,11 @@ $("#personinfo").click(function() {
 		}, 2000);
 		return false;
 	} else {
-		info = checklogin();
+		checklogin();
 		if(info.result) {
 			window.location.href = "/shop/page/account/personal.html";
 		} else {
-			$('#content div:eq(1) p').text("您还没有登录！");
-			$("#myModal").modal("show");
-			setTimeout(function() {
-				$('#myModal').modal('hide');
-			}, 2000);
+			showOnlyMsg("您还没有登录！");
 			return false;
 		}
 	}
@@ -284,39 +253,6 @@ function verifyCode() {
 			$("#modal_login").attr("disabled", true);
 		}
 	});
-}
-
-/**
- * 日期格式化
- * @param {Object} format
- */
-Date.prototype.format = function(format) {
-	/* 
-	 * 使用例子:format="yyyy-MM-dd hh:mm:ss"; 
-	 */
-	var o = {
-		"M+": this.getMonth() + 1, // month 
-		"d+": this.getDate(), // day 
-		"h+": this.getHours(), // hour 
-		"m+": this.getMinutes(), // minute 
-		"s+": this.getSeconds(), // second 
-		"q+": Math.floor((this.getMonth() + 3) / 3), // quarter 
-		"S": this.getMilliseconds() // millisecond 
-	}
-
-	if(/(y+)/.test(format)) {
-		format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 -
-			RegExp.$1.length));
-	}
-
-	for(var k in o) {
-		if(new RegExp("(" + k + ")").test(format)) {
-			format = format.replace(RegExp.$1, RegExp.$1.length == 1 ?
-				o[k] :
-				("00" + o[k]).substr(("" + o[k]).length));
-		}
-	}
-	return format;
 }
 
 /*
