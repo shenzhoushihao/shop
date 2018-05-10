@@ -300,24 +300,50 @@ function build_page_info1(ele, result) {
  * 滚动条
  */
 function scrollbar() {
+	var collectList;
+	var seekList;
+	//发布收藏记录
 	$.ajax({
 		type: "POST",
 		url: "/shop/api/product/getHotCollectList",
 		dataType: "json",
 		success: function(result) {
 			if(result.result) {
-				createScrollbar(result);
+				collectList = result;
 			}
 		}
 	});
+	//发布需求记录
+	$.ajax({
+		type: "POST",
+		url: "/shop/api/seekbuy/selectAllSeek",
+		dataType: "json",
+		success: function(result) {
+			if(result.result) {
+				seekList = result;
+			}
+		}
+	});
+	setTimeout(function() {
+		createScrollbar(collectList, seekList);
+	}, 5000);
 }
 
-function createScrollbar(result) {
+function createScrollbar(resultone, resulttwo) {
 	var scroll = $("#head").find("span");
-	var scrollstr = '收藏记录：';
-	$.each(result.map.pageInfo.list, function(index, item) {
-		var str = item.createdtime + '，' + (item.name).substring(0, 1) + '**收藏了' + item.pname + '/' + item.num + '次；====   ';
-		scrollstr = scrollstr + str;
+
+	var scrollstr1 = '刚刚发布新需求：';
+	$.each(resulttwo.map.pageInfo.list, function(index, item) {
+		var str = item.createdtime + '，' + item.cname + ',' + (item.name).substring(0, 1) + '** 发布了新需求：' + item.title + '，快去查看吧！》》》   ';
+		scrollstr1 = scrollstr1 + str;
 	});
-	scroll.text(scrollstr);
+
+	var scrollstr2 = '新的收藏记录：';
+	$.each(resultone.map.pageInfo.list, function(index, item) {
+		var str = item.createdtime + '，' + (item.name).substring(0, 1) + '** 收藏了' + item.pname + '/' + item.num + '次；《《《   ';
+		scrollstr2 = scrollstr2 + str;
+	});
+
+	scrollstr1 = scrollstr1 + '****************************************************' + scrollstr2;
+	scroll.text(scrollstr1);
 }

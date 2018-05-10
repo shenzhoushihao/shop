@@ -36,8 +36,39 @@
 			<div id="top">
 
 			</div>
-			<div>
+			<div class="row">
+				<div class="col-md-7">
+					<table class="table table-hover">
+						<thead style="font-size:large;font-family:Microsoft YaHei;">
+							<tr>
+								<th>需求编号</th>
+								<th>需求标题</th>
+								<th>发布时间</th>
+								<th>交流</th>
+							</tr>
+						</thead>
+						<tbody id="seekmain" style="margin-top: 10px; font-family:Microsoft YaHei;">
 
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-5">
+					<div id="detailed" style="margin-top: 10px; font-family:Microsoft YaHei;">
+
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-8 col-md-offset-3" id="build_page_info">
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2" id="build_pageNav">
+
+				</div>
 			</div>
 			<!--
             	作者：offline
@@ -45,14 +76,145 @@
             	描述：尾部
             -->
 			<div id="tail">
-
 			</div>
 		</div>
 		<script type="text/javascript">
 			$(function($) {
 				reload();
-				//selectCollect(1);
+				//获取需求列表
+				querySeekList(1);
 			});
+
+			//全局变量
+			var seek;
+			//获取需求列表
+			function querySeekList(pn) {
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/seekbuy/selectAllSeek",
+					data: {
+						pageNum: pn
+					},
+					dateType: "json",
+					success: function(result) {
+						if(result.result) {
+							seek = result;
+							createseek(seek);
+							build_page_info(seek);
+							build_page_nav(seek);
+						}
+					}
+				});
+			}
+
+			/**
+			 * 创建需求列表
+			 * @param {Object} seek
+			 */
+			function createseek(seek) {
+				$("#seekmain").empty();
+				var key = "text-align";
+				var value = "center";
+				$.each(seek.pageInfo.list, function(index, item) {
+					var chbtn = $("<button></button>").text("我来解决")
+						.addClass("btn btn-success btn-sm linkbtn").attr("data-src", item.bid);
+					var tr = $("<tr></tr>").append($("<td></td>").text(item.bid).css(key, value))
+						.append($("<td></td>").text(item.title).css(key, value))
+						.append($("<td></td>").text(item.createdtime).css(key, value))
+						.append($("<td></td>").append(chbtn).css(key, value));
+					$("#seekmain").append(tr);
+				});
+			}
+
+			/**
+			 * 点击按钮
+			 */
+			$(document).on("click", ".linkbtn", function() {
+				var juid = $.cookie('juid');
+				if(juid == 'null' || juid == undefined) {
+					showOnlyMsg("您还没有登录！不能为您提供详细信息！");
+					return false;
+				} else {
+					var data = $(this).attr('data-src');
+					createdetailed(data);
+				}
+			});
+
+			/**
+			 * 构造详细信息
+			 */
+			function createdetailed(data) {
+				$("#detailed").empty();
+				$.each(seek.pageInfo.list, function(index, item) {
+
+					if(data == item.bid) {
+						var pone = $("<p></p>").append($("<span></span>").text("需求说明:").css("font-size", "large"))
+							.append($("<p></p>").text(item.description).css("color", "#122B40"));
+						var ptwo = $("<p></p>").append($("<span></span>").text("联系人:").css("font-size", "large"))
+							.append($("<p></p>").text(item.name).css("color", "#761C19"));
+						var pthree = $("<p></p>").append($("<span></span>").text("学院:").css("font-size", "large"))
+							.append($("<p></p>").text(item.cname).css("color", "#761C19"));
+						var pfour = $("<p></p>").append($("<span></span>").text("电子邮箱:").css("font-size", "large"))
+							.append($("<p></p>").text(item.email).css("color", "#761C19"));
+						var pfive = $("<p></p>").append($("<span></span>").text("联系电话:").css("font-size", "large"))
+							.append($("<p></p>").text(item.telephone).css("color", "red"));
+						$("#detailed").append(pone).append(ptwo).append(pthree).append(pfour).append(pfive);
+					}
+				});
+
+			}
+
+			/**
+			 * 构造导航条
+			 */
+			function build_page_nav(result) {
+				$("#build_pageNav").empty();
+
+				var ul = $("<ul></ul>").addClass("pagination");
+				var firstPage = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+				var prePage = $("<li></li>").append($("<a></a>").append("&laquo;").attr("href", "#"));
+
+				if(result.map.pageInfo.hasPreviousPage == false) {
+					firstPage.addClass("disabled");
+					prePage.addClass("disabled");
+				} else {
+					firstPage.click(function() {
+						querySeekList(1);
+					});
+					prePage.click(function() {
+						querySeekList(result.map.pageInfo.pageNum - 1);
+					});
+				}
+
+				var nextPage = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "#"));
+				var lastPage = $("<li></li>").append($("<a></a>").append("尾页").attr("href", "#"));
+
+				if(result.map.pageInfo.hasNextPage == false) {
+					nextPage.addClass("disabled");
+					lastPage.addClass("disabled");
+				} else {
+					nextPage.click(function() {
+						querySeekList(result.map.pageInfo.pageNum + 1);
+					});
+					lastPage.click(function() {
+						querySeekList(result.map.pageInfo.pages);
+					});
+				}
+				ul.append(firstPage).append(prePage);
+				//遍历页码
+				$.each(result.map.pageInfo.navigatepageNums, function(index, item) {
+					var listPage = $("<li></li>").append($("<a></a>").append(item).attr("href", "#"));
+					if(result.map.pageInfo.pageNum == item) {
+						listPage.addClass("active");
+					}
+					listPage.click(function() {
+						querySeekList(item);
+					});
+					ul.append(listPage);
+				});
+				ul.append(nextPage).append(lastPage);
+				var nav = $("<nav></nav>").append(ul).appendTo("#build_pageNav");
+			}
 		</script>
 	</body>
 
