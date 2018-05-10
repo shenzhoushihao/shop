@@ -227,6 +227,22 @@ public class ProductController {
         return ResultPO.success().add("pageInfo", pageInfo);
     }
 
+    /**
+     * 获取最新12条收藏列表
+     * 
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "/getHotCollectList", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultPO getHotCollectList(
+            @RequestParam(value = "pageNUm", defaultValue = "1") Integer pageNum) {
+        PageHelper.startPage(pageNum, 12);
+        List<Dto> list = productService.getHotCollect();
+        PageInfo<Dto> pageInfo = new PageInfo<>(list);
+        return ResultPO.success().add("pageInfo", pageInfo);
+    }
+
     @RequestMapping(value = "/deleteCollect", method = RequestMethod.POST)
     @ResponseBody
     public ResultPO deleteCollect(@RequestParam(value = "pid") Integer pid) {
