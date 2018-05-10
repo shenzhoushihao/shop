@@ -119,4 +119,23 @@
 		WHERE		product.id = collect.pid
 		AND         collect.uid = #{uid}
 	</select>
+	
+	<!-- 查询收藏最新12条 -->
+	<select id="queryhotcollect" parameterType="Dto" resultType="Dto">
+		SELECT		collect.id,  <!-- id -->
+				  	collect.pid,  <!-- 商品ID -->
+				  	product.pname, <!-- 商品名称 -->
+				  	collect.uid,  <!-- 用户ID -->
+				  	aos_user.name, <!-- 用户 -->
+				  	collect.num,  <!-- 商品数量 -->
+				  	collect.createdtime  <!-- 收藏日期 -->
+		FROM 		
+					collect
+		LEFT JOIN
+					aos_user	ON   collect.uid = aos_user.id
+		LEFT JOIN   
+					product		ON	 collect.pid = product.id
+		ORDER BY   
+					collect.createdtime DESC
+	</select>
 </mapper>

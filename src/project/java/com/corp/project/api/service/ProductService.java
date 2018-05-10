@@ -81,6 +81,15 @@ public class ProductService {
         return sqlDao.list("ProductDao.querycollectDetail", Dtos.newDto("uid", uid));
     }
 
+    /**
+     * 查询商品最新12条收藏
+     * 
+     * @param uid
+     * @return
+     */
+    public List<Dto> getHotCollect() {
+        return sqlDao.list("ProductDao.queryhotcollect", null);
+    }
 
     /**
      * 发布商品

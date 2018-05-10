@@ -4,6 +4,8 @@
 function reload() {
 	//加载弹框
 	$("#modalList").load("/shop/common/modal.html");
+	//获取滚动条
+	scrollbar();
 	//加载头部
 	$("#top").load("/shop/common/top.html");
 	//加载尾部
@@ -96,6 +98,7 @@ $("#modal_login").click(function() {
 			dataType: "json",
 			success: function(result) {
 				if(result.msg == 'success') {
+					info = result;
 					$.cookie('juid', result.map.juid, {
 						path: '/shop'
 					});
@@ -111,7 +114,7 @@ $("#modal_login").click(function() {
 					$("div.distance ul.message li").eq(1).css("display", "none");
 					$("div.distance ul.message li").eq(2).find("p").text(result.map.welcome + "," + result.map.dto.name + "!");
 					$("div.distance ul.message li").eq(2).css("display", "block");
-				} else {
+				} else if(!result.result) {
 					$("#login_form div:nth-child(1)").find("span").text(result.map.msg);
 				}
 			}
@@ -182,6 +185,13 @@ $("#index").click(function() {
 });
 
 /**
+ * 	需求大厅
+ */
+$("#buy").click(function() {
+	window.location.href = "/shop/page/shop/sale.html";
+});
+
+/**
  * 收藏车
  */
 $("#myCart").click(function() {
@@ -212,12 +222,15 @@ $("#personinfo").click(function() {
 		}, 2000);
 		return false;
 	} else {
-		checklogin();
-		if(info.result) {
-			window.location.href = "/shop/page/account/personal.html";
+		if(info == undefined || info == '' || info == null) {
+			checklogin();
 		} else {
-			showOnlyMsg("您还没有登录！");
-			return false;
+			if(info.result) {
+				window.location.href = "/shop/page/account/personal.html";
+			} else if(!info.result) {
+				showOnlyMsg("您还没有登录！");
+				return false;
+			}
 		}
 	}
 });
@@ -281,4 +294,30 @@ function build_page_info1(ele, result) {
 		.append("页，共计")
 		.append($("<kbd></kbd>").append(result.map.pageInfo.total))
 		.append("条记录");
+}
+
+/**
+ * 滚动条
+ */
+function scrollbar() {
+	$.ajax({
+		type: "POST",
+		url: "/shop/api/product/getHotCollectList",
+		dataType: "json",
+		success: function(result) {
+			if(result.result) {
+				createScrollbar(result);
+			}
+		}
+	});
+}
+
+function createScrollbar(result) {
+	var scroll = $("#head").find("span");
+	var scrollstr = '收藏记录：';
+	$.each(result.map.pageInfo.list, function(index, item) {
+		var str = item.createdtime + '，' + (item.name).substring(0, 1) + '**收藏了' + item.pname + '/' + item.num + '次；====   ';
+		scrollstr = scrollstr + str;
+	});
+	scroll.text(scrollstr);
 }
