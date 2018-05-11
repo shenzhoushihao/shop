@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- comments[comments]SQL自动映射 -->
+<!--  注意:此文件由AOS平台自动生成-禁止手工修改 2018-05-10 17:17:57 -->
+<mapper namespace="com.corp.project.dao.CommentsDao">
+	
+	<!-- 插入一个数据持久化对象(插入字段为传入PO实体的非空属性) -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="CommentsPO">
+		INSERT INTO comments (
+		<if test="sid != null">
+	         sid, <!-- 需求流水号 -->
+		</if>
+		<if test="word != null and word != ''">
+	         word, <!-- 留言 -->
+		</if>
+		<if test="uid != null">
+	         uid, <!-- 用户流水号 -->
+		</if>
+		<if test="createdtime != null and createdtime != ''">
+	         createdtime, <!-- 创建时间 -->
+		</if>
+	          id
+		)VALUES(
+		<if test="sid != null">
+	          #{sid, jdbcType=INTEGER}, <!-- 需求流水号 -->
+	    </if>
+		<if test="word != null and word != ''">
+	          #{word, jdbcType=VARCHAR}, <!-- 留言 -->
+	    </if>
+		<if test="uid != null">
+	          #{uid, jdbcType=INTEGER}, <!-- 用户流水号 -->
+	    </if>
+		<if test="createdtime != null and createdtime != ''">
+	          #{createdtime, jdbcType=VARCHAR}, <!-- 创建时间 -->
+	    </if>
+	          null
+		)
+	</insert>
+	
+	<!-- 插入一个数据持久化对象(含所有字段) -->
+	<insert id="insertAll" useGeneratedKeys="true" keyProperty="id" parameterType="CommentsPO">
+		INSERT INTO comments (
+		    <include refid="column" />
+		)
+		VALUES (
+		    #{id, jdbcType=INTEGER},  <!-- 流水号 -->
+		    #{sid, jdbcType=INTEGER},  <!-- 需求流水号 -->
+		    #{word, jdbcType=VARCHAR},  <!-- 留言 -->
+		    #{uid, jdbcType=INTEGER},  <!-- 用户流水号 -->
+		    #{createdtime, jdbcType=VARCHAR}  <!-- 创建时间 -->
+		)
+	</insert>
+
+	<!-- 根据主键修改数据持久化对象 -->
+	<update id="updateByKey" parameterType="CommentsPO">
+		UPDATE comments
+		<set>
+			<if test="id != null">
+		          id = #{id, jdbcType=INTEGER},  <!-- 流水号 -->
+			</if>
+			<if test="sid != null">
+		          sid = #{sid, jdbcType=INTEGER},  <!-- 需求流水号 -->
+			</if>
+			<if test="word != null">
+		          word = #{word, jdbcType=VARCHAR},  <!-- 留言 -->
+			</if>
+			<if test="uid != null">
+		          uid = #{uid, jdbcType=INTEGER},  <!-- 用户流水号 -->
+			</if>
+			<if test="createdtime != null">
+		          createdtime = #{createdtime, jdbcType=VARCHAR},  <!-- 创建时间 -->
+			</if>
+		</set>
+		WHERE  id = #{id}
+	</update>
+	
+	<!-- 根据主键删除数据持久化对象 -->
+	<delete id="deleteByKey">
+		DELETE FROM comments WHERE  id = #{id}
+	</delete>
+
+	<!-- 根据主键查询并返回数据持久化对象 -->
+	<select id="selectByKey" resultType="CommentsPO">
+		SELECT
+		<include refid="column" />
+		FROM comments WHERE  id = #{id}
+	</select>
+
+	<!-- 根据唯一组合条件查询并返回数据持久化对象 -->
+	<select id="selectOne" parameterType="Dto" resultType="CommentsPO">
+		SELECT
+		    <include refid="column" />
+		FROM comments
+		<where>
+		    <include refid="equal" />
+		</where>		
+	</select>
+
+	<!-- 根据Dto查询并返回数据持久化对象集合 -->
+	<select id="list" parameterType="Dto" resultType="CommentsPO">
+		SELECT
+			<include refid="column" />	
+		FROM comments
+		<where>
+		    <include refid="equal" />
+		</where>	
+	</select>
+
+	<!-- 根据Dto查询并返回分页数据持久化对象集合 -->
+	<select id="listPage" parameterType="Dto" resultType="CommentsPO" useCache="false">
+	    SELECT
+			<include refid="column" />	
+		FRoM comments
+		<where>
+		    <include refid="equal" />
+		</where>	
+	</select>
+	
+	<!-- 根据Dto模糊查询并返回数据持久化对象集合(字符型字段模糊匹配，其余字段精确匹配) -->
+	<select id="like" parameterType="Dto" resultType="CommentsPO">
+		SELECT
+			<include refid="column" />	
+		FROM comments
+		<where>
+		    <include refid="like" />
+		</where>	
+	</select>
+
+	<!-- 根据Dto模糊查询并返回分页数据持久化对象集合(字符型字段模糊匹配，其余字段精确匹配) -->
+	<select id="likePage" parameterType="Dto" resultType="CommentsPO" useCache="false">
+	    SELECT
+			<include refid="column" />	
+		FRoM comments
+		<where>
+		    <include refid="like" />
+		</where>	
+	</select>
+	
+	<!-- 根据Dto统计行数 -->
+	<select id="rows" resultType="Integer" parameterType="Dto">
+		SELECT COUNT(1) AS aos_rows_ FROM comments
+		<where>
+		    <include refid="equal" />
+		</where>
+	</select>
+	
+	<!-- 根据数学表达式进行数学运算 -->
+	<select id="calc" parameterType="Dto" resultType="String">
+		SELECT
+			${_expr}
+		FROM comments
+		<where>
+		    <include refid="equal" />
+		</where>
+	</select>
+	
+	<!-- 表字段 -->
+	<sql id="column">
+		  id,  <!-- 流水号 -->
+		  sid,  <!-- 需求流水号 -->
+		  word,  <!-- 留言 -->
+		  uid,  <!-- 用户流水号 -->
+		  createdtime  <!-- 创建时间 -->
+	</sql>
+	
+	<!-- 表字段(用于外表的关联时引用) -->
+	<sql id="column2">
+		  comments.id,  <!-- 流水号 -->
+		  comments.sid,  <!-- 需求流水号 -->
+		  comments.word,  <!-- 留言 -->
+		  comments.uid,  <!-- 用户流水号 -->
+		  comments.createdtime  <!-- 创建时间 -->
+	</sql>
+
+	<!-- Where精确匹配字段 -->
+	<sql id="equal">
+	   <if test="id != null ">
+		      AND id = #{id}  <!-- 流水号 -->
+		</if>
+	   <if test="sid != null ">
+		      AND sid = #{sid}  <!-- 需求流水号 -->
+		</if>
+	    <if test="word != null and word != ''">
+		      AND word = #{word}  <!-- 留言 -->
+		</if>
+	   <if test="uid != null ">
+		      AND uid = #{uid}  <!-- 用户流水号 -->
+		</if>
+	    <if test="createdtime != null and createdtime != ''">
+		      AND createdtime = #{createdtime}  <!-- 创建时间 -->
+		</if>
+	</sql>
+	
+	<!-- Where模糊匹配字段 -->
+	<sql id="like">
+	    <if test="word != null and word != ''">
+		      AND word like '${word}%'  <!-- 留言 -->
+		</if>
+	    <if test="createdtime != null and createdtime != ''">
+		      AND createdtime like '${createdtime}%'  <!-- 创建时间 -->
+		</if>
+	</sql>
+	
+</mapper>

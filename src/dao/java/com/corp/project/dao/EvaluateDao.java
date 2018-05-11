@@ -5,97 +5,97 @@ import org.apache.ibatis.annotations.Param;
 
 import aos.framework.core.annotation.Dao;
 import aos.framework.core.typewrap.Dto;
-import com.corp.project.dao.po.SeekbuyPO;
+import com.corp.project.dao.po.EvaluatePO;
 
 /**
- * <b>seekbuy[seekbuy]数据访问接口</b>
+ * <b>evaluate[evaluate]数据访问接口</b>
  * 
  * <p>
  * 注意:此文件由AOS平台自动生成-禁止手工修改
  * </p>
  * 
  * @author shaowenwen
- * @date 2018-05-10 18:22:58
+ * @date 2018-05-10 17:17:57
  */
-@Dao("seekbuyDao")
-public interface SeekbuyDao {
+@Dao("evaluateDao")
+public interface EvaluateDao {
 
 	/**
 	 * 插入一个数据持久化对象(插入字段为传入PO实体的非空属性)
 	 * <p> 防止DB字段缺省值需要程序中再次赋值
 	 *
-	 * @param seekbuyPO
+	 * @param evaluatePO
 	 *            要插入的数据持久化对象
 	 * @return 返回影响行数
 	 */
-	int insert(SeekbuyPO seekbuyPO);
+	int insert(EvaluatePO evaluatePO);
 	
 	/**
 	 * 插入一个数据持久化对象(含所有字段)
 	 * 
-	 * @param seekbuyPO
+	 * @param evaluatePO
 	 *            要插入的数据持久化对象
 	 * @return 返回影响行数
 	 */
-	int insertAll(SeekbuyPO seekbuyPO);
+	int insertAll(EvaluatePO evaluatePO);
 
 	/**
 	 * 根据主键修改数据持久化对象
 	 * 
-	 * @param seekbuyPO
+	 * @param evaluatePO
 	 *            要修改的数据持久化对象
 	 * @return int 返回影响行数
 	 */
-	int updateByKey(SeekbuyPO seekbuyPO);
+	int updateByKey(EvaluatePO evaluatePO);
 
 	/**
 	 * 根据主键查询并返回数据持久化对象
 	 * 
-	 * @return SeekbuyPO
+	 * @return EvaluatePO
 	 */
-	SeekbuyPO selectByKey(@Param(value = "bid") Integer bid);
+	EvaluatePO selectByKey(@Param(value = "id") Integer id);
 
 	/**
 	 * 根据唯一组合条件查询并返回数据持久化对象
 	 * 
-	 * @return SeekbuyPO
+	 * @return EvaluatePO
 	 */
-	SeekbuyPO selectOne(Dto pDto);
+	EvaluatePO selectOne(Dto pDto);
 
 	/**
 	 * 根据Dto查询并返回数据持久化对象集合
 	 * 
-	 * @return List<SeekbuyPO>
+	 * @return List<EvaluatePO>
 	 */
-	List<SeekbuyPO> list(Dto pDto);
+	List<EvaluatePO> list(Dto pDto);
 
 	/**
 	 * 根据Dto查询并返回分页数据持久化对象集合
 	 * 
-	 * @return List<SeekbuyPO>
+	 * @return List<EvaluatePO>
 	 */
-	List<SeekbuyPO> listPage(Dto pDto);
+	List<EvaluatePO> listPage(Dto pDto);
 		
 	/**
 	 * 根据Dto模糊查询并返回数据持久化对象集合(字符型字段模糊匹配，其余字段精确匹配)
 	 * 
-	 * @return List<SeekbuyPO>
+	 * @return List<EvaluatePO>
 	 */
-	List<SeekbuyPO> like(Dto pDto);
+	List<EvaluatePO> like(Dto pDto);
 
 	/**
 	 * 根据Dto模糊查询并返回分页数据持久化对象集合(字符型字段模糊匹配，其余字段精确匹配)
 	 * 
-	 * @return List<SeekbuyPO>
+	 * @return List<EvaluatePO>
 	 */
-	List<SeekbuyPO> likePage(Dto pDto);
+	List<EvaluatePO> likePage(Dto pDto);
 
 	/**
 	 * 根据主键删除数据持久化对象
 	 *
 	 * @return 影响行数
 	 */
-	int deleteByKey(@Param(value = "bid") Integer bid);
+	int deleteByKey(@Param(value = "id") Integer id);
 	
 	/**
 	 * 根据Dto统计行数

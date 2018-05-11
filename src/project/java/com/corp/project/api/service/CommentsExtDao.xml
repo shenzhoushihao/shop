@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- comments[comments]SQL自动映射 -->
+<mapper namespace="CommentsDao">
+
+	<!-- 根据sid查询留言 -->
+	<select id="queryAllCommentsBySid" parameterType="Dto" resultType="Dto">
+		SELECT		comments.id,    <!-- 流水号 -->
+					comments.sid,   <!-- 需求流水号 -->
+					comments.word,  <!-- 留言 -->
+					comments.uid,   <!-- 用户流水号 -->
+					aos_user.name,  <!-- 用户名 -->
+					comments.createdtime  <!-- 创建时间 -->
+		FROM 
+					comments
+		LEFT JOIN aos_user  ON  aos_user.id = comments.uid
+		WHERE 		comments.sid = #{sid}
+	</select>
+	<sql id="column2">
+		
+	</sql>
+</mapper>

@@ -46,8 +46,9 @@ public class HomeController {
             String juid = cacheUserDataService.login(wDto, httpModel.getRequest());
             return ResultPO.success().add("msg", msg).add("juid", juid).add("welcome", welcomeMsg)
                     .add("dto", wDto);
+        } else {
+            return ResultPO.fail().add("msg", msg);
         }
-        return ResultPO.fail().add("msg", msg);
     }
 
     /**
@@ -111,8 +112,9 @@ public class HomeController {
         boolean flag = homeApiService.resetPassword(httpModel);
         if (flag) {
             return ResultPO.success();
+        } else {
+            return ResultPO.fail();
         }
-        return ResultPO.fail();
     }
 
     /**
@@ -126,8 +128,9 @@ public class HomeController {
         boolean flag = homeApiService.verifyPassword(httpModel);
         if (flag) {
             return ResultPO.success();
+        } else {
+            return ResultPO.fail();
         }
-        return ResultPO.fail();
     }
 
     /**
@@ -142,7 +145,8 @@ public class HomeController {
         if (flag) {
             cacheUserDataService.logout(httpModel.getInDto().getString("juid"));
             return ResultPO.success();
+        } else {
+            return ResultPO.fail();
         }
-        return ResultPO.fail();
     }
 }

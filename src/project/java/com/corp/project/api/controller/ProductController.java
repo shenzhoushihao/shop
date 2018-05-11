@@ -67,9 +67,9 @@ public class ProductController {
 
         Integer pageSize = 9;
         PageHelper.startPage(pageNum, pageSize);
-        List<ProductPO> listProduct = productService.listProduct(newDto);
-        PageInfo<ProductPO> pageInfo = new PageInfo<>(listProduct);
-        return ResultPO.success().add("pageInfo", pageInfo).add("product", listProduct);
+        List<ProductPO> list = productService.listProduct(newDto);
+        PageInfo<ProductPO> pageInfo = new PageInfo<>(list);
+        return ResultPO.success().add("pageInfo", pageInfo);
     }
 
     /**
@@ -85,9 +85,9 @@ public class ProductController {
 
         Integer pageSize = 9;
         PageHelper.startPage(pageNum, pageSize);
-        List<Dto> listProduct = productService.listNewProduct();
-        PageInfo<Dto> pageInfo = new PageInfo<>(listProduct);
-        return ResultPO.success().add("pageInfo", pageInfo).add("product", listProduct);
+        List<Dto> list = productService.listNewProduct();
+        PageInfo<Dto> pageInfo = new PageInfo<>(list);
+        return ResultPO.success().add("pageInfo", pageInfo);
     }
 
     /**
@@ -107,7 +107,7 @@ public class ProductController {
         PageHelper.startPage(pageNum, pageSize, "createdtime DESC");
         List<ProductPO> listProduct = productService.findProductByUid(userModel.getId());
         PageInfo<ProductPO> pageInfo = new PageInfo<>(listProduct);
-        return ResultPO.success().add("pageInfo", pageInfo).add("product", listProduct);
+        return ResultPO.success().add("pageInfo", pageInfo);
     }
 
     /**

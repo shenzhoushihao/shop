@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- evaluate[evaluate]SQL自动映射 -->
+<!--  注意:此文件由AOS平台自动生成-禁止手工修改 2018-05-10 17:17:57 -->
+<mapper namespace="com.corp.project.dao.EvaluateDao">
+	
+	<!-- 插入一个数据持久化对象(插入字段为传入PO实体的非空属性) -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="EvaluatePO">
+		INSERT INTO evaluate (
+		<if test="pid != null">
+	         pid, <!-- 产品流水号 -->
+		</if>
+		<if test="word != null and word != ''">
+	         word, <!-- 评价 -->
+		</if>
+		<if test="uid != null">
+	         uid, <!-- 用户流水号 -->
+		</if>
+		<if test="createdtime != null and createdtime != ''">
+	         createdtime, <!-- 创建时间 -->
+		</if>
+	          id
+		)VALUES(
+		<if test="pid != null">
+	          #{pid, jdbcType=INTEGER}, <!-- 产品流水号 -->
+	    </if>
+		<if test="word != null and word != ''">
+	          #{word, jdbcType=VARCHAR}, <!-- 评价 -->
+	    </if>
+		<if test="uid != null">
+	          #{uid, jdbcType=INTEGER}, <!-- 用户流水号 -->
+	    </if>
+		<if test="createdtime != null and createdtime != ''">
+	          #{createdtime, jdbcType=VARCHAR}, <!-- 创建时间 -->
+	    </if>
+	          null
+		)
+	</insert>
+	
+	<!-- 插入一个数据持久化对象(含所有字段) -->
+	<insert id="insertAll" useGeneratedKeys="true" keyProperty="id" parameterType="EvaluatePO">
+		INSERT INTO evaluate (
+		    <include refid="column" />
+		)
+		VALUES (
+		    #{id, jdbcType=INTEGER},  <!-- 流水号 -->
+		    #{pid, jdbcType=INTEGER},  <!-- 产品流水号 -->
+		    #{word, jdbcType=VARCHAR},  <!-- 评价 -->
+		    #{uid, jdbcType=INTEGER},  <!-- 用户流水号 -->
+		    #{createdtime, jdbcType=VARCHAR}  <!-- 创建时间 -->
+		)
+	</insert>
+
+	<!-- 根据主键修改数据持久化对象 -->
+	<update id="updateByKey" parameterType="EvaluatePO">
+		UPDATE evaluate
+		<set>
+			<if test="id != null">
+		          id = #{id, jdbcType=INTEGER},  <!-- 流水号 -->
+			</if>
+			<if test="pid != null">
+		          pid = #{pid, jdbcType=INTEGER},  <!-- 产品流水号 -->
+			</if>
+			<if test="word != null">
+		          word = #{word, jdbcType=VARCHAR},  <!-- 评价 -->
+			</if>
+			<if test="uid != null">
+		          uid = #{uid, jdbcType=INTEGER},  <!-- 用户流水号 -->
+			</if>
+			<if test="createdtime != null">
+		          createdtime = #{createdtime, jdbcType=VARCHAR},  <!-- 创建时间 -->
+			</if>
+		</set>
+		WHERE  id = #{id}
+	</update>
+	
+	<!-- 根据主键删除数据持久化对象 -->
+	<delete id="deleteByKey">
+		DELETE FROM evaluate WHERE  id = #{id}
+	</delete>
+
+	<!-- 根据主键查询并返回数据持久化对象 -->
+	<select id="selectByKey" resultType="EvaluatePO">
+		SELECT
+		<include refid="column" />
+		FROM evaluate WHERE  id = #{id}
+	</select>
+
+	<!-- 根据唯一组合条件查询并返回数据持久化对象 -->
+	<select id="selectOne" parameterType="Dto" resultType="EvaluatePO">
+		SELECT
+		    <include refid="column" />
+		FROM evaluate
+		<where>
+		    <include refid="equal" />
+		</where>		
+	</select>
+
+	<!-- 根据Dto查询并返回数据持久化对象集合 -->
+	<select id="list" parameterType="Dto" resultType="EvaluatePO">
+		SELECT
+			<include refid="column" />	
+		FROM evaluate
+		<where>
+		    <include refid="equal" />
+		</where>	
+	</select>
+
+	<!-- 根据Dto查询并返回分页数据持久化对象集合 -->
+	<select id="listPage" parameterType="Dto" resultType="EvaluatePO" useCache="false">
+	    SELECT
+			<include refid="column" />	
+		FRoM evaluate
+		<where>
+		    <include refid="equal" />
+		</where>	
+	</select>
+	
+	<!-- 根据Dto模糊查询并返回数据持久化对象集合(字符型字段模糊匹配，其余字段精确匹配) -->
+	<select id="like" parameterType="Dto" resultType="EvaluatePO">
+		SELECT
+			<include refid="column" />	
+		FROM evaluate
+		<where>
+		    <include refid="like" />
+		</where>	
+	</select>
+
+	<!-- 根据Dto模糊查询并返回分页数据持久化对象集合(字符型字段模糊匹配，其余字段精确匹配) -->
+	<select id="likePage" parameterType="Dto" resultType="EvaluatePO" useCache="false">
+	    SELECT
+			<include refid="column" />	
+		FRoM evaluate
+		<where>
+		    <include refid="like" />
+		</where>	
+	</select>
+	
+	<!-- 根据Dto统计行数 -->
+	<select id="rows" resultType="Integer" parameterType="Dto">
+		SELECT COUNT(1) AS aos_rows_ FROM evaluate
+		<where>
+		    <include refid="equal" />
+		</where>
+	</select>
+	
+	<!-- 根据数学表达式进行数学运算 -->
+	<select id="calc" parameterType="Dto" resultType="String">
+		SELECT
+			${_expr}
+		FROM evaluate
+		<where>
+		    <include refid="equal" />
+		</where>
+	</select>
+	
+	<!-- 表字段 -->
+	<sql id="column">
+		  id,  <!-- 流水号 -->
+		  pid,  <!-- 产品流水号 -->
+		  word,  <!-- 评价 -->
+		  uid,  <!-- 用户流水号 -->
+		  createdtime  <!-- 创建时间 -->
+	</sql>
+	
+	<!-- 表字段(用于外表的关联时引用) -->
+	<sql id="column2">
+		  evaluate.id,  <!-- 流水号 -->
+		  evaluate.pid,  <!-- 产品流水号 -->
+		  evaluate.word,  <!-- 评价 -->
+		  evaluate.uid,  <!-- 用户流水号 -->
+		  evaluate.createdtime  <!-- 创建时间 -->
+	</sql>
+
+	<!-- Where精确匹配字段 -->
+	<sql id="equal">
+	   <if test="id != null ">
+		      AND id = #{id}  <!-- 流水号 -->
+		</if>
+	   <if test="pid != null ">
+		      AND pid = #{pid}  <!-- 产品流水号 -->
+		</if>
+	    <if test="word != null and word != ''">
+		      AND word = #{word}  <!-- 评价 -->
+		</if>
+	   <if test="uid != null ">
+		      AND uid = #{uid}  <!-- 用户流水号 -->
+		</if>
+	    <if test="createdtime != null and createdtime != ''">
+		      AND createdtime = #{createdtime}  <!-- 创建时间 -->
+		</if>
+	</sql>
+	
+	<!-- Where模糊匹配字段 -->
+	<sql id="like">
+	    <if test="word != null and word != ''">
+		      AND word like '${word}%'  <!-- 评价 -->
+		</if>
+	    <if test="createdtime != null and createdtime != ''">
+		      AND createdtime like '${createdtime}%'  <!-- 创建时间 -->
+		</if>
+	</sql>
+	
+</mapper>

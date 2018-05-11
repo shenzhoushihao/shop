@@ -51,6 +51,7 @@ public class SeekBuyController {
         SeekbuyPO seekbuyPO = new SeekbuyPO();
         seekbuyPO.copyProperties(httpModel.getInDto());
         seekbuyPO.setUid(userModel.getId());
+        seekbuyPO.setStatus("0");
 
         boolean flag = true;
         flag = seekBuyApiService.insert(seekbuyPO);

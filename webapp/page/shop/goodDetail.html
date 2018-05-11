@@ -91,14 +91,14 @@
 				var key1 = "margin-top";
 				var value1 = "20px";
 				var images;
-				if(result.map.product.imgsrc == null || result.map.product.imgsrc == '' || result.map.product.imgsrc == 'undefined') {
+				if(result.map.product.imgsrc == null || result.map.product.imgsrc == '' || result.map.product.imgsrc == undefined) {
 					images = 'a.jpg';
-				} else {
-					images = result.map.product.imgsrc;
-				}
-				var img = $("<tr></tr>").append($("<td></td>").css("width", "1024px").css("height", "600px")
-					.css(key, value).attr("colspan", "4")
-					.append($("<img></img>").attr("src", "/shop/images/" + images)));
+} else {
+	images = result.map.product.imgsrc;
+}
+var img = $("<tr></tr>").append($("<td></td>").css("width", "1024px").css("height", "600px")
+		.css(key, value).attr("colspan", "4")
+		.append($("<img></img>").attr("src", "/shop/images/" + images)));
 
 				var trone = $("<tr></tr>").append($("<td></td>").text("商品编号").css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text(result.map.product.id).css("width", "200px").css("font-size", "large"))

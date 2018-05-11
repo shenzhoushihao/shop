@@ -10,7 +10,7 @@ import java.util.Date;
  * </p>
  * 
  * @author shaowenwen
- * @date 2018-05-04 01:35:40
+ * @date 2018-05-10 18:22:58
  */
 public class SeekbuyPO extends PO {
 
@@ -35,6 +35,11 @@ public class SeekbuyPO extends PO {
 	 * uid
 	 */
 	private Integer uid;
+	
+	/**
+	 * status
+	 */
+	private String status;
 	
 	/**
 	 * createdtime
@@ -76,6 +81,15 @@ public class SeekbuyPO extends PO {
 	 */
 	public Integer getUid() {
 		return uid;
+	}
+	
+	/**
+	 * status
+	 * 
+	 * @return status
+	 */
+	public String getStatus() {
+		return status;
 	}
 	
 	/**
@@ -122,6 +136,15 @@ public class SeekbuyPO extends PO {
 	 */
 	public void setUid(Integer uid) {
 		this.uid = uid;
+	}
+	
+	/**
+	 * status
+	 * 
+	 * @param status
+	 */
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	/**

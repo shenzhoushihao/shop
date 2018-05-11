@@ -11,6 +11,7 @@
 					seekbuy.title,  <!-- title -->
 					seekbuy.description,  <!-- description -->
 					seekbuy.uid,  <!-- uid -->
+					seekbuy.status, <!-- 	需求状态 -->
 					aos_user.account,  <!-- 用户登录帐号 -->	
 		  			aos_user.name,  <!-- 用户姓名 -->
 		  			aos_user.sex,  <!-- 性别 -->

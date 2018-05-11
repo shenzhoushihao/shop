@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- seekbuy[seekbuy]SQL自动映射 -->
-<!--  注意:此文件由AOS平台自动生成-禁止手工修改 2018-05-04 01:35:41 -->
+<!--  注意:此文件由AOS平台自动生成-禁止手工修改 2018-05-10 18:22:58 -->
 <mapper namespace="com.corp.project.dao.SeekbuyDao">
 	
 	<!-- 插入一个数据持久化对象(插入字段为传入PO实体的非空属性) -->
@@ -18,6 +18,9 @@
 		<if test="uid != null">
 	         uid, <!-- uid -->
 		</if>
+		<if test="status != null and status != ''">
+	         status, <!-- status -->
+		</if>
 		<if test="createdtime != null and createdtime != ''">
 	         createdtime, <!-- createdtime -->
 		</if>
@@ -31,6 +34,9 @@
 	    </if>
 		<if test="uid != null">
 	          #{uid, jdbcType=INTEGER}, <!-- uid -->
+	    </if>
+		<if test="status != null and status != ''">
+	          #{status, jdbcType=VARCHAR}, <!-- status -->
 	    </if>
 		<if test="createdtime != null and createdtime != ''">
 	          #{createdtime, jdbcType=VARCHAR}, <!-- createdtime -->
@@ -49,6 +55,7 @@
 		    #{title, jdbcType=VARCHAR},  <!-- title -->
 		    #{description, jdbcType=VARCHAR},  <!-- description -->
 		    #{uid, jdbcType=INTEGER},  <!-- uid -->
+		    #{status, jdbcType=VARCHAR},  <!-- status -->
 		    #{createdtime, jdbcType=VARCHAR}  <!-- createdtime -->
 		)
 	</insert>
@@ -68,6 +75,9 @@
 			</if>
 			<if test="uid != null">
 		          uid = #{uid, jdbcType=INTEGER},  <!-- uid -->
+			</if>
+			<if test="status != null">
+		          status = #{status, jdbcType=VARCHAR},  <!-- status -->
 			</if>
 			<if test="createdtime != null">
 		          createdtime = #{createdtime, jdbcType=VARCHAR},  <!-- createdtime -->
@@ -162,6 +172,7 @@
 		  title,  <!-- title -->
 		  description,  <!-- description -->
 		  uid,  <!-- uid -->
+		  status,  <!-- status -->
 		  createdtime  <!-- createdtime -->
 	</sql>
 	
@@ -171,6 +182,7 @@
 		  seekbuy.title,  <!-- title -->
 		  seekbuy.description,  <!-- description -->
 		  seekbuy.uid,  <!-- uid -->
+		  seekbuy.status,  <!-- status -->
 		  seekbuy.createdtime  <!-- createdtime -->
 	</sql>
 
@@ -188,6 +200,9 @@
 	   <if test="uid != null ">
 		      AND uid = #{uid}  <!-- uid -->
 		</if>
+	    <if test="status != null and status != ''">
+		      AND status = #{status}  <!-- status -->
+		</if>
 	    <if test="createdtime != null and createdtime != ''">
 		      AND createdtime = #{createdtime}  <!-- createdtime -->
 		</if>
@@ -200,6 +215,9 @@
 		</if>
 	    <if test="description != null and description != ''">
 		      AND description like '${description}%'  <!-- description -->
+		</if>
+	    <if test="status != null and status != ''">
+		      AND status like '${status}%'  <!-- status -->
 		</if>
 	    <if test="createdtime != null and createdtime != ''">
 		      AND createdtime like '${createdtime}%'  <!-- createdtime -->
