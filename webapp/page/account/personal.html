@@ -660,10 +660,11 @@
 			/**
 			 * 商品上架
 			 */
-			$(document).on("click", ".upproduct", function() {
-				var id = $(this).attr("data-src");
-				$.ajax({
-					type: "POST",
+			$(document).on("click", ".upproduct",
+function() {
+	var id = $(this).attr("data-src");
+	$.ajax({
+				type:"POST",
 					url: "/shop/api/product/updateMyProduct",
 					data: {
 						id: id,
@@ -713,7 +714,7 @@
 				$("#info4").empty();
 				var key = "text-align";
 				var value = "center";
-				$.each(result.map.product, function(index, item) {
+				$.each(result.map.pageInfo.list, function(index, item) {
 					var delbtn = $("<button></button>").text("移除")
 						.addClass("btn btn-danger btn-sm deleteproduct").attr("data-src", item.id);
 					var upbtn = $("<button></button>").text("上架")

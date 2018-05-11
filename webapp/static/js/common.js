@@ -87,6 +87,7 @@ function showOnlyMsg(result) {
  * 登录
  */
 $("#modal_login").click(function() {
+	$("#login_form div:nth-child(1)").find("span").text("");
 	verifyCode();
 	var params = $("#login_form").serialize();
 	params = decodeURIComponent(params, true);
@@ -340,10 +341,10 @@ function createScrollbar(resultone, resulttwo) {
 
 	var scrollstr2 = '新的收藏记录：';
 	$.each(resultone.map.pageInfo.list, function(index, item) {
-		var str = item.createdtime + '，' + (item.name).substring(0, 1) + '** 收藏了' + item.pname + '/' + item.num + '次；《《《   ';
+		var str = item.createdtime + '，' + (item.name).substring(0, 1) + '** 收藏了' + item.pname + '/' + item.num + '次；《《《    ';
 		scrollstr2 = scrollstr2 + str;
 	});
 
-	scrollstr1 = scrollstr1 + '****************************************************' + scrollstr2;
+	scrollstr1 = scrollstr1 + '****************************************************    ' + scrollstr2;
 	scroll.text(scrollstr1);
 }

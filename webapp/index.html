@@ -194,7 +194,14 @@
 			$("#blurGo").click(function() {
 				searchforname = $("#searchforname").val();
 				requestGoods(1);
-				searchforname = null;
+			});
+
+			$("#searchforname").change(function() {
+				var an = $(this).val();
+				if(an == "" || an == null || an == undefined) {
+					searchforname = null;
+					requestGoods(1);
+				}
 			});
 
 			/*
@@ -207,7 +214,7 @@
 					success: function(result) {
 						if(result.result) {
 							$("#newCargo").empty();
-							$.each(result.map.product, function(index, item) {
+							$.each(result.map.pageInfo.list, function(index, item) {
 								var num = $("<td></td>").text(index + 1);
 								var cargoname = $("<td></td>").append($("<a></a>").addClass("productindex").attr("id_value", item.id).attr("href", "#").text(item.pname));
 								var name = $("<td></td>").text(item.name);
@@ -280,7 +287,7 @@
 							/*
 							 * 构造中央商品区
 							 */
-							$.each(result.map.product, function(index, item) {
+							$.each(result.map.pageInfo.list, function(index, item) {
 								// 图片区
 								var img;
 								if((item.imgsrc) == null || (item.imgsrc) == undefined || (item.imgsrc) == "") {
@@ -482,19 +489,18 @@
 			/**
 			 * 点击进入详情
 			 */
-			$(document).on("click", ".productindex",
-				function() {
-					var juid = $.cookie('juid');
-					if(juid == undefined || juid == 'null') {
-						showOnlyMsg("您还没有登录！");
-						return false;
-					}
-					var product_id = $(this).attr("id_value");
-					$.cookie('product_id', product_id, {
-						path: '/shop'
-					});
-					window.open("/shop/page/shop/goodDetail.html");
+			$(document).on("click", ".productindex", function() {
+				var juid = $.cookie('juid');
+				if(juid == undefined || juid == 'null') {
+					showOnlyMsg("您还没有登录！");
+					return false;
+				}
+				var product_id = $(this).attr("id_value");
+				$.cookie('product_id', product_id, {
+					path: '/shop'
 				});
+				window.open("/shop/page/shop/goodDetail.html");
+			});
 
 			/**
 			 * 联系它
@@ -513,7 +519,6 @@
 					path: '/shop'
 				});
 				window.open("/shop/page/shop/goodDetail.html");
-
 			});
 			/**
 			 * 收藏

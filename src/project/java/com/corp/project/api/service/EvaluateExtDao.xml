@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- evaluate[evaluate]SQL自动映射 -->
+<mapper namespace="EvaluateDao">
+	
+	<!-- 根据pid查询评价 -->
+	<select id="queryAllEvaluates" parameterType="Dto" resultType="Dto">
+		SELECT	  evaluate.id,  <!-- 流水号 -->
+				  evaluate.pid,  <!-- 产品流水号 -->
+				  evaluate.word,  <!-- 评价 -->
+				  evaluate.uid,  <!-- 用户流水号 -->
+				  aos_user.name, <!-- 用户名 -->
+				  evaluate.createdtime  <!-- 创建时间 -->
+					
+		FROM	
+				  evaluate
+		LEFT JOIN 
+				  aos_user  ON  aos_user.id = evaluate.uid
+		WHERE    evaluate.pid = #{pid}
+	</select>
+	
+</mapper>

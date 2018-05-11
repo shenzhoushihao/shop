@@ -1,11 +1,2 @@
-/aos.cfg.xml
-/aos.cxt.xml
-/aos.properties
-/aos.sqlmap.out.xml
-/aos.sqlmap.xml
-/aos.web.xml
 /aos/
 /com/
-/logback.xml
-/release/
-/sql/

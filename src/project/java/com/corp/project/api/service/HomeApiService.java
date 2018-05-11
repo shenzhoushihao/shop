@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import aos.framework.core.typewrap.Dto;
 import aos.framework.core.typewrap.Dtos;
@@ -43,15 +44,9 @@ public class HomeApiService {
         Dto qDto = Dtos.newDto("account", inDto.getString("account"));
         qDto.put("is_del", SystemCons.IS.NO);
         AosUserPO aosUserPO = aosUserDao.selectOne(qDto);
-        Dto pDto = aosUserPO.toDto();
-        // 查询学院
-        Dto wDto = Dtos.newCalcDto("cname");
-        wDto.put("id", aosUserPO.getCollege_id());
-        String college = aosOrgDao.calc(wDto);
-        pDto.put("cname", college);
 
         String msg = "";
-        Boolean is_pass = true;
+        boolean is_pass = true;
         if (AOSUtils.isEmpty(aosUserPO)) {
             msg = "帐号输入错误，请重新输入。";
             is_pass = false;
@@ -70,6 +65,12 @@ public class HomeApiService {
             }
         }
 
+        Dto pDto = aosUserPO.toDto();
+        // 查询学院
+        Dto wDto = Dtos.newCalcDto("cname");
+        wDto.put("id", aosUserPO.getCollege_id());
+        String college = aosOrgDao.calc(wDto);
+        pDto.put("cname", college);
         outDto.put("dto", pDto);
         outDto.put("is_pass", is_pass);
         outDto.put("msg", msg);
@@ -105,6 +106,7 @@ public class HomeApiService {
      * @param httpModel
      * @return
      */
+    @Transactional
     public boolean updateMyInfo(HttpModel httpModel) {
         Dto inDto = httpModel.getInDto();
         AosUserPO aosUserPO = new AosUserPO();
@@ -121,6 +123,7 @@ public class HomeApiService {
      * @param httpModel
      * @return
      */
+    @Transactional
     public boolean resetPassword(HttpModel httpModel) {
         Dto inDto = httpModel.getInDto();
         String password = AOSCodec.password(inDto.getString("password"));
@@ -148,6 +151,7 @@ public class HomeApiService {
      * @param httpModel
      * @return
      */
+    @Transactional
     public boolean deleteUser(HttpModel httpModel) {
         Dto inDto = httpModel.getInDto();
         AosUserPO aosUserPO = new AosUserPO();

@@ -29,7 +29,7 @@ public class DaoConsole {
         // 数据库名或数据库实例名
         driverOpt.setCatalog("shop");
         driverOpt.setUserName("root");
-        driverOpt.setPassword("root1234");
+        driverOpt.setPassword("Root123456");
         // ===================
         Dto dto = Dtos.newDto();
         // 改为自己存放相关文件的磁盘文件路径D:/workjee/shop/src/dao/java/com/corp/project/dao
@@ -40,10 +40,8 @@ public class DaoConsole {
         dto.put("author", "shaowenwen");
         // 指定多张表请用逗号分隔；
         // !!表名区分大小写的喔
-        // category,user,product,collect,seekbuy
+        // category,user,product,collect,seekbuy,evaluate,comments
         dto.put("tables", "seekbuy");
-        // dto.put("tables", "aos_cmp, aos_icon, aos_module, aos_org, aos_role,
-        // aos_role_module, aos_sequence, aos_user_role");
         // ===================
         Connection connection = DBMetaInfoUtils.newConnection(driverOpt);
         DaoBuilder.buildDao(connection, dto);

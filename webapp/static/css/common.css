@@ -20,9 +20,9 @@
 }
 
 .cssword p:nth-child(4) span {
-	scrolldelay: "3000";
+	scrolldelay: "300000";
 	font-family: "微软雅黑";
-	marquee-loop: 3;
+	marquee-loop: 5;
 	color: red;
 }
 
