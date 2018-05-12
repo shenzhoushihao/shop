@@ -44,9 +44,9 @@
 						<a href="#" class="list-group-item" data-src="q2">编辑信息</a>
 						<a href="#" class="list-group-item" data-src="q3">修改密码</a>
 						<a href="#" class="list-group-item" data-src="q4">我的商品</a>
-						<a href="#" class="list-group-item" data-src="q5">我的求购</a>
+						<a href="#" class="list-group-item" data-src="q5">我的需求</a>
 						<a href="#" class="list-group-item" data-src="q6">发布商品</a>
-						<a href="#" class="list-group-item" data-src="q7">发布求购</a>
+						<a href="#" class="list-group-item" data-src="q7">发布需求</a>
 						<a href="#" class="list-group-item" data-src="q8">退出</a>
 					</div>
 				</div>
@@ -79,16 +79,21 @@
 					</div>
 					<div id="q3" style="display:none;">
 						<table class="table table-hover ">
-							<thead>
-								<th>姓名</th>
-								<th>2士大夫</th>
-								<th>3</th>
-							</thead>
-							<tbody>
-								<td>1</td>
-								<td>2士大夫</td>
-								<td>3</td>
-							</tbody>
+							<tr>
+								<td>原密码:</td>
+								<td><input type="password" name="pwd" id="pwd" /></td>
+							</tr>
+							<tr>
+								<td>新密码:</td>
+								<td><input type="password" name="password" id="password1" /></td>
+							</tr>
+							<tr>
+								<td>重复新密码:</td>
+								<td><input type="password" name="password2" id="password2" /></td>
+							</tr>
+							<tr>
+								<td colspan="2" style="text-align: center;"><button type="button" class="btn btn-info" id="updatepwd">更改</button></td>
+							</tr>
 						</table>
 					</div>
 					<div id="q4" style="display:none;">
@@ -132,6 +137,7 @@
 										<th>创建日期</th>
 										<th>移除</th>
 										<th>查看</th>
+										<th>状态</th>
 									</tr>
 								</thead>
 								<tbody id="info5" style=" margin-top: 10px; font-family:Microsoft YaHei;">
@@ -162,7 +168,7 @@
 									</div>
 									<div class="form-group">
 										<label for="pname">名称</label>
-										<input type="input" class="form-control" name="pname" id="pname" placeholder="名称">
+										<input type="input" class="form-control" name="pname" id="pname" placeholder="10个字符以内">
 									</div>
 									<div class="form-group">
 										<label for="imgsrc">图片</label>
@@ -232,7 +238,7 @@
 										<label for="description">描述</label>
 										<textarea class="form-control" name="description" id="descrip" rows="4" placeholder="description"></textarea>
 									</div>
-									<button type="submit" style="margin-top: 10px; margin-left: 200px; margin-bottom: 10px;" class="btn btn-success">Submit</button>
+									<button id="seeksub" style="margin-top: 10px; margin-left: 200px; margin-bottom: 10px;" class="btn btn-success">Submit</button>
 								</form>
 							</div>
 							<div class="col-md-2"></div>
@@ -262,7 +268,7 @@
 			$(function($) {
 				reload();
 				//查询个人信息
-				//queryUserInfo();
+				queryUserInfo();
 				//获取学院列表
 				getcollege();
 				//为表单加载juid
@@ -276,7 +282,91 @@
 				$("#juid").val(juid);
 				$("#juid2").val(juid);
 			}
-			/*
+
+			/**
+			 * 更改密码
+			 */
+			$("#updatepwd").click(function() {
+				var pwd = $("#pwd").val();
+				if(pwd == '' || pwd == null || pwd == undefined) {
+					showOnlyMsg("原密码不可以为空！");
+					return false;
+				}
+				/*
+				 * 校验密码
+				 */
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/user/validatepwd",
+					data: {
+						juid: $.cookie('juid'),
+						password: pwd
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+
+							var password1 = $("#password1").val();
+							if(password1 == '' || password1 == null || password1 == undefined) {
+								showOnlyMsg("请输入新密码！");
+								return false;
+							}
+
+							var regName = /^[a-z|A-Z|0-9_-]{6,18}$/;
+							if(!(regName.test(password1))) {
+								showOnlyMsg("密码是6-18位数字字符或者英文字符！");
+								return false;
+							}
+
+							/*
+							 * 校验原密码和新密码
+							 */
+							if(pwd == password1) {
+								showOnlyMsg("原密码与新密码一致，不需要修改！");
+								return false;
+							}
+
+							var password2 = $("#password2").val();
+							if(password2 == '' || password2 == null || password2 == undefined) {
+								showOnlyMsg("请输入重复新密码！");
+								return false;
+							}
+
+							/*
+							 * 校验新密码
+							 */
+							if(password1 != password2) {
+								showOnlyMsg("两次输入新密码不一致！");
+								return false;
+							} else {
+
+								/*
+								 * 更新
+								 */
+								$.ajax({
+									type: "POST",
+									url: "/shop/api/home/resetPassword",
+									data: {
+										juid: $.cookie('juid'),
+										password: password1
+									},
+									dataType: "json",
+									success: function(result) {
+										showMsg(result);
+										$("#pwd").val("");
+										$("#password1").val("");
+										$("#password2").val("");
+									}
+								});
+							}
+						} else {
+							showOnlyMsg("原密码不正确！");
+						}
+					}
+				});
+			});
+
+			/**
 			 * 查询个人信息
 			 */
 			function queryUserInfo() {
@@ -317,8 +407,10 @@
 				});
 			}
 
-			/ * * 构造新的个人信息表格 * /
-
+			/**
+			 * 构造新的个人信息表格
+			 * @param {Object} result
+			 */
 			function createInfo(result) {
 				$("#info1").empty();
 				var pkey = "padding-top";
@@ -364,7 +456,7 @@
 					.append($("<td></td>").text(result.map.userInfo.account).css("text-align", "center"));
 
 				var name = $("<tr></tr>").css(pkey, pad).append($("<td></td>").text("用户名称").css("text-align", "center"))
-					.append($("<td></td>").append($("<input></input>").attr("name", "cname").val(result.map.userInfo.name)).css("text-align", "center"));
+					.append($("<td></td>").append($("<input></input>").attr("id", "uname").attr("name", "cname").val(result.map.userInfo.name)).css("text-align", "center"));
 
 				var sex = $("<tr></tr>").css(pkey, pad).append($("<td></td>").text("性别").css("text-align", "center"))
 					.append($("<td></td>").text(result.map.userInfo.sex == 1 ? "男" : "女").css("text-align", "center"));
@@ -379,10 +471,10 @@
 					.append($("<td></td>").append(coll).css("padding-left", "290px"));
 
 				var email = $("<tr></tr>").css(pkey, pad).css(pkey, pad).append($("<td></td>").text("电子邮箱").css("text-align", "center"))
-					.append($("<td></td>").append($("<input></input>").attr("name", "email").val(result.map.userInfo.email)).css("text-align", "center"));
+					.append($("<td></td>").append($("<input></input>").attr("id", "emailbox").attr("name", "email").val(result.map.userInfo.email)).css("text-align", "center"));
 
 				var telephone = $("<tr></tr>").css(pkey, pad).append($("<td></td>").text("手机号码").css("text-align", "center"))
-					.append($("<td></td>").append($("<input></input>").attr("name", "telephone").val(result.map.userInfo.telephone)).css("text-align", "center"));
+					.append($("<td></td>").append($("<input></input>").attr("id", "tel").attr("name", "telephone").val(result.map.userInfo.telephone)).css("text-align", "center"));
 
 				var btnp = $("<td></td>").attr("colspan", "2").css("text-align", "center").append($("<a></a>").addClass("btn btn-primary").text("更新").attr("role", "button").attr("href", "#").attr("id", "update"));
 
@@ -403,6 +495,15 @@
 			 *更新信息
 			 */
 			$(document).on("click", "#update", function() {
+				/*
+				 * 校验姓名
+				 */
+				var uname = $("#info2").find("input[name='cname']").val();
+				var regName = /^[a-z|A-Z|\u4e00-\u9fa5]{1,6}$/;
+				if(!(regName.test(uname))) {
+					showOnlyMsg("真实姓名是1-6位英文字符或者中文字符！");
+					return false;
+				}
 				/*
 				 * 校验email
 				 */
@@ -450,6 +551,47 @@
 			 * 发布商品
 			 */
 			$("#submitProduct").click(function() {
+
+				var pname = $("#pname").val();
+				if(pname == null || pname == "" || pname == undefined) {
+					showOnlyMsg("名称不能为空！");
+					return false;
+				}
+				if(pname.length > 10) {
+					showOnlyMsg("名称是在10个字符内！");
+					return false;
+				}
+
+				var description = $("#description").val();
+				if(description == null || description == "" || description == undefined) {
+					showOnlyMsg("描述不能为空！");
+					return false;
+				}
+
+				var oldprice = $("#oldprice").val();
+				if(oldprice == null || oldprice == "" || oldprice == undefined) {
+					showOnlyMsg("原价不能为空！");
+					return false;
+				}
+
+				var newprice = $("#newprice").val();
+				if(newprice == null || newprice == "" || newprice == undefined) {
+					showOnlyMsg("售价不能为空！");
+					return false;
+				}
+
+				var type = $("#type").val();
+				if(type == null || type == "" || type == undefined) {
+					showOnlyMsg("类型不能为空！");
+					return false;
+				}
+
+				var stocknum = $("#stocknum").val();
+				if(stocknum == null || stocknum == "" || stocknum == undefined) {
+					showOnlyMsg("库存不能为空！");
+					return false;
+				}
+
 				$("#product").submit(function() {
 					$(this).ajaxSubmit(function(result) {
 						showMsg(result);
@@ -468,8 +610,18 @@
 			/**
 			 * 发布新需求
 			 */
-			$("#frombuy").click(function() {
-				$(this).ajaxSubmit(function(result) {
+			$("#seeksub").click(function() {
+				var title = $("#title").val();
+				if(title == '' || title == null || title == undefined) {
+					showOnlyMsg("标题不能为空！");
+					return false;
+				}
+				var descrip = $("#descrip").val();
+				if(descrip == '' || descrip == null || descrip == undefined) {
+					showOnlyMsg("描述不能为空！");
+					return false;
+				}
+				$("#frombuy").ajaxSubmit(function(result) {
 					showMsg(result);
 					if(result.result) {
 						$("#q7").hide();
@@ -517,14 +669,40 @@
 						.addClass("btn btn-danger btn-sm deletebuy").attr("data-src", item.bid);
 					var lookbtn = $("<button></button>").text("查看")
 						.addClass("btn btn-success btn-sm look").attr("data-src", item.bid);
+					var resolvebtn = $("<button></button>").text(item.status == '1' ? "已解决" : "未解决")
+						.addClass("btn btn-success btn-sm resolvebuy").attr("data-src", item.bid).attr("status", item.status);
+
 					var tr = $("<tr></tr>").append($("<td></td>").text(item.bid).css("text-align", "center"))
 						.append($("<td></td>").text(item.title).css("text-align", "center"))
 						.append($("<td></td>").text(item.createdtime).css("text-align", "center"))
 						.append($("<td></td>").append(delbtn).css("text-align", "center"))
-						.append($("<td></td>").append(lookbtn).css("text-align", "center"));
+						.append($("<td></td>").append(lookbtn).css("text-align", "center"))
+						.append($("<td></td>").append(resolvebtn).css("text-align", "center"));
 					$("#info5").append(tr);
 				});
 			}
+
+			/**
+			 * 编辑状态
+			 */
+			$(document).on("click", ".resolvebuy", function() {
+				var status = $(this).attr("status");
+				$.ajax({
+					type: "post",
+					url: "/shop/api/seekbuy/updateSeek",
+					data: {
+						status: status == 1 ? 0 : 1,
+						bid: $(this).attr("data-src")
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							selectSeekBuy(1);
+						}
+						showMsg(result);
+					}
+				});
+			});
 
 			/**
 			 * 查看需求
@@ -661,26 +839,26 @@
 			 * 商品上架
 			 */
 			$(document).on("click", ".upproduct",
-function() {
-	var id = $(this).attr("data-src");
-	$.ajax({
-				type:"POST",
-					url: "/shop/api/product/updateMyProduct",
-					data: {
-						id: id,
-						status: '1'
-					},
-					dataType: "json",
-					success: function(result) {
-						if(result.result) {
-							showMsg(result);
-							queryProductList(1);
-						} else {
-							showMsg(result);
+				function() {
+					var id = $(this).attr("data-src");
+					$.ajax({
+						type: "POST",
+						url: "/shop/api/product/updateMyProduct",
+						data: {
+							id: id,
+							status: '1'
+						},
+						dataType: "json",
+						success: function(result) {
+							if(result.result) {
+								showMsg(result);
+								queryProductList(1);
+							} else {
+								showMsg(result);
+							}
 						}
-					}
+					});
 				});
-			});
 
 			/**
 			 * 商品下架
@@ -724,7 +902,7 @@ function() {
 					var btn = item.status == 1 ? downbtn : upbtn;
 
 					var tr = $("<tr></tr>").append($("<td></td>").css(key, value).text(item.id))
-						.append($("<td></td>").css(key, value).append($("<a></a>").text(item.pname)))
+						.append($("<td></td>").css(key, value).append($("<a></a>").addClass("proaub").attr("data-src", item.id).attr("href", "#").text(item.pname)))
 						.append($("<td></td>").css(key, value).text(item.newprice))
 						.append($("<td></td>").css(key, value).text(item.stocknum))
 						.append($("<td></td>").css(key, value).text(item.status == 1 ? '是' : '否'))
@@ -733,6 +911,17 @@ function() {
 					$("#info4").append(tr);
 				});
 			}
+
+			/**
+			 * 查询详细商品
+			 */
+			$(document).on("click", ".proaub", function() {
+				var product_id = $(this).attr("data-src");
+				$.cookie('product_id', product_id, {
+					path: '/shop'
+				});
+				window.open("/shop/page/shop/goodDetail.html");
+			});
 
 			/*
 			 * 构造导航条

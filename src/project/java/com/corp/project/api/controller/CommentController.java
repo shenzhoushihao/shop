@@ -49,7 +49,7 @@ public class CommentController {
 
         CommentsPO commentsPO = new CommentsPO();
         commentsPO.copyProperties(httpModel.getInDto());
-        commentsPO.setCreatedtime(AOSUtils.getDate());
+        commentsPO.setCreatedtime(AOSUtils.getDateTime());
         commentsPO.setUid(userModel.getId());
 
         boolean flag = true;
@@ -70,7 +70,7 @@ public class CommentController {
     @RequestMapping(value = "/comments", method = RequestMethod.POST)
     @ResponseBody
     public ResultPO getAllComments(@RequestParam(value = "sid") Integer sid) {
-        PageHelper.startPage(1, 10, "createdtime DESC");
+        PageHelper.startPage(1, 8, "createdtime DESC");
         List<Dto> list = commentService.getAllCommentsByCid(sid);
         PageInfo<Dto> pageInfo = new PageInfo<Dto>(list);
         return ResultPO.success().add("pageInfo", pageInfo);

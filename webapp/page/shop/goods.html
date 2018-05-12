@@ -38,11 +38,25 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12">
-					<table class="table table-hover" id="buyDetail">
+					<table class="table table-hover" style="font-size:larger;font-family:Microsoft YaHei;" id="buyDetail">
 
 					</table>
 				</div>
 			</div>
+			<hr/>
+			<div class="row">
+				<div class="col-md-12">
+					<table class="table table-hover" style="font-size:larger;font-family:Microsoft YaHei;">
+						<thead>
+							<tr>
+								<th style="color: #2B542C;">留言板</th>
+							</tr>
+						</thead>
+						<tbody id="comment"></tbody>
+					</table>
+				</div>
+			</div>
+			<hr/>
 			<!--
             	作者：offline
             	时间：2018-05-03
@@ -59,12 +73,52 @@
 			$(function($) {
 				reload();
 				var sid = $.cookie("seek_id");
+				//查询需求详细
 				selectbuydetail(sid);
+				//查询留言
+				selectComments(sid);
 			});
 
+			/**
+			 * 查询留言
+			 * @param {Object} sid
+			 */
+			function selectComments(sid) {
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/comment/comments",
+					data: {
+						sid: sid
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							createComment(result);
+						}
+					}
+				});
+			}
+
+			/**
+			 * 创建留言板
+			 * @param {Object} result
+			 */
+			function createComment(result) {
+				$("#comment").empty();
+				$.each(result.map.pageInfo.list, function(index, item) {
+					var tr = $("<tr></tr>").append($("<td></td>").text(item.name).css("font-size", "large"))
+						.append($("<td></td>").text(item.createdtime).css("padding-left", "100px"));
+					var trt = $("<tr></tr>").append($("<td></td>").attr("colspan", "2").text(item.word));
+					$("#comment").append(tr).append(trt);
+				});
+			}
+			/**
+			 * 查询需求内容
+			 * @param {Object} sid
+			 */
 			function selectbuydetail(sid) {
 				$.ajax({
-					type: "post",
+					type: "POST",
 					url: "/shop/api/seekbuy/selectAllSeek",
 					data: {
 						bid: sid
@@ -86,22 +140,23 @@
 			function createForm(result) {
 				$("#buyDetail").empty();
 				$.each(result.map.pageInfo.list, function(index, item) {
-					var trone = $("<tr></tr>").append($("<td></td>").text("需求标题").css("text-align", "center").css("width", "200px"))
+					var trone = $("<tr></tr>").append($("<td></td>").text("需求标题").css("text-align", "center").css("width", "200px").css("padding-top", "20px"))
 						.append($("<td></td>").text(item.title).css("text-align", "center").css("width", "200px"));
 
-					var trtwo = $("<tr></tr>").append($("<td></td>").text("联系人").css("text-align", "center").css("width", "200px"))
+					var trtwo = $("<tr></tr>").append($("<td></td>").text("联系人").css("text-align", "center").css("width", "200px").css("padding-top", "20px"))
 						.append($("<td></td>").text(item.name).css("text-align", "center").css("width", "200px"))
 						.append($("<td></td>").text("学院").css("text-align", "center").css("width", "200px"))
 						.append($("<td></td>").text(item.cname).css("text-align", "center").css("width", "200px"));
 
-					var trthree = $("<tr></tr>").append($("<td></td>").text("电子邮箱").css("text-align", "center").css("width", "200px"))
+					var trthree = $("<tr></tr>").append($("<td></td>").text("电子邮箱").css("text-align", "center").css("width", "200px").css("padding-top", "20px"))
 						.append($("<td></td>").text(item.email).css("text-align", "center").css("width", "200px"))
 						.append($("<td></td>").text("手机号码").css("text-align", "center").css("width", "200px"))
 						.append($("<td></td>").text(item.telephone).css("text-align", "center").css("width", "200px"));
-					var trfour = $("<tr></tr>").append($("<td></td>").text("需求标题").css("text-align", "center").css("width", "200px"))
-						.append($("<td></td>").attr("colspan", "3").text(item.description));
 
-					$("#buyDetail").appendTo(trone).append(trtwo).append(trthree).append(trfour);
+					var trfour = $("<tr></tr>").append($("<td></td>").text("需求说明").css("text-align", "center").css("width", "200px").css("padding-top", "20px"))
+						.append($("<td></td>").attr("colspan", "3").text(item.description)).css("padding-top", "10px");
+
+					$("#buyDetail").append(trone).append(trtwo).append(trthree).append(trfour);
 				});
 			}
 		</script>

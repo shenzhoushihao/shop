@@ -56,22 +56,20 @@ public class HomeApiService {
             if (!StringUtils.equals(password, aosUserPO.getPassword())) {
                 msg = "密码输入错误，请重新输入。";
                 is_pass = false;
-            } else {
+            } else if (!aosUserPO.getStatus().equals(SystemCons.USER_STATUS.NORMAL)) {
                 // 状态校验
-                if (!aosUserPO.getStatus().equals(SystemCons.USER_STATUS.NORMAL)) {
-                    msg = "该帐号已锁定或已停用，请联系管理员。";
-                    is_pass = false;
-                }
+                msg = "该帐号已锁定或已停用，请联系管理员。";
+                is_pass = false;
+            } else {
+                Dto pDto = aosUserPO.toDto();
+                // 查询学院
+                Dto wDto = Dtos.newCalcDto("cname");
+                wDto.put("id", aosUserPO.getCollege_id());
+                String college = aosOrgDao.calc(wDto);
+                pDto.put("cname", college);
+                outDto.put("dto", pDto);
             }
         }
-
-        Dto pDto = aosUserPO.toDto();
-        // 查询学院
-        Dto wDto = Dtos.newCalcDto("cname");
-        wDto.put("id", aosUserPO.getCollege_id());
-        String college = aosOrgDao.calc(wDto);
-        pDto.put("cname", college);
-        outDto.put("dto", pDto);
         outDto.put("is_pass", is_pass);
         outDto.put("msg", msg);
         return outDto;
@@ -111,7 +109,7 @@ public class HomeApiService {
         Dto inDto = httpModel.getInDto();
         AosUserPO aosUserPO = new AosUserPO();
         aosUserPO.copyProperties(inDto);
-        aosUserPO.setCreatedtime(AOSUtils.getDate());
+        aosUserPO.setCreatedtime(AOSUtils.getDateTime());
         Integer flag = 0;
         flag = aosUserDao.updateByKey(aosUserPO);
         return flag == 0 ? false : true;
@@ -124,14 +122,12 @@ public class HomeApiService {
      * @return
      */
     @Transactional
-    public boolean resetPassword(HttpModel httpModel) {
-        Dto inDto = httpModel.getInDto();
-        String password = AOSCodec.password(inDto.getString("password"));
+    public boolean resetPassword(Integer id, String pwd) {
+        String password = AOSCodec.password(pwd);
         AosUserPO aosUserPO = new AosUserPO();
-        aosUserPO.setId(inDto.getInteger("id"));
+        aosUserPO.setId(id);
         aosUserPO.setPassword(password);
-        Integer flag = 0;
-        flag = aosUserDao.updateByKey(aosUserPO);
+        Integer flag = aosUserDao.updateByKey(aosUserPO);
         return flag == 0 ? false : true;
     }
 

@@ -133,8 +133,9 @@ public class SeekBuyController {
     @RequestMapping(value = "/updateSeek", method = RequestMethod.POST)
     @ResponseBody
     public ResultPO updateSeek(@RequestParam(value = "bid") Integer bid,
-            @RequestParam(value = "title") String title,
-            @RequestParam(value = "description") String description) {
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "status", required = false) String status) {
         Dto qDto = Dtos.newDto();
         if (AOSUtils.isNotEmpty(bid)) {
             qDto.put("bid", bid);
@@ -145,12 +146,20 @@ public class SeekBuyController {
         if (AOSUtils.isNotEmpty(description)) {
             qDto.put("description", description);
         }
-
+        if (AOSUtils.isNotEmpty(status)) {
+            qDto.put("status", status);
+        }
 
         boolean flag = true;
         flag = seekBuyApiService.updateSeek(qDto);
-
         if (flag) {
+            if (AOSUtils.isNotEmpty(status)) {
+                if (status.equals("1")) {
+                    return ResultPO.success().add("msg", "需求状态更新成功！");
+                } else if (status.equals("0")) {
+                    return ResultPO.success().add("msg", "需求状态更新成功！");
+                }
+            }
             return ResultPO.success().add("msg", "更新需求成功！");
         } else {
             return ResultPO.fail().add("msg", "更新需求失败！");

@@ -105,8 +105,8 @@ public class ProductController {
 
         Integer pageSize = 12;
         PageHelper.startPage(pageNum, pageSize, "createdtime DESC");
-        List<ProductPO> listProduct = productService.findProductByUid(userModel.getId());
-        PageInfo<ProductPO> pageInfo = new PageInfo<>(listProduct);
+        List<ProductPO> list = productService.findProductByUid(userModel.getId());
+        PageInfo<ProductPO> pageInfo = new PageInfo<>(list);
         return ResultPO.success().add("pageInfo", pageInfo);
     }
 

@@ -49,6 +49,7 @@ $("#btn_login").click(function() {
 	$("#login_form").find("span").text("");
 	$("#sno").val("");
 	$("#password").val("");
+	$("#login_modal").resetForm();
 	$("#login_modal").modal('show');
 	$("#modal_login").attr("disabled", true);
 	verifyCode();
@@ -69,9 +70,7 @@ function showMsg(result) {
 	$('#content div:eq(1) p').text(result.map.msg);
 	$("#myModal").modal("show");
 	setTimeout(function() {
-		if(result.msg == 'success') {
-			$('#myModal').modal('hide');
-		}
+		$('#myModal').modal('hide');
 	}, 2000);
 }
 
@@ -347,4 +346,17 @@ function createScrollbar(resultone, resulttwo) {
 
 	scrollstr1 = scrollstr1 + '****************************************************    ' + scrollstr2;
 	scroll.text(scrollstr1);
+}
+
+/**
+ * 构造留言薄和评价
+ */
+function createContent(num) {
+	if(num == '1') {
+		$("#title_e").text("留言薄");
+		$("#btnOrder").text("留言");
+	} else if(num == '2') {
+		$("#title_e").text("评价");
+		$("#btnOrder").text("发布");
+	}
 }

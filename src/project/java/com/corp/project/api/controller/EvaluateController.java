@@ -49,7 +49,7 @@ public class EvaluateController {
 
         EvaluatePO evaluatePO = new EvaluatePO();
         evaluatePO.copyProperties(httpModel.getInDto());
-        evaluatePO.setCreatedtime(AOSUtils.getDate());
+        evaluatePO.setCreatedtime(AOSUtils.getDateTime());
         evaluatePO.setUid(userModel.getId());
 
         boolean flag = true;

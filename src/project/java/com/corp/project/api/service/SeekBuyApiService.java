@@ -31,7 +31,7 @@ public class SeekBuyApiService {
     @Transactional
     public boolean insert(SeekbuyPO seekbuyPO) {
         Integer count = 0;
-        seekbuyPO.setCreatedtime(AOSUtils.getDate());
+        seekbuyPO.setCreatedtime(AOSUtils.getDateTime());
         count = seekbuyDao.insert(seekbuyPO);
         return count == 0 ? false : true;
     }
@@ -79,7 +79,7 @@ public class SeekBuyApiService {
     public boolean updateSeek(Dto qDto) {
         SeekbuyPO seekbuyPO = new SeekbuyPO();
         seekbuyPO.copyProperties(qDto);
-        seekbuyPO.setCreatedtime(AOSUtils.getDate());
+        seekbuyPO.setCreatedtime(AOSUtils.getDateTime());
         Integer flag = 0;
         flag = seekbuyDao.updateByKey(seekbuyPO);
         return flag == 0 ? false : true;

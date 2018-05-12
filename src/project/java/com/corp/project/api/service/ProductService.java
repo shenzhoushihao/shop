@@ -28,7 +28,7 @@ public class ProductService {
     @Autowired
     private CollectDao collectDao;
     @Autowired
-    private ProductDao ProductDao;
+    private ProductDao productDao;
 
     /**
      * 查询所有商品
@@ -57,7 +57,7 @@ public class ProductService {
      * @return
      */
     public List<ProductPO> findProductByUid(Integer uid) {
-        return ProductDao.list(Dtos.newDto("uid", uid));
+        return productDao.list(Dtos.newDto("user_id", uid));
     }
 
     /**
@@ -105,9 +105,12 @@ public class ProductService {
         productPO.copyProperties(inDto);
 
         productPO.setUser_id(userModel.getId());
-        productPO.setCreatedtime(AOSUtils.getDate());
+        productPO.setCreatedtime(AOSUtils.getDateTime());
         if (productPO.getStatus().equals("1")) {
-            productPO.setUpdatedtime(AOSUtils.getDate());
+            productPO.setUpdatedtime(AOSUtils.getDateTime());
+        }
+        if (AOSUtils.isEmpty(inDto.get("status"))) {
+            productPO.setStatus("1");
         }
         // 上传图片
         productPO.setImgsrc(null);
@@ -122,11 +125,8 @@ public class ProductService {
             e.getMessage();
             return false;
         }
-        count = ProductDao.insert(productPO);
-        if (count == 0) {
-            return false;
-        }
-        return true;
+        count = productDao.insert(productPO);
+        return count == 0 ? false : true;
     }
 
     /**
@@ -137,11 +137,11 @@ public class ProductService {
      */
     @Transactional
     public boolean deleteMyProduct(Integer id) {
-        ProductPO productPO = ProductDao.selectByKey(id);
+        ProductPO productPO = productDao.selectByKey(id);
         Integer flag = 0;
         try {
             MultiFileUpload.deleteFile(productPO.getImgsrc());
-            flag = ProductDao.deleteByKey(id);
+            flag = productDao.deleteByKey(id);
         } catch (Exception e) {
             e.getMessage();
             return false;
@@ -161,7 +161,7 @@ public class ProductService {
         productPO.setId(id);
         productPO.setStatus(status);
         Integer flag = 0;
-        flag = ProductDao.updateByKey(productPO);
+        flag = productDao.updateByKey(productPO);
         return flag == 0 ? false : true;
     }
 
@@ -179,7 +179,7 @@ public class ProductService {
         pDto.put("uid", uid);
         CollectPO selectOne = collectDao.selectOne(pDto);
         if (AOSUtils.isNotEmpty(selectOne)) {
-            selectOne.setCreatedtime(AOSUtils.getDate());
+            selectOne.setCreatedtime(AOSUtils.getDateTime());
             selectOne.setNum(selectOne.getNum() + num);
             f1 = collectDao.updateByKey(selectOne);
         } else {
@@ -187,7 +187,7 @@ public class ProductService {
             collectPO.setPid(product_id);
             collectPO.setUid(uid);
             collectPO.setNum(num);
-            collectPO.setCreatedtime(AOSUtils.getDate());
+            collectPO.setCreatedtime(AOSUtils.getDateTime());
             f1 = collectDao.insert(collectPO);
         }
         return f1 == 0 ? false : true;

@@ -21,6 +21,28 @@
 	<body>
 		<!--
         	作者：offline
+        	时间：2018-05-12
+        	描述：留言、评价弹出框
+        -->
+		<div id="modelEval" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="title_e">评价板</h4>
+					</div>
+					<div class="modal-body">
+						<textarea id="word" name="word" style="width: 100%;height: 100%;"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" id="btnEval">评价</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--
+        	作者：offline
         	时间：2018-05-03
         	描述：弹框
         -->
@@ -43,6 +65,22 @@
 					</table>
 				</div>
 			</div>
+			<hr/>
+			<div class="row">
+				<div class="col-md-12">
+					<table class="table table-hover" style="font-size:larger;font-family:Microsoft YaHei;">
+						<thead>
+							<tr>
+								<th style="color:#2B542C;font-size: larger;">评论板</th>
+							</tr>
+						</thead>
+						<tbody id="evaluate">
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<hr/>
 			<!--
             	作者：offline
             	时间：2018-05-03
@@ -59,8 +97,110 @@
 			 */
 			$(function($) {
 				reload();
+				//查询uid
+				var juid = $.cookie('juid');
+				findUser(juid);
+				//查询商品
 				var product_id = $.cookie('product_id');
 				query(product_id);
+				//查询评论
+				selectEvaluate(product_id)
+			});
+
+			/**
+			 * 查询用户
+			 */
+			var uid;
+
+			function findUser(juid) {
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/user/getUser",
+					data: {
+						juid: juid
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							uid = result.map.user.id;
+						}
+					}
+				});
+			}
+
+			/**
+			 * 查询评价列表
+			 * @param {Object} product_id
+			 */
+			function selectEvaluate(product_id) {
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/evaluate/evaluates",
+					data: {
+						pid: product_id
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							createEvaluateForm(result);
+						}
+					}
+				});
+			}
+
+			/**
+			 * 创建评价板
+			 * @param {Object} result
+			 */
+			function createEvaluateForm(result) {
+				$("#evaluate").empty();
+				$.each(result.map.pageInfo.list, function(index, item) {
+					var tr = $("<tr></tr>").append($("<td></td>").text(item.name).css("font-size", "large"))
+						.append($("<td></td>").text(item.createdtime).css("padding-left", "100px"));
+					var trt = $("<tr></tr>").append($("<td></td>").attr("colspan", "2").text(item.word).css("padding-left", "50px"));
+					$("#evaluate").append(tr).append(trt);
+				});
+
+				var etn = $("<tr></tr>").append($("<td></td>").attr("colspan", "2").css("text-align", "right")
+					.append($("<button></button>").text("我也评价")
+						.addClass("btn btn-success evaluate").attr("pid", $.cookie('product_id'))));
+				if(uuid == uid) {
+					etn.css("display", "none");
+				}
+				$("#evaluate").append(etn);
+			}
+
+			/**
+			 * 我也要评价
+			 */
+			var pid;
+			$(document).on("click", ".evaluate", function() {
+				pid = $(this).attr("pid");
+				$("#word").text("");
+				$("#modelEval").modal("show");
+			});
+
+			/**
+			 * 评价按钮
+			 */
+			$("#btnEval").click(function() {
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/evaluate/pubevaluate",
+					data: {
+						juid: $.cookie('juid'),
+						pid: pid,
+						word: $("#word").val()
+					},
+					dataType: "json",
+					success: function(result) {
+						showMsg(result);
+						if(result.result) {
+							selectEvaluate(pid);
+							$('#modelEval').modal('hide');
+						}
+					}
+				});
 			});
 
 			/**
@@ -84,6 +224,8 @@
 			 * 创建表单
 			 * 
 			 */
+			var uuid;
+
 			function createDetail(result) {
 				$("#goodsDetail").empty();
 				var key = "text-align";
@@ -91,46 +233,47 @@
 				var key1 = "margin-top";
 				var value1 = "20px";
 				var images;
+				uuid = result.map.product.user_id;
 				if(result.map.product.imgsrc == null || result.map.product.imgsrc == '' || result.map.product.imgsrc == undefined) {
 					images = 'a.jpg';
-} else {
-	images = result.map.product.imgsrc;
-}
-var img = $("<tr></tr>").append($("<td></td>").css("width", "1024px").css("height", "600px")
-		.css(key, value).attr("colspan", "4")
-		.append($("<img></img>").attr("src", "/shop/images/" + images)));
+				} else {
+					images = result.map.product.imgsrc;
+				}
+				var img = $("<tr></tr>").append($("<td></td>").css("width", "1024px").css("height", "600px")
+					.css(key, value).attr("colspan", "4")
+					.append($("<img></img>").attr("src", "/shop/images/" + images)));
 
-				var trone = $("<tr></tr>").append($("<td></td>").text("商品编号").css("width", "200px").css("font-size", "large"))
+				var trone = $("<tr></tr>").append($("<td></td>").text("商品编号").css("width", "200px").css("font-size", "large").css("padding-top", "20px"))
 					.append($("<td></td>").text(result.map.product.id).css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text("商品名称").css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text(result.map.product.pname).css("width", "200px").css("font-size", "large")).css(key1, value1);
 
-				var trtwo = $("<tr></tr>").append($("<td></td>").text("商品库存").css("width", "200px").css("font-size", "large"))
+				var trtwo = $("<tr></tr>").append($("<td></td>").text("商品库存").css("width", "200px").css("font-size", "large").css("padding-top", "20px"))
 					.append($("<td></td>").text(result.map.product.stocknum).css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text("状态").css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text(result.map.product.status == 1 ? "售卖中" : "停止售卖").css("width", "200px").css("font-size", "large")).css(key1, value1);
 
-				var trthree = $("<tr></tr>").append($("<td></td>").text("市场价格").css("width", "200px").css("font-size", "large"))
+				var trthree = $("<tr></tr>").append($("<td></td>").text("市场价格").css("width", "200px").css("font-size", "large").css("padding-top", "20px"))
 					.append($("<td></td>").append($("<del></del>").text("¥ " + result.map.product.oldprice).css("width", "200px").css("font-size", "large")))
 					.append($("<td></td>").text("售卖价格").css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text("¥ " + result.map.product.newprice).css("color", "red").css("width", "200px").css("font-size", "large")).css(key1, value1);
 
-				var trfour = $("<tr></tr>").append($("<td></td>").text("发布时间").css("width", "200px").css("font-size", "large"))
+				var trfour = $("<tr></tr>").append($("<td></td>").text("发布时间").css("width", "200px").css("font-size", "large").css("padding-top", "20px"))
 					.append($("<td></td>").text(result.map.product.createdtime).css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text("联系人").css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text(result.map.product.name).css("width", "200px").css("font-size", "large")).css(key1, value1);
 
-				var trfive = $("<tr></tr>").append($("<td></td>").text("联系人性别").css("width", "200px").css("font-size", "large"))
+				var trfive = $("<tr></tr>").append($("<td></td>").text("联系人性别").css("width", "200px").css("font-size", "large").css("padding-top", "20px"))
 					.append($("<td></td>").text(result.map.product.sex == 1 ? "男" : "女").css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text("所属学院").css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text(result.map.product.cname).css("width", "200px").css("font-size", "large")).css(key1, value1);
 
-				var trsix = $("<tr></tr>").append($("<td></td>").text("电子邮箱").css("width", "100px").css("width", "200px").css("font-size", "large"))
+				var trsix = $("<tr></tr>").append($("<td></td>").text("电子邮箱").css("width", "100px").css("width", "200px").css("font-size", "large").css("padding-top", "20px"))
 					.append($("<td></td>").text(result.map.product.email).css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text("手机号码").css("width", "200px").css("font-size", "large"))
 					.append($("<td></td>").text(result.map.product.telephone).css("width", "200px").css("font-size", "large")).css(key1, value1);
 
-				var trseven = $("<tr></tr>").append($("<td></td>").text("商品描述").css("width", "200px").css("font-size", "large"))
+				var trseven = $("<tr></tr>").append($("<td></td>").text("商品描述").css("width", "200px").css("font-size", "large").css("padding-top", "20px"))
 					.append($("<td></td>").attr("colspan", "3").append($("<p></p>").text(result.map.product.description))).css(key1, value1);
 
 				$("#goodsDetail").append(img).append(trone).append(trtwo).append(trthree)

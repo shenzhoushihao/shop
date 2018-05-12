@@ -110,6 +110,7 @@ public class AOSServer {
                 long alltime = System.currentTimeMillis() - start;
                 msg = msg + "[" + alltime + "毫秒]" + " | 应用访问地址 >> " + webUrl;
                 System.out.println(msg);
+                System.out.println("后台应用访问地址: >> http://localhost:10020/shop");
                 server.join();
             }
         }

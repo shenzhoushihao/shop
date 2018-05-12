@@ -5,31 +5,20 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>注册信息</title>
-		<script src="../../static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
-		<script src="../../static/bootstrap/holder.min.js" type="text/javascript"></script>
-		<script src="../../static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-		<link rel="stylesheet" type="text/css" href="../../static/bootstrap/css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="../../static/css/register.css" charset="UTF-8" />
+		<script type="text/javascript" src="/shop/static/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/shop/static/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/shop/static/js/common.js"></script>
+		<script type="text/javascript" src="/shop/static/js/verify.js"></script>
+		<script type="text/javascript" src="/shop/static/js/jquery.form.js"></script>
+		<script type="text/javascript" src="/shop/static/js/jquery.cookie.js"></script>
+
+		<link rel="stylesheet" href="/shop/static/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/shop/static/css/verify.css" />
+		<link rel="stylesheet" href="/shop/static/css/common.css" />
+		<link rel="stylesheet" href="/shop/static/css/register.css" />
 	</head>
 
 	<body>
-		<!--
-        	作者：offline
-        	时间：2018-03-21
-        	描述：模态框
-        -->
-		<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content" id="content">
-					<div class="modal-header">
-						提示消息：
-					</div>
-					<div class="modal-body">
-						<p>fgh </p>
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<div class="container-fluid">
 			<div class="row header">
@@ -41,12 +30,12 @@
 				<div class="col-md-2">
 				</div>
 				<div class="col-md-8">
-					<form class="form-horizontal">
+					<form class="form-horizontal" id="formreg">
 
 						<div class="form-group">
-							<label for="sno" class="col-sm-2 control-label">学号</label>
+							<label for="account" class="col-sm-2 control-label">学号</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="sno" id="sno" placeholder="学号">
+								<input type="text" class="form-control" name="account" id="account" placeholder="学号">
 								<span class="help-block"></span>
 							</div>
 						</div>
@@ -80,10 +69,10 @@
 							<div class="col-sm-10">
 								<div class="radio">
 									<label class="radio-inline">
-								  <input type="radio" name="sex" id="sex1" value="男" checked="true"> 男
+								  <input type="radio" name="sex" id="sex1" value="1" checked="true"> 男
 								</label>
 									<label class="radio-inline">
-								  <input type="radio" name="sex" id="sex2" value="女"> 女
+								  <input type="radio" name="sex" id="sex2" value="2"> 女
 								</label>
 								</div>
 							</div>
@@ -126,47 +115,42 @@
 				<div class="col-md-2">
 				</div>
 			</div>
-			<div class="row tail">
-				<p>&copy;2018&nbsp;&nbsp;&nbsp;2014级软件工程本科一班邵文文 &nbsp;&nbsp;&nbsp;版权所有</p>
+
+			<!--
+            	作者：offline
+            	时间：2018-05-03
+            	描述：尾部
+            -->
+			<div id="tail">
+
 			</div>
 		</div>
 
 		<script type="text/javascript">
 			$(function($) {
-				/*
+
+				//清空表单
+				$("#formreg").clearForm();
+				/**
 				 * 获取学院列表
 				 */
 				$("#collegelist").empty();
 				$("#collegelist").append($("<option selected></option>").append("请选择学院：").attr("value", "0"));
 				$.ajax({
 					type: "POST",
-					url: "http://127.0.0.1:8080/shop/baseData/getCollege",
+					url: "/shop/api/base/getColleges",
 					dataType: "json",
 					success: function(result) {
 						if(result.result) {
 							$.each(result.map.college, function(index, item) {
 								$("#collegelist").append($("<option></option>")
 									.append(item.cname)
-									.attr("value", item.cname));
+									.attr("value", item.id));
 							});
 						}
 					}
 				});
 			});
-			/*
-			 * 校验信息
-			 */
-			function show_validate_msg(ele, status, msg) {
-				$(ele).parent().removeClass("has-success has-error");
-				$(ele).next("span").text("");
-				if("success" == status) {
-					$(ele).parent().addClass("has-success");
-					$(ele).next("span").text(msg);
-				} else if("fail" == status) {
-					$(ele).parent().addClass("has-error");
-					$(ele).next("span").text(msg);
-				}
-			}
 
 			/*
 			 * 校验学号
@@ -174,10 +158,10 @@
 			function checkIsReg() {
 				var re;
 				$.ajax({
-					url: "http://127.0.0.1:8080/shop/user/isRegister",
+					url: "/shop/api/user/isRegister",
 					type: "POST",
 					data: {
-						sno: $("#sno").val()
+						account: $("#account").val()
 					},
 					async: false,
 					dataType: "json",
@@ -192,20 +176,20 @@
 				/*
 				 * 校验学号
 				 */
-				var sno = $("#sno").val();
+				var account = $("#account").val();
 				var regName = /^[0-9]{3,20}$/;
-				if(!(regName.test(sno))) {
-					show_validate_msg("#sno", "fail", "学号是3-20位数字字符！");
+				if(!(regName.test(account))) {
+					show_validate_msg("#account", "fail", "学号是3-20位数字字符！");
 					return false;
 				} else {
-					show_validate_msg("#sno", "success", "");
+					show_validate_msg("#account", "success", "");
 				}
 				var re = checkIsReg();
 				if(!re.result) {
-					show_validate_msg("#sno", "fail", "学号已经注册！");
+					show_validate_msg("#account", "fail", "学号已经注册！");
 					return false;
 				} else {
-					show_validate_msg("#sno", "success", "学号可以使用！");
+					show_validate_msg("#account", "success", "学号可以使用！");
 				}
 
 				/*
@@ -286,16 +270,16 @@
 				$(ele).text("");
 				console.log(result);
 				if(result.msg == "fail") {
-					if(result.map.sno != null && result.map.sno != "") {
-						$(ele).text(result.map.sno);
-						show_validate_msg("#sno", "fail", result.map.sno);
+					if(result.map.account != null && result.map.account != "") {
+						$(ele).text(result.map.account);
+						show_validate_msg("#account", "fail", result.map.account);
 						return;
 					} else if(result.map.msg != null && result.map.msg != "") {
 						$(ele).text(result.map.msg);
-						show_validate_msg("#sno", "fail", result.map.msg);
+						show_validate_msg("#account", "fail", result.map.msg);
 						return;
 					} else {
-						show_validate_msg("#sno", "success", "");
+						show_validate_msg("#account", "success", "");
 					}
 
 					if(result.map.username != null && result.map.username != "") {
@@ -357,19 +341,14 @@
 				params = decodeURIComponent(params, true);
 				if(validate_reg_form()) {
 					$.ajax({
-						url: "http://127.0.0.1:8080/shop/user/insertUser",
+						url: "/shop/api/user/insertUser",
 						type: "POST",
 						data: params,
 						success: function(result) {
-							var modal = $('#content div:eq(1) p');
-							showModal(modal, result);
-							$('#myModal').modal('show');
-							setTimeout(function() {
-								$('#myModal').modal('hide');
-								if(result.msg == 'success') {
-									window.location.href = "../../index.html";
-								}
-							}, 2000);
+							showMsg(result);
+							if(result.result) {
+								window.location.href = "../../index.html";
+							}
 						}
 					});
 				}

@@ -21,6 +21,29 @@
 	<body>
 		<!--
         	作者：offline
+        	时间：2018-05-12
+        	描述：留言、评价弹出框
+        -->
+		<div id="modelee" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="title_e">留言板</h4>
+					</div>
+					<div class="modal-body">
+						<textarea id="word" name="word" style="width: 100%;height: 100%;"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" id="btnOrder">留言</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--
+        	作者：offline
         	时间：2018-05-03
         	描述：弹框
         -->
@@ -80,6 +103,8 @@
 		</div>
 		<script type="text/javascript">
 			$(function($) {
+				//构造留言薄
+				createContent(1);
 				reload();
 				//获取需求列表
 				querySeekList(1);
@@ -113,15 +138,13 @@
 			 */
 			function createseek(seek) {
 				$("#seekmain").empty();
-				var key = "text-align";
-				var value = "center";
-				$.each(seek.pageInfo.list, function(index, item) {
+				$.each(seek.map.pageInfo.list, function(index, item) {
 					var chbtn = $("<button></button>").text("我来解决")
 						.addClass("btn btn-success btn-sm linkbtn").attr("data-src", item.bid);
-					var tr = $("<tr></tr>").append($("<td></td>").text(item.bid).css(key, value))
-						.append($("<td></td>").text(item.title).css(key, value))
-						.append($("<td></td>").text(item.createdtime).css(key, value))
-						.append($("<td></td>").append(chbtn).css(key, value));
+					var tr = $("<tr></tr>").append($("<td></td>").text(item.bid))
+						.append($("<td></td>").text(item.title))
+						.append($("<td></td>").text(item.createdtime))
+						.append($("<td></td>").append(chbtn));
 					$("#seekmain").append(tr);
 				});
 			}
@@ -141,11 +164,85 @@
 			});
 
 			/**
+			 * 查询留言
+			 */
+			function selectComment(ele, sid) {
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/comment/comments",
+					data: {
+						sid: sid
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result.result) {
+							createComment(ele, result, sid);
+						}
+					}
+				});
+			}
+
+			/**
+			 * 构造留言薄
+			 */
+			function createComment(ele, result, sid) {
+				var table = $("<table></table>").css("width", "100%");
+				table.empty();
+				$.each(result.map.pageInfo.list, function(index, item) {
+					var tr = $("<tr></tr>").append($("<td></td>").text(item.name).css("width", "60px").css("font-size", "large"))
+						.append($("<td></td>").text(item.createdtime).css("padding-left", "100px"));
+					var trt = $("<tr></tr>").append($("<td></td>").attr("colspan", "2").text(item.word));
+					var hr = $("<tr></tr>").append($("<td></td>").attr("colspan", "2").append($("<hr>")));
+					table.append(tr).append(trt).append(hr);
+				});
+
+				var edbtn = $("<tr></tr>").append($("<td></td>").attr("colspan", "2").css("text-align", "right")
+					.append($("<button></button>").text("我也留言").addClass("btn btn-success btn-sm comments").attr("sid", sid)));
+
+				$(ele).append(table).append(edbtn);
+			}
+
+			/**
+			 * 留言操作
+			 */
+			var pid;
+			$(document).on("click", ".comments", function() {
+				pid = $(this).attr("sid");
+				$("#word").text("");
+				$("#modelee").modal("show");
+			});
+
+			/**
+			 * 留言
+			 */
+			$("#btnOrder").click(function() {
+				$.ajax({
+					type: "POST",
+					url: "/shop/api/comment/pubcomment",
+					data: {
+						juid: $.cookie('juid'),
+						sid: pid,
+						word: $("#word").val()
+					},
+					dateType: "json",
+					success: function(result) {
+						showMsg(result);
+						if(result.result) {
+							createdetailed(pid);
+							$('#modelee').modal('hide');
+						}
+					}
+				});
+			});
+
+			/**
 			 * 构造详细信息
 			 */
+			var detailed;
+
 			function createdetailed(data) {
 				$("#detailed").empty();
-				$.each(seek.pageInfo.list, function(index, item) {
+				$.each(seek.map.pageInfo.list, function(index, item) {
 
 					if(data == item.bid) {
 						var pone = $("<p></p>").append($("<span></span>").text("需求说明:").css("font-size", "large"))
@@ -158,10 +255,16 @@
 							.append($("<p></p>").text(item.email).css("color", "#761C19"));
 						var pfive = $("<p></p>").append($("<span></span>").text("联系电话:").css("font-size", "large"))
 							.append($("<p></p>").text(item.telephone).css("color", "red"));
-						$("#detailed").append(pone).append(ptwo).append(pthree).append(pfour).append(pfive);
+
+						var hr = $("<hr><hr>");
+
+						var psix = $("<p></p>").text("留言薄").css("font-size", "large").css("color", "#2B542C");
+
+						detailed = $("#detailed").append(pone).append(ptwo).append(pthree)
+							.append(pfour).append(pfive).append(hr).append(psix);
+						selectComment(detailed, item.bid);
 					}
 				});
-
 			}
 
 			/**
