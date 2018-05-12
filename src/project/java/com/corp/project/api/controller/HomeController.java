@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -106,14 +107,14 @@ public class HomeController {
      */
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
     @ResponseBody
-    public ResultPO resetPassword(HttpServletRequest request, HttpServletResponse response) {
-        HttpModel httpModel = new HttpModel(request, response);
-        httpModel.getInDto().println();
-        boolean flag = homeApiService.resetPassword(httpModel);
+    public ResultPO resetPassword(@RequestParam(value = "juid") String juid,
+            @RequestParam(value = "password") String password) {
+        UserModel userModel = cacheUserDataService.getUserModel(juid);
+        boolean flag = homeApiService.resetPassword(userModel.getId(), password);
         if (flag) {
-            return ResultPO.success();
+            return ResultPO.success().add("msg", "更新密码成功！");
         } else {
-            return ResultPO.fail();
+            return ResultPO.fail().add("msg", "更新密码不成功！");
         }
     }
 
