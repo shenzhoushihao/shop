@@ -115,7 +115,7 @@ public class ProductService {
         // 上传图片
         productPO.setImgsrc(null);
         try {
-            Map<String, Object> map = MultiFileUpload.fileUpLoad(httpModel.getRequest());
+            Map<String, Object> map = MultiFileUpload.fileUpLoad(httpModel.getRequest(), "a");
             if (AOSUtils.isNotEmpty(map)) {
                 productPO.setImgsrc(map.get("imgsrc").toString());
             } else {
@@ -140,7 +140,7 @@ public class ProductService {
         ProductPO productPO = productDao.selectByKey(id);
         Integer flag = 0;
         try {
-            MultiFileUpload.deleteFile(productPO.getImgsrc());
+            MultiFileUpload.deleteFile(productPO.getImgsrc(), "a");
             flag = productDao.deleteByKey(id);
         } catch (Exception e) {
             e.getMessage();
