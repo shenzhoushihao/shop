@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 注意:此文件由SHOP平台手动生成 -->
+<mapper namespace="com.corp.project.httpback.dao.BannerHttpRepository">
+
+	<!-- 查询商品列表 -->
+	<select id="getProductList" parameterType="Dto" resultType="Dto">
+		SELECT id AS value, pname AS display FROM product
+	</select>
+	
+	<!-- 查询广告列表 -->
+	<select id="getADList" parameterType="Dto" resultType="Dto">
+		SELECT    adbanners.id,
+				  adbanners.cargo_id, 
+				  product.pname,
+				  adbanners.imgsrc, 
+				  adbanners.description 
+		FROM	  
+				  adbanners
+		LEFT JOIN 
+				  product	ON  adbanners.cargo_id = product.id
+	</select>
+</mapper>

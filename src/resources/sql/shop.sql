@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 04/05/2018 08:00:19
+ Date: 13/05/2018 11:27:11
 */
 
 SET NAMES utf8mb4;
@@ -21,43 +21,46 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for adbanners
 -- ----------------------------
 DROP TABLE IF EXISTS `adbanners`;
-CREATE TABLE `adbanners`  (
+CREATE TABLE `adbanners` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '流水号',
   `cargo_id` int(11) NOT NULL,
-  `imgsrc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `imgsrc` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of adbanners
 -- ----------------------------
-INSERT INTO `adbanners` VALUES (1, 1, '1.jpg', '好玩');
-INSERT INTO `adbanners` VALUES (2, 2, '2.jpg', '好看');
-INSERT INTO `adbanners` VALUES (3, 3, '3.jpg', '好吃');
+BEGIN;
+INSERT INTO `adbanners` VALUES (1, 1012, 'a728c185-effe-38cb-33e5-3a03bcc04d0c.jpg', '促销');
+INSERT INTO `adbanners` VALUES (2, 1013, 'e78f610b-3458-3734-88a2-14a10d2c500f.jpg', '促销狗狗');
+INSERT INTO `adbanners` VALUES (3, 1013, 'f4bdbf56-2cf5-f2f6-cd64-1946aece19fb.jpg', '狗狗');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for aos_dic
 -- ----------------------------
 DROP TABLE IF EXISTS `aos_dic`;
-CREATE TABLE `aos_dic`  (
+CREATE TABLE `aos_dic` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '流水号',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典名称',
-  `dic_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典KEY',
-  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '对照码',
-  `dic_desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '对照值',
-  `is_enable` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '是否启用',
-  `hotkey` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT ' 热键',
-  `dic_group` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '所属分组',
-  `sort_no` int(4) NULL DEFAULT NULL COMMENT '排序号',
-  `remark` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `name` varchar(255) NOT NULL COMMENT '字典名称',
+  `dic_key` varchar(255) NOT NULL COMMENT '字典KEY',
+  `code` varchar(255) NOT NULL COMMENT '对照码',
+  `dic_desc` varchar(255) NOT NULL COMMENT '对照值',
+  `is_enable` varchar(255) NOT NULL COMMENT '是否启用',
+  `hotkey` varchar(255) DEFAULT NULL COMMENT ' 热键',
+  `dic_group` varchar(255) NOT NULL COMMENT '所属分组',
+  `sort_no` int(4) DEFAULT NULL COMMENT '排序号',
+  `remark` varchar(4000) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `ukey1`(`code`, `dic_key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典表' ROW_FORMAT = Dynamic;
+  UNIQUE KEY `ukey1` (`code`,`dic_key`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='数据字典表';
 
 -- ----------------------------
 -- Records of aos_dic
 -- ----------------------------
+BEGIN;
 INSERT INTO `aos_dic` VALUES (1, '性别', 'sex', '1', '男', '1', '', '1', 1, '');
 INSERT INTO `aos_dic` VALUES (2, '性别', 'sex', '2', '女', '1', NULL, '1', 2, '');
 INSERT INTO `aos_dic` VALUES (3, '性别', 'sex', '3', '未知', '1', NULL, '1', 3, '');
@@ -94,20 +97,22 @@ INSERT INTO `aos_dic` VALUES (33, 'Redis数据类型', 'cmd_type', '1', 'String'
 INSERT INTO `aos_dic` VALUES (34, 'Redis数据类型', 'cmd_type', '2', 'HashMap', '1', NULL, '1', 2, '');
 INSERT INTO `aos_dic` VALUES (35, 'Redis数据类型', 'cmd_type', '3', 'List', '1', NULL, '1', 3, '');
 INSERT INTO `aos_dic` VALUES (36, 'Redis数据类型', 'cmd_type', '4', 'Set', '1', NULL, '1', 4, '');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for aos_icon
 -- ----------------------------
 DROP TABLE IF EXISTS `aos_icon`;
-CREATE TABLE `aos_icon`  (
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类型',
+CREATE TABLE `aos_icon` (
+  `name` varchar(255) NOT NULL COMMENT '名称',
+  `type` varchar(255) NOT NULL COMMENT '类型',
   PRIMARY KEY (`name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '图标大全' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='图标大全';
 
 -- ----------------------------
 -- Records of aos_icon
 -- ----------------------------
+BEGIN;
 INSERT INTO `aos_icon` VALUES ('10.png', '2');
 INSERT INTO `aos_icon` VALUES ('11.png', '2');
 INSERT INTO `aos_icon` VALUES ('13.png', '2');
@@ -876,33 +881,35 @@ INSERT INTO `aos_icon` VALUES ('wand.png', '1');
 INSERT INTO `aos_icon` VALUES ('webcam.png', '1');
 INSERT INTO `aos_icon` VALUES ('zoom_in.png', '1');
 INSERT INTO `aos_icon` VALUES ('zoom_out.png', '1');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for aos_module
 -- ----------------------------
 DROP TABLE IF EXISTS `aos_module`;
-CREATE TABLE `aos_module`  (
+CREATE TABLE `aos_module` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '功能模块流水号',
-  `cascade_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节点语义ID',
+  `cascade_id` varchar(255) NOT NULL COMMENT '节点语义ID',
   `parent_id` int(10) NOT NULL COMMENT '父节点流水号',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '功能模块名称',
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主页面URL',
-  `icon_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节点图标文件名称',
-  `is_leaf` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '是否叶子节点',
-  `is_auto_expand` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '是否自动展开',
-  `is_enable` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '是否启用',
-  `vector` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '矢量图标',
-  `sort_no` int(10) NULL DEFAULT NULL COMMENT '排序号',
+  `name` varchar(255) NOT NULL COMMENT '功能模块名称',
+  `url` varchar(255) DEFAULT NULL COMMENT '主页面URL',
+  `icon_name` varchar(255) DEFAULT NULL COMMENT '节点图标文件名称',
+  `is_leaf` varchar(255) NOT NULL COMMENT '是否叶子节点',
+  `is_auto_expand` varchar(255) NOT NULL COMMENT '是否自动展开',
+  `is_enable` varchar(255) NOT NULL COMMENT '是否启用',
+  `vector` varchar(255) DEFAULT NULL COMMENT '矢量图标',
+  `sort_no` int(10) DEFAULT NULL COMMENT '排序号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '功能模块表' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='功能模块表';
 
 -- ----------------------------
 -- Records of aos_module
 -- ----------------------------
+BEGIN;
 INSERT INTO `aos_module` VALUES (-1, '0.001.002.003', 8, '角色管理', 'aosRoleHttpService.init', 'own.png', '1', '0', '1', '', 30);
 INSERT INTO `aos_module` VALUES (1, '0', 0, 'SHOP开发套件', '', 'home.png', '0', '1', '1', '', 1);
 INSERT INTO `aos_module` VALUES (2, '0.001', 1, '系统管理', '', 'folder22.png', '0', '1', '1', 'fa-cogs', 10);
-INSERT INTO `aos_module` VALUES (3, '0.002', 1, '范例', '', 'folder9.png', '0', '1', '1', 'fa-bug', 20);
+INSERT INTO `aos_module` VALUES (3, '0.002', 1, '范例', '', 'folder9.png', '0', '1', '0', 'fa-bug', 20);
 INSERT INTO `aos_module` VALUES (4, '0.001.001', 2, '资源', '', 'folder1.png', '0', '1', '1', '', 10);
 INSERT INTO `aos_module` VALUES (5, '0.001.001.001', 4, '键值参数', 'masterDataService.initParam', 'icon153.png', '1', '0', '1', '', 10);
 INSERT INTO `aos_module` VALUES (6, '0.001.001.002', 4, '数据字典', 'masterDataService.initDictionary', 'icon152.png', '1', '0', '1', '', 20);
@@ -912,38 +919,41 @@ INSERT INTO `aos_module` VALUES (9, '0.001.002.001', 8, '学院管理', 'aosOrgH
 INSERT INTO `aos_module` VALUES (10, '0.001.002.002', 8, '用户管理', 'aosUserHttpService.init', 'user6.png', '1', '0', '1', '', 20);
 INSERT INTO `aos_module` VALUES (11, '0.001.003', 2, '监控', '', 'folder1.png', '0', '1', '1', '', 30);
 INSERT INTO `aos_module` VALUES (12, '0.001.003.001', 11, '在线用户', 'onlineUserService.init', 'text_list.png', '1', '0', '1', '', 10);
-INSERT INTO `aos_module` VALUES (13, '0.001.004', 2, '工具', '', 'folder1.png', '0', '1', '1', '', 40);
-INSERT INTO `aos_module` VALUES (14, '0.001.004.001', 13, '图标', 'iconService.init', 'pictures.png', '1', '0', '1', '', 90);
-INSERT INTO `aos_module` VALUES (15, '0.001.004.002', 13, 'Redis缓存管理', 'cacheManageService.init', 'freelance.png', '1', '0', '1', '', 10);
-INSERT INTO `aos_module` VALUES (16, '0.002.001', 3, '综合实例', '', '', '0', '1', '1', '', 90);
-INSERT INTO `aos_module` VALUES (17, '0.002.001.001', 16, '简单查询', 'demoService.initMisc1', '', '1', '0', '1', '', 10);
-INSERT INTO `aos_module` VALUES (18, '0.002.001.002', 16, '增删改查', 'demoService.initMisc2', '', '1', '0', '1', '', 20);
-INSERT INTO `aos_module` VALUES (19, '0.002.001.003', 16, '常用布局一', 'demoService.initMisc3', '', '1', '0', '1', '', 30);
-INSERT INTO `aos_module` VALUES (20, '0.002.001.004', 16, '常用布局二', 'demoService.initMisc4', '', '1', '0', '1', '', 40);
-INSERT INTO `aos_module` VALUES (21, '0.002.001.005', 16, '常用布局三', 'demoService.initMisc5', '', '1', '0', '1', '', 50);
-INSERT INTO `aos_module` VALUES (22, '0.002.001.006', 16, '常用布局四', 'demoService.initMisc6', NULL, '1', '0', '1', NULL, 60);
-INSERT INTO `aos_module` VALUES (23, '0.002.002', 3, '基础组件', '', '', '0', '1', '1', '', 10);
-INSERT INTO `aos_module` VALUES (24, '0.002.002.001', 23, '按钮|停靠栏|信息提示', 'demoService.initBasic1', '', '1', '0', '1', '', 10);
-INSERT INTO `aos_module` VALUES (25, '0.002.002.002', 23, '容器组件及常用布局', 'demoService.initBasic2', '', '1', '0', '1', '', 20);
-INSERT INTO `aos_module` VALUES (26, '0.002.002.003', 23, '树组件', 'demoService.initTree', '', '1', '0', '1', '', 50);
-INSERT INTO `aos_module` VALUES (27, '0.002.002.004', 23, '表单组件', 'demoService.initForm', '', '1', '0', '1', '', 30);
-INSERT INTO `aos_module` VALUES (28, '0.002.002.005', 23, '表格组件', 'demoService.initGrid', '', '1', '0', '1', '', 40);
-INSERT INTO `aos_module` VALUES (29, '0.002.002.006', 23, '表格组件二', 'demoService.initGrid2', '', '1', '0', '1', '', 41);
+INSERT INTO `aos_module` VALUES (13, '0.001.004', 2, '工具', '', 'folder1.png', '0', '1', '0', '', 40);
+INSERT INTO `aos_module` VALUES (14, '0.001.004.001', 13, '图标', 'iconService.init', 'pictures.png', '1', '0', '0', '', 90);
+INSERT INTO `aos_module` VALUES (15, '0.001.004.002', 13, 'Redis缓存管理', 'cacheManageService.init', 'freelance.png', '1', '0', '0', '', 10);
+INSERT INTO `aos_module` VALUES (16, '0.002.001', 3, '综合实例', '', '', '0', '1', '0', '', 90);
+INSERT INTO `aos_module` VALUES (17, '0.002.001.001', 16, '简单查询', 'demoService.initMisc1', '', '1', '0', '0', '', 10);
+INSERT INTO `aos_module` VALUES (18, '0.002.001.002', 16, '增删改查', 'demoService.initMisc2', '', '1', '0', '0', '', 20);
+INSERT INTO `aos_module` VALUES (19, '0.002.001.003', 16, '常用布局一', 'demoService.initMisc3', '', '1', '0', '0', '', 30);
+INSERT INTO `aos_module` VALUES (20, '0.002.001.004', 16, '常用布局二', 'demoService.initMisc4', '', '1', '0', '0', '', 40);
+INSERT INTO `aos_module` VALUES (21, '0.002.001.005', 16, '常用布局三', 'demoService.initMisc5', '', '1', '0', '0', '', 50);
+INSERT INTO `aos_module` VALUES (22, '0.002.001.006', 16, '常用布局四', 'demoService.initMisc6', '', '1', '0', '0', '', 60);
+INSERT INTO `aos_module` VALUES (23, '0.002.002', 3, '基础组件', '', '', '0', '1', '0', '', 10);
+INSERT INTO `aos_module` VALUES (24, '0.002.002.001', 23, '按钮|停靠栏|信息提示', 'demoService.initBasic1', '', '1', '0', '0', '', 10);
+INSERT INTO `aos_module` VALUES (25, '0.002.002.002', 23, '容器组件及常用布局', 'demoService.initBasic2', '', '1', '0', '0', '', 20);
+INSERT INTO `aos_module` VALUES (26, '0.002.002.003', 23, '树组件', 'demoService.initTree', '', '1', '0', '0', '', 50);
+INSERT INTO `aos_module` VALUES (27, '0.002.002.004', 23, '表单组件', 'demoService.initForm', '', '1', '0', '0', '', 30);
+INSERT INTO `aos_module` VALUES (28, '0.002.002.005', 23, '表格组件', 'demoService.initGrid', '', '1', '0', '0', '', 40);
+INSERT INTO `aos_module` VALUES (29, '0.002.002.006', 23, '表格组件二', 'demoService.initGrid2', '', '1', '0', '0', '', 41);
+INSERT INTO `aos_module` VALUES (30, '0.001.002.004', 8, '广告轮播图', 'bannerHttpService.init', 'basket.png', '1', '0', '1', '', 10);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for aos_org
 -- ----------------------------
 DROP TABLE IF EXISTS `aos_org`;
-CREATE TABLE `aos_org`  (
+CREATE TABLE `aos_org` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `cname` varchar(64) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of aos_org
 -- ----------------------------
+BEGIN;
 INSERT INTO `aos_org` VALUES (1, '信息科学与技术学院', NULL);
 INSERT INTO `aos_org` VALUES (2, '文学与传媒学院', NULL);
 INSERT INTO `aos_org` VALUES (4, '历史学院', NULL);
@@ -957,26 +967,28 @@ INSERT INTO `aos_org` VALUES (11, '机械与工程学院', NULL);
 INSERT INTO `aos_org` VALUES (12, '教师教育学院', NULL);
 INSERT INTO `aos_org` VALUES (13, '管理学院', NULL);
 INSERT INTO `aos_org` VALUES (14, '经济学院', '');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for aos_params
 -- ----------------------------
 DROP TABLE IF EXISTS `aos_params`;
-CREATE TABLE `aos_params`  (
+CREATE TABLE `aos_params` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '流水号',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '参数名称',
-  `params_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '参数键',
-  `value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数值',
-  `params_group` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数分组',
-  `remark` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `name` varchar(255) NOT NULL COMMENT '参数名称',
+  `params_key` varchar(255) NOT NULL COMMENT '参数键',
+  `value` varchar(255) DEFAULT NULL COMMENT '参数值',
+  `params_group` varchar(255) DEFAULT NULL COMMENT '参数分组',
+  `remark` varchar(4000) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `ukey1`(`params_key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '参数表' ROW_FORMAT = Dynamic;
+  UNIQUE KEY `ukey1` (`params_key`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='参数表';
 
 -- ----------------------------
 -- Records of aos_params
 -- ----------------------------
-INSERT INTO `aos_params` VALUES (1, '开发用户快捷登录开关', 'login_dev', '1', '1', '可选值：1 | 0。1：打开；0：关闭。');
+BEGIN;
+INSERT INTO `aos_params` VALUES (1, '开发用户快捷登录开关', 'login_dev', '0', '1', '可选值：1 | 0。1：打开；0：关闭。');
 INSERT INTO `aos_params` VALUES (2, '系统缺省皮肤', 'skin', 'blue', '1', '可选值：blue|gray|aos。优先级低于用户自己的皮肤配置。');
 INSERT INTO `aos_params` VALUES (3, '登录页面的背景图片', 'login_back_img', '-1', '1', '登录页面的背景图片。可选的预设背景图片为：0.jpg、1.jpg、2.jpg。如果需要随机出现背景，则将其设置为-1。');
 INSERT INTO `aos_params` VALUES (4, '是否显示验证码', 'is_show_vercode', '1', '1', '是否在登录页面显示验证码及后台验证码验证。可选值：0(否) | 1(是)。');
@@ -1002,80 +1014,87 @@ INSERT INTO `aos_params` VALUES (23, 'QQ群推广链接', 'qq_group_link', 'http
 INSERT INTO `aos_params` VALUES (24, '表格查询无数据时的显示信息', 'grid_empty_text', '没有查询到符合条件的数据 : ( ', '1', '');
 INSERT INTO `aos_params` VALUES (25, '登录请求等待信息', 'login_wait_msg', '正在拼命带你飞, 请稍候...', '1', '');
 INSERT INTO `aos_params` VALUES (26, '开发用户快捷登录账户', 'login_dev_account', 'root', '1', '可设置为任意一个系统存在的账户。');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for aos_role
 -- ----------------------------
 DROP TABLE IF EXISTS `aos_role`;
-CREATE TABLE `aos_role`  (
+CREATE TABLE `aos_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `rolename` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `rolename` varchar(16) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of aos_role
 -- ----------------------------
+BEGIN;
 INSERT INTO `aos_role` VALUES (1, '超级角色', '平台管理');
 INSERT INTO `aos_role` VALUES (2, '普通角色', '客户角色');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for aos_user
 -- ----------------------------
 DROP TABLE IF EXISTS `aos_user`;
-CREATE TABLE `aos_user`  (
+CREATE TABLE `aos_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '流水号',
-  `account` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户登录帐号',
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
-  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户姓名',
-  `sex` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '性别',
-  `status` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户状态',
+  `account` varchar(64) NOT NULL COMMENT '用户登录帐号',
+  `password` varchar(255) NOT NULL COMMENT '密码',
+  `name` varchar(32) NOT NULL COMMENT '用户姓名',
+  `sex` varchar(4) NOT NULL COMMENT '性别',
+  `status` varchar(4) NOT NULL COMMENT '用户状态',
   `college_id` int(11) NOT NULL COMMENT '所属部门流水号',
-  `email` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电子邮件',
-  `telephone` varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系电话',
-  `is_del` varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '是否已删除',
-  `createdtime` datetime(0) NOT NULL COMMENT '创建时间',
+  `email` varchar(32) DEFAULT NULL COMMENT '电子邮件',
+  `telephone` varchar(12) DEFAULT NULL COMMENT '联系电话',
+  `is_del` varchar(4) NOT NULL COMMENT '是否已删除',
+  `createdtime` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户基本信息表' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户基本信息表';
 
 -- ----------------------------
 -- Records of aos_user
 -- ----------------------------
-INSERT INTO `aos_user` VALUES (-1, 'root', 'a2c292420f2af5038fefd1bb63eeb736', '超级管理员', '2', '1', 1, '1665345498@qq.com', '13643380869', '0', '2016-08-12 17:38:19');
-INSERT INTO `aos_user` VALUES (1, '1416010203', '436e82db0da42935f7145c09da50e0a5', 'Mary', '1', '1', 7, '1665345498@qq.com', '13643380869', '0', '2018-04-26 00:00:00');
+BEGIN;
+INSERT INTO `aos_user` VALUES (-1, 'root', '213b51f7b9332b8aa974215a11e85ae8', '超级管理员', '2', '1', 1, '1665345498@qq.com', '13643380869', '0', '2016-08-12 17:38:19');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for aos_user_role
 -- ----------------------------
 DROP TABLE IF EXISTS `aos_user_role`;
-CREATE TABLE `aos_user_role`  (
+CREATE TABLE `aos_user_role` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '流水号',
   `user_id` int(10) NOT NULL COMMENT '用户流水号',
   `role_id` int(10) NOT NULL COMMENT '角色流水号',
-  `createdtime` datetime(0) NOT NULL COMMENT '创建时间',
+  `createdtime` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `aos_sys_user_role_ukey`(`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户-角色关联表' ROW_FORMAT = Dynamic;
+  UNIQUE KEY `aos_sys_user_role_ukey` (`user_id`,`role_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户-角色关联表';
 
 -- ----------------------------
 -- Records of aos_user_role
 -- ----------------------------
+BEGIN;
 INSERT INTO `aos_user_role` VALUES (1, -1, 1, '2018-04-25 12:24:33');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for category
 -- ----------------------------
 DROP TABLE IF EXISTS `category`;
-CREATE TABLE `category`  (
+CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cname` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `cname` varchar(32) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
+BEGIN;
 INSERT INTO `category` VALUES (1, '手机');
 INSERT INTO `category` VALUES (2, '电脑');
 INSERT INTO `category` VALUES (3, '配件');
@@ -1085,45 +1104,61 @@ INSERT INTO `category` VALUES (6, '娱乐');
 INSERT INTO `category` VALUES (7, '运动');
 INSERT INTO `category` VALUES (8, '代步');
 INSERT INTO `category` VALUES (9, '其他');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for collect
 -- ----------------------------
 DROP TABLE IF EXISTS `collect`;
-CREATE TABLE `collect`  (
+CREATE TABLE `collect` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL COMMENT '商品ID',
   `uid` int(11) NOT NULL COMMENT '用户ID',
-  `num` int(11) NOT NULL DEFAULT 1 COMMENT '商品数量',
-  `createdtime` datetime(0) NULL DEFAULT NULL COMMENT '收藏日期',
+  `num` int(11) NOT NULL DEFAULT '1' COMMENT '商品数量',
+  `createdtime` datetime DEFAULT NULL COMMENT '收藏日期',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+
+-- ----------------------------
+-- Table structure for comments
+-- ----------------------------
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '流水号',
+  `sid` int(11) NOT NULL COMMENT '需求流水号',
+  `word` varchar(4000) NOT NULL COMMENT '留言',
+  `uid` int(32) NOT NULL COMMENT '用户流水号',
+  `createdtime` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='留言表';
 
 -- ----------------------------
 -- Table structure for demo_account
 -- ----------------------------
 DROP TABLE IF EXISTS `demo_account`;
-CREATE TABLE `demo_account`  (
+CREATE TABLE `demo_account` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '流水号',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '姓名',
-  `card_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '卡号',
-  `card_type` varchar(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '卡类型',
-  `balance` decimal(10, 2) NULL DEFAULT NULL COMMENT '可用余额',
-  `credit_line` decimal(10, 2) NULL DEFAULT NULL COMMENT '信用额度',
-  `org_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属银行机构ID',
-  `id_no` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '身份证号',
-  `sex` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别',
-  `birthday` date NULL DEFAULT NULL COMMENT '生日',
-  `age` int(255) NULL DEFAULT NULL COMMENT '年龄',
-  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地址',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `create_user_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建人ID',
+  `name` varchar(255) NOT NULL COMMENT '姓名',
+  `card_id` varchar(255) NOT NULL COMMENT '卡号',
+  `card_type` varchar(6) NOT NULL COMMENT '卡类型',
+  `balance` decimal(10,2) DEFAULT NULL COMMENT '可用余额',
+  `credit_line` decimal(10,2) DEFAULT NULL COMMENT '信用额度',
+  `org_id` varchar(64) DEFAULT NULL COMMENT '所属银行机构ID',
+  `id_no` varchar(255) DEFAULT NULL COMMENT '身份证号',
+  `sex` varchar(2) DEFAULT NULL COMMENT '性别',
+  `birthday` date DEFAULT NULL COMMENT '生日',
+  `age` int(255) DEFAULT NULL COMMENT '年龄',
+  `address` varchar(255) DEFAULT NULL COMMENT '地址',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `create_user_id` varchar(64) NOT NULL COMMENT '创建人ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10007 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '银行信用卡账户表' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=10007 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='银行信用卡账户表';
 
 -- ----------------------------
 -- Records of demo_account
 -- ----------------------------
+BEGIN;
 INSERT INTO `demo_account` VALUES (6640, '郤芹', '10004008', '1', 49670.47, 80000.00, '000', '2925196111177374', '3', '2016-04-24', 98, '上海霞飞路27号', '2016-04-24 21:50:50', '1');
 INSERT INTO `demo_account` VALUES (6641, '毛秦烟', '10004009', '2', 12499.93, 80000.00, '000', '2925198111134596', '1', '2016-04-24', 37, '上海霞飞路640号', '2016-04-24 21:50:50', '1');
 INSERT INTO `demo_account` VALUES (6642, '熊移', '10004010', '2', 50077.32, 80000.00, '000', '2925195912163086', '2', '2016-04-24', 60, '上海霞飞路15号', '2016-04-24 21:50:50', '1');
@@ -2131,1065 +2166,80 @@ INSERT INTO `demo_account` VALUES (7643, '周根', '10005011', '1', 59843.31, 80
 INSERT INTO `demo_account` VALUES (7644, '熊戈嗽', '10005012', '2', 57582.36, 80000.00, '000', '2925192112295287', '2', '2016-04-24', 80, '上海霞飞路398号', '2016-04-24 22:03:18', '1');
 INSERT INTO `demo_account` VALUES (10000, '黄玉', '10004006', '1', 49000.00, 50000.00, '000', '2925196912171318', '1', '2016-11-18', 18, '上海霞飞路18号', '2016-11-18 14:50:12', '1');
 INSERT INTO `demo_account` VALUES (10006, '莫雯', '10004006', '1', 40000.00, 50000.00, '000', '2925196912171318', '1', '2016-11-18', 16, '上海霞飞路18号', '2016-11-18 15:26:45', '1');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for evaluate
+-- ----------------------------
+DROP TABLE IF EXISTS `evaluate`;
+CREATE TABLE `evaluate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '流水号',
+  `pid` int(11) NOT NULL COMMENT '产品流水号',
+  `word` varchar(4000) NOT NULL COMMENT '评价',
+  `uid` int(32) NOT NULL COMMENT '用户流水号',
+  `createdtime` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='留言表';
+
 
 -- ----------------------------
 -- Table structure for pricetype
 -- ----------------------------
 DROP TABLE IF EXISTS `pricetype`;
-CREATE TABLE `pricetype`  (
+CREATE TABLE `pricetype` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pricename` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `description` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `pricename` varchar(32) NOT NULL,
+  `description` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `price_index`(`pricename`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  KEY `price_index` (`pricename`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of pricetype
 -- ----------------------------
+BEGIN;
 INSERT INTO `pricetype` VALUES (1, '50以下', '元');
 INSERT INTO `pricetype` VALUES (2, '50-100', '元');
 INSERT INTO `pricetype` VALUES (3, '100-200', '元');
 INSERT INTO `pricetype` VALUES (4, '200-300', '元');
 INSERT INTO `pricetype` VALUES (5, '300-500', '元');
 INSERT INTO `pricetype` VALUES (6, '500以上', '元');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for product
 -- ----------------------------
 DROP TABLE IF EXISTS `product`;
-CREATE TABLE `product`  (
+CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '流水号',
-  `pname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '产品名称',
-  `imgsrc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '产品图片',
-  `oldprice` float NULL DEFAULT NULL COMMENT '市场价格',
+  `pname` varchar(255) NOT NULL COMMENT '产品名称',
+  `imgsrc` varchar(255) DEFAULT NULL COMMENT '产品图片',
+  `oldprice` float DEFAULT NULL COMMENT '市场价格',
   `newprice` float NOT NULL COMMENT '当前价格',
-  `status` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '是否上架',
+  `status` varchar(8) NOT NULL COMMENT '是否上架',
   `stocknum` int(32) NOT NULL COMMENT '库存',
-  `type` int(11) NULL DEFAULT NULL COMMENT '类别',
-  `description` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `type` int(11) DEFAULT NULL COMMENT '类别',
+  `description` varchar(4000) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
-  `createdtime` datetime(0) NULL DEFAULT NULL COMMENT '发布时间',
-  `updatedtime` datetime(0) NULL DEFAULT NULL COMMENT '上架时间',
+  `createdtime` datetime DEFAULT NULL COMMENT '发布时间',
+  `updatedtime` datetime DEFAULT NULL COMMENT '上架时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1002 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
--- ----------------------------
--- Records of product
--- ----------------------------
-INSERT INTO `product` VALUES (1, '高等数学', NULL, NULL, 10000, '0', 100, 2, '高等数学是一本好书', 1, '2018-04-27 00:22:42', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (2, '高等数学4a63', NULL, 684.37, 684.37, '1', 314629548, 3, '4455', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (3, '高等数学bc60', NULL, NULL, 7.6638, '1', 1235426807, 4, '2681', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (4, '高等数学f722', NULL, 59.3385, 59.3385, '1', 1437436762, 5, '3a9a', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (5, '高等数学ec5a', NULL, NULL, 999.849, '1', 94391091, 1, 'c87d', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (6, '高等数学b4d3', NULL, 3.92529, 3.92529, '1', 453529888, 2, '0dd2', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (7, '高等数学2d3b', NULL, NULL, 3.84687, '1', 1095028696, 3, '088b', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (8, '高等数学6779', NULL, 36.5662, 36.5662, '1', 223889512, 4, '91fa', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (9, '高等数学c929', NULL, NULL, 5.06118, '1', 153820567, 5, 'dc58', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (10, '高等数学9c3d', NULL, 62.4107, 62.4107, '1', 1579264420, 1, '6fc0', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (11, '高等数学a2c7', NULL, NULL, 978.243, '1', 667286441, 2, 'bfec', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (12, '高等数学fe3f', NULL, 9.24277, 9.24277, '1', 669350808, 3, '46ba', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (13, '高等数学a69d', NULL, NULL, 3.40117, '1', 1006950772, 4, '9bbb', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (14, '高等数学7180', NULL, 475.234, 475.234, '1', 1284556928, 5, '970f', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (15, '高等数学b341', NULL, NULL, 0.979833, '1', 1457006617, 1, '6e32', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (16, '高等数学b862', NULL, 82.4878, 82.4878, '1', 1271160117, 2, '1e76', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (17, '高等数学36e9', NULL, NULL, 509.305, '1', 1217314123, 3, 'a265', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (18, '高等数学51a8', NULL, 9.77255, 9.77255, '1', 813567666, 4, '5ebd', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (19, '高等数学f61d', NULL, NULL, 39.0252, '1', 220544367, 5, 'de85', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (20, '高等数学bd0a', NULL, 132.581, 132.581, '1', 1036814685, 1, '1e53', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (21, '高等数学7302', NULL, NULL, 0.509573, '1', 817925561, 2, '31c0', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (22, '高等数学e30c', NULL, 36.4468, 36.4468, '1', 1851172292, 3, '54b1', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (23, '高等数学9422', NULL, NULL, 863.459, '1', 330059342, 4, 'b5c5', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (24, '高等数学ced0', NULL, 9.64851, 9.64851, '1', 715081855, 5, 'f923', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (25, '高等数学2b8d', NULL, NULL, 76.5749, '1', 659971412, 1, 'a99e', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (26, '高等数学f5b3', NULL, 805.289, 805.289, '1', 1309591322, 2, 'aa6f', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (27, '高等数学3564', NULL, NULL, 8.15285, '1', 333471658, 3, '2c60', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (28, '高等数学4a07', NULL, 21.2698, 21.2698, '1', 720033576, 4, '4d4d', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (29, '高等数学dd2a', NULL, NULL, 501.467, '1', 805328107, 5, 'e42a', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (30, '高等数学91a4', NULL, 5.38278, 5.38278, '1', 965084234, 1, '2aa9', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (31, '高等数学4866', NULL, NULL, 84.7869, '1', 1393111111, 2, 'e181', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (32, '高等数学8dcf', NULL, 810.273, 810.273, '1', 2131734068, 3, '161c', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (33, '高等数学84fc', NULL, NULL, 6.87563, '1', 1259633558, 4, '26cc', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (34, '高等数学1655', NULL, 60.44, 60.44, '1', 2089652024, 5, '9459', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (35, '高等数学2bfa', NULL, NULL, 878.653, '1', 660996353, 1, 'e800', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (36, '高等数学27ab', NULL, 5.40162, 5.40162, '1', 514312782, 2, '491f', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (37, '高等数学39cd', NULL, NULL, 64.2173, '1', 289570371, 3, '8ae2', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (38, '高等数学fb08', NULL, 616.96, 616.96, '1', 856719760, 4, 'd00d', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (39, '高等数学00df', NULL, NULL, 6.50807, '1', 462576993, 5, 'aca7', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (40, '高等数学1f68', NULL, 94.0803, 94.0803, '1', 1483732049, 1, '97fe', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (41, '高等数学65f3', NULL, NULL, 974.415, '1', 1137277012, 2, '456f', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (42, '高等数学fba7', NULL, 2.60598, 2.60598, '1', 836642162, 3, '10eb', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (43, '高等数学3ce6', NULL, NULL, 49.7133, '1', 1420616277, 4, '3deb', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (44, '高等数学acf2', NULL, 132.41, 132.41, '1', 1595083115, 5, '86c0', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (45, '高等数学5af6', NULL, NULL, 9.60877, '1', 1974450925, 1, '4082', 1, '2018-04-27 00:00:00', '2018-04-28 00:00:00');
-INSERT INTO `product` VALUES (46, '高等数学435d', NULL, 46.0747, 46.0747, '1', 1452686529, 2, '7f2c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (47, '高等数学277a', NULL, NULL, 361.348, '1', 1874855804, 3, 'b0b9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (48, '高等数学a496', NULL, 6.27828, 6.27828, '1', 1062683314, 4, 'b071', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (49, '高等数学e0b1', NULL, NULL, 2.51784, '1', 310154679, 5, 'd02b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (50, '高等数学1586', NULL, 414.983, 414.983, '1', 1261914658, 1, 'fe21', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (51, '高等数学fb73', NULL, NULL, 3.30664, '1', 720168477, 2, 'f903', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (52, '高等数学9203', NULL, 44.4715, 44.4715, '1', 1546485116, 3, '544e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (53, '高等数学eb3d', NULL, NULL, 699.538, '1', 653532673, 4, '18b9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (54, '高等数学1307', NULL, 9.27647, 9.27647, '1', 1775163302, 5, '6c81', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (55, '高等数学c440', NULL, NULL, 18.3564, '1', 1322779112, 1, '6b02', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (56, '高等数学86e4', NULL, 85.4652, 85.4652, '1', 757236534, 2, 'e890', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (57, '高等数学f00d', NULL, NULL, 6.97238, '1', 1884616640, 3, '132b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (58, '高等数学f12d', NULL, 73.9162, 73.9162, '1', 214679501, 4, 'dcc5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (59, '高等数学2abf', NULL, NULL, 706.686, '1', 1826099437, 5, 'adc7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (60, '高等数学9377', NULL, 2.01269, 2.01269, '1', 464671063, 1, 'be32', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (61, '高等数学b93b', NULL, NULL, 97.4899, '1', 1452809398, 2, 'd03c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (62, '高等数学56f4', NULL, 791.447, 791.447, '1', 947025218, 3, 'fb6b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (63, '高等数学0b9e', NULL, NULL, 7.84707, '1', 644268741, 4, '775d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (64, '高等数学899e', NULL, 0.672804, 0.672804, '1', 2080203184, 5, '7de0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (65, '高等数学975b', NULL, NULL, 913.459, '1', 372417736, 1, 'b8d0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (66, '高等数学1310', NULL, 6.20829, 6.20829, '1', 703810258, 2, '5108', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (67, '高等数学bb70', NULL, NULL, 51.7152, '1', 1381206407, 3, '675b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (68, '高等数学3c3b', NULL, 761.423, 761.423, '1', 1029698024, 4, '2459', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (69, '高等数学a822', NULL, NULL, 9.96786, '1', 2111409723, 5, '60e1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (70, '高等数学e294', NULL, 31.9868, 31.9868, '1', 2023930673, 1, '312a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (71, '高等数学80b3', NULL, NULL, 866.03, '1', 1949851984, 2, 'b3b9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (72, '高等数学84f8', NULL, 8.84845, 8.84845, '1', 258690048, 3, 'd6e5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (73, '高等数学bb53', NULL, NULL, 61.6803, '1', 1153926388, 4, 'cb31', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (74, '高等数学e292', NULL, 759.496, 759.496, '1', 366195095, 5, 'c71b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (75, '高等数学1bc5', NULL, NULL, 5.88182, '1', 447780981, 1, '37fa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (76, '高等数学f3a5', NULL, 52.1089, 52.1089, '1', 1472269881, 2, 'f274', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (77, '高等数学7991', NULL, NULL, 884.055, '1', 503622510, 3, '0f35', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (78, '高等数学294b', NULL, 0.128743, 0.128743, '1', 399757526, 4, '88b5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (79, '高等数学5861', NULL, NULL, 45.6283, '1', 1490130757, 5, '5c89', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (80, '高等数学40f5', NULL, 619.734, 619.734, '1', 1968206424, 1, '199f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (81, '高等数学da4b', NULL, NULL, 5.72607, '1', 1295016484, 2, '13b4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (82, '高等数学9251', NULL, 17.2384, 17.2384, '1', 1552530519, 3, '0949', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (83, '高等数学78cf', NULL, NULL, 22.3768, '1', 795191405, 4, '0809', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (84, '高等数学ab0b', NULL, 8.4929, 8.4929, '1', 1836422897, 5, 'd703', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (85, '高等数学ad85', NULL, NULL, 57.8194, '1', 558698401, 1, '820e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (86, '高等数学8d65', NULL, 1.14293, 1.14293, '1', 808804195, 2, '7a44', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (87, '高等数学3296', NULL, NULL, 4.27855, '1', 1516814480, 3, '9b18', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (88, '高等数学0e02', NULL, 90.9639, 90.9639, '1', 1065010765, 4, 'f882', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (89, '高等数学f821', NULL, NULL, 518.515, '1', 1510861010, 5, 'ad68', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (90, '高等数学2949', NULL, 1.1047, 1.1047, '1', 1154626968, 1, '55c9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (91, '高等数学63ea', NULL, NULL, 1.37967, '1', 390547005, 2, '375e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (92, '高等数学b39d', NULL, 59.8699, 59.8699, '1', 989576961, 3, '70d5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (93, '高等数学a427', NULL, NULL, 3.54587, '1', 472299572, 4, 'acd0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (94, '高等数学6b1a', NULL, 60.4688, 60.4688, '1', 1721471611, 5, '0bb4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (95, '高等数学730d', NULL, NULL, 735.568, '1', 408869492, 1, '4af5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (96, '高等数学faf6', NULL, 9.27911, 9.27911, '1', 1437268950, 2, '7405', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (97, '高等数学f32d', NULL, NULL, 16.2066, '1', 958244552, 3, '4149', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (98, '高等数学500a', NULL, 384.689, 384.689, '1', 2050156975, 4, 'c5f3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (99, '高等数学0cdb', NULL, NULL, 6.35584, '1', 2051088418, 5, '3c11', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (100, '高等数学2722', NULL, 91.8365, 91.8365, '1', 486079342, 1, 'fbe2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (101, '高等数学d3fa', NULL, NULL, 431.43, '1', 790561788, 2, '578f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (102, '高等数学b37e', NULL, 5.51643, 5.51643, '1', 1894258511, 3, '896c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (103, '高等数学9055', NULL, NULL, 87.8144, '1', 792233148, 4, '4ec6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (104, '高等数学4160', NULL, 784.96, 784.96, '1', 1935570, 5, '9c02', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (105, '高等数学a502', NULL, NULL, 5.25945, '1', 1699941488, 1, '8d78', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (106, '高等数学038c', NULL, 60.2291, 60.2291, '1', 2141431575, 2, '3db6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (107, '高等数学cee0', NULL, NULL, 100.25, '1', 1972307726, 3, '47db', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (108, '高等数学4ffc', NULL, 1.8402, 1.8402, '1', 1325597412, 4, 'fcf5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (109, '高等数学fcfe', NULL, NULL, 17.6306, '1', 1228256267, 5, '768c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (110, '高等数学aab1', NULL, 357.193, 357.193, '1', 83041604, 1, '2fae', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (111, '高等数学64b3', NULL, NULL, 0.823061, '1', 219611369, 2, '7260', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (112, '高等数学d958', NULL, 27.5353, 27.5353, '1', 1788060989, 3, '7a81', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (113, '高等数学de4c', NULL, NULL, 140.876, '1', 292580340, 4, 'fbf2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (114, '高等数学60f4', NULL, 8.1336, 8.1336, '1', 716652091, 5, '1608', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (115, '高等数学0792', NULL, NULL, 99.2613, '1', 7728554, 1, '704d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (116, '高等数学6b7c', NULL, 686.974, 686.974, '1', 1122553513, 2, '1752', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (117, '高等数学6ad1', NULL, NULL, 4.1041, '1', 179694522, 3, '3a0f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (118, '高等数学253b', NULL, 36.2672, 36.2672, '1', 1878283746, 4, 'e117', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (119, '高等数学4890', NULL, NULL, 709.557, '1', 1991324387, 5, '1aa0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (120, '高等数学a6e4', NULL, 4.10068, 4.10068, '1', 1608272594, 1, 'd6b4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (121, '高等数学5be7', NULL, NULL, 58.6187, '1', 1931475254, 2, '273a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (122, '高等数学55a9', NULL, 67.4794, 67.4794, '1', 1732542783, 3, 'd7b5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (123, '高等数学bc82', NULL, NULL, 9.75401, '1', 561834091, 4, '40ff', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (124, '高等数学56a0', NULL, 44.0588, 44.0588, '1', 1350277429, 5, '1e4d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (125, '高等数学a705', NULL, NULL, 310.443, '1', 143601709, 1, '66df', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (126, '高等数学8f19', NULL, 9.34809, 9.34809, '1', 376173712, 2, 'b005', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (127, '高等数学53d4', NULL, NULL, 38.5597, '1', 2093785133, 3, '15e3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (128, '高等数学adc1', NULL, 233.911, 233.911, '1', 2111649173, 4, 'b919', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (129, '高等数学6a5a', NULL, NULL, 8.78021, '1', 244107935, 5, '920d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (130, '高等数学9147', NULL, 38.0564, 38.0564, '1', 59720919, 1, '5861', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (131, '高等数学1e36', NULL, NULL, 467.498, '1', 874917397, 2, '052c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (132, '高等数学5e8f', NULL, 2.88942, 2.88942, '1', 2111299498, 3, 'f345', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (133, '高等数学25bb', NULL, NULL, 40.8145, '1', 808347762, 4, '15c2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (134, '高等数学051a', NULL, 325.138, 325.138, '1', 478916268, 5, 'f270', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (135, '高等数学5372', NULL, NULL, 3.5241, '1', 573993049, 1, '88b3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (136, '高等数学0921', NULL, 42.8086, 42.8086, '1', 572253031, 2, 'c538', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (137, '高等数学a8ff', NULL, NULL, 205.208, '1', 1115412511, 3, 'cb11', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (138, '高等数学9b58', NULL, 6.11842, 6.11842, '1', 1156669223, 4, '7dab', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (139, '高等数学f85d', NULL, NULL, 79.4857, '1', 2133333793, 5, '917a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (140, '高等数学d4d7', NULL, 589.483, 589.483, '1', 539910364, 1, 'e334', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (141, '高等数学349c', NULL, NULL, 1.87502, '1', 198630825, 2, 'f13b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (142, '高等数学6026', NULL, 68.9555, 68.9555, '1', 1998568310, 3, 'b31b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (143, '高等数学5bba', NULL, NULL, 542.998, '1', 1916562743, 4, '97d8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (144, '高等数学c0f0', NULL, 1.97919, 1.97919, '1', 1321636911, 5, '5d6c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (145, '高等数学6136', NULL, NULL, 51.2787, '1', 1424292810, 1, '2931', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (146, '高等数学4c3f', NULL, 750.995, 750.995, '1', 84125885, 2, 'fa85', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (147, '高等数学c5aa', NULL, NULL, 3.14066, '1', 1529224840, 3, '9817', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (148, '高等数学0d0c', NULL, 43.0823, 43.0823, '1', 353181092, 4, '0c30', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (149, '高等数学8f52', NULL, NULL, 779.595, '1', 662387478, 5, 'fb6c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (150, '高等数学a13a', NULL, 7.68037, 7.68037, '1', 620221536, 1, '1672', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (151, '高等数学09f5', NULL, NULL, 87.8776, '1', 1202061885, 2, '0139', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (152, '高等数学a387', NULL, 945.74, 945.74, '1', 1211976097, 3, '658a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (153, '高等数学4bd6', NULL, NULL, 4.33196, '1', 1074524678, 4, '84f8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (154, '高等数学0a53', NULL, 11.5454, 11.5454, '1', 390527982, 5, '2be3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (155, '高等数学58c8', NULL, NULL, 8.56887, '1', 703193251, 1, '94c3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (156, '高等数学1a93', NULL, 8.85707, 8.85707, '1', 1411930359, 2, 'ef0a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (157, '高等数学9fc4', NULL, NULL, 25.5113, '1', 1444318632, 3, '7964', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (158, '高等数学6a8c', NULL, 724.519, 724.519, '1', 1355822330, 4, 'cb43', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (159, '高等数学6625', NULL, NULL, 2.89625, '1', 70073612, 5, '141e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (160, '高等数学6ffa', NULL, 22.8922, 22.8922, '1', 723175425, 1, '47e5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (161, '高等数学69d9', NULL, NULL, 65.1053, '1', 1661161, 2, '3125', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (162, '高等数学a121', NULL, 9.5785, 9.5785, '1', 927806735, 3, '5800', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (163, '高等数学257a', NULL, NULL, 5.75427, '1', 1578900522, 4, 'f481', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (164, '高等数学e17e', NULL, 799.123, 799.123, '1', 430151591, 5, '6baa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (165, '高等数学9485', NULL, NULL, 0.145197, '1', 394609867, 1, '3bc7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (166, '高等数学6062', NULL, 64.6921, 64.6921, '1', 465214041, 2, 'a657', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (167, '高等数学dae7', NULL, NULL, 956.591, '1', 2021117304, 3, '2af7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (168, '高等数学073c', NULL, 5.03075, 5.03075, '1', 985502973, 4, '10d6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (169, '高等数学ba91', NULL, NULL, 9.99163, '1', 557035641, 5, 'a0f0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (170, '高等数学9908', NULL, 983.628, 983.628, '1', 1063400117, 1, 'd11a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (171, '高等数学f889', NULL, NULL, 8.77434, '1', 1400746441, 2, 'b11d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (172, '高等数学81ec', NULL, 61.1578, 61.1578, '1', 1759158445, 3, '3d23', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (173, '高等数学a579', NULL, NULL, 775.879, '1', 1591619933, 4, 'debd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (174, '高等数学da95', NULL, 2.07338, 2.07338, '1', 1342653494, 5, 'fcca', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (175, '高等数学61ae', NULL, NULL, 27.7254, '1', 1016071396, 1, 'fd63', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (176, '高等数学11f8', NULL, 150.398, 150.398, '1', 676395083, 2, 'd8fa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (177, '高等数学5aa0', NULL, NULL, 7.95911, '1', 1310219001, 3, '9703', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (178, '高等数学fbaf', NULL, 27.8806, 27.8806, '1', 1739904265, 4, '4818', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (179, '高等数学0de1', NULL, NULL, 136.15, '1', 933274671, 5, '962c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (180, '高等数学8be2', NULL, 7.17528, 7.17528, '1', 665484517, 1, 'd4b4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (181, '高等数学4dbf', NULL, NULL, 66.0331, '1', 2034992809, 2, 'b2f5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (182, '高等数学3b86', NULL, 982.381, 982.381, '1', 1018033057, 3, 'd125', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (183, '高等数学5945', NULL, NULL, 0.537465, '1', 954062681, 4, 'a7dc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (184, '高等数学eb25', NULL, 29.3186, 29.3186, '1', 307624987, 5, '574f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (185, '高等数学1059', NULL, NULL, 300.061, '1', 523541586, 1, 'a2cd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (186, '高等数学b694', NULL, 1.479, 1.479, '1', 1308622473, 2, '6049', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (187, '高等数学6e74', NULL, NULL, 23.9902, '1', 1126242291, 3, '22a0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (188, '高等数学c9ae', NULL, 858.959, 858.959, '1', 305821495, 4, '01a8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (189, '高等数学3d03', NULL, NULL, 8.75232, '1', 1432607188, 5, '0b20', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (190, '高等数学2ba0', NULL, 93.3677, 93.3677, '1', 2033642570, 1, '26f4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (191, '高等数学daaf', NULL, NULL, 403.424, '1', 530569738, 2, '8da9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (192, '高等数学3152', NULL, 8.92491, 8.92491, '1', 2091674661, 3, 'c29b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (193, '高等数学1b6e', NULL, NULL, 81.7491, '1', 1782487778, 4, '2d61', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (194, '高等数学8f95', NULL, 361.998, 361.998, '1', 95654842, 5, '23de', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (195, '高等数学387e', NULL, NULL, 7.92711, '1', 56513440, 1, '8caa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (196, '高等数学7ef5', NULL, 5.41321, 5.41321, '1', 1195711639, 2, 'd8b9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (197, '高等数学db00', NULL, NULL, 494.943, '1', 1795367404, 3, '078c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (198, '高等数学c0d8', NULL, 5.48522, 5.48522, '1', 1378087785, 4, '1f19', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (199, '高等数学a4b7', NULL, NULL, 89.2202, '1', 384058582, 5, '4861', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (200, '高等数学f298', NULL, 631.945, 631.945, '1', 18601567, 1, 'ee66', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (201, '高等数学7f24', NULL, NULL, 1.286, '1', 1380867804, 2, '6b31', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (202, '高等数学e355', NULL, 31.6997, 31.6997, '1', 1889368745, 3, 'bbd2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (203, '高等数学e6a6', NULL, NULL, 528.568, '1', 1957937124, 4, '8d25', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (204, '高等数学ed92', NULL, 5.61481, 5.61481, '1', 752958399, 5, 'afd0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (205, '高等数学1b48', NULL, NULL, 83.9282, '1', 61061175, 1, '38c4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (206, '高等数学db19', NULL, 140.698, 140.698, '1', 500781177, 2, '9010', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (207, '高等数学0c9c', NULL, NULL, 3.90537, '1', 1392636264, 3, '524b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (208, '高等数学922c', NULL, 8.67324, 8.67324, '1', 2019330707, 4, '415b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (209, '高等数学c236', NULL, NULL, 953.837, '1', 1484182049, 5, '493c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (210, '高等数学43e6', NULL, 6.01991, 6.01991, '1', 538090498, 1, '893b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (211, '高等数学836f', NULL, NULL, 21.625, '1', 758245268, 2, 'c8c7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (212, '高等数学cb88', NULL, 378.663, 378.663, '1', 1842013579, 3, '06b9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (213, '高等数学2903', NULL, NULL, 9.49625, '1', 590829466, 4, 'ef29', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (214, '高等数学52a7', NULL, 81.1436, 81.1436, '1', 973524164, 5, 'b3ce', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (215, '高等数学18a5', NULL, NULL, 152.077, '1', 1636916063, 1, '6daa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (216, '高等数学e978', NULL, 6.77726, 6.77726, '1', 1537252056, 2, '4881', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (217, '高等数学2cda', NULL, NULL, 66.6135, '1', 752795905, 3, '1902', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (218, '高等数学8761', NULL, 477.819, 477.819, '1', 2123883045, 4, 'ea90', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (219, '高等数学9103', NULL, NULL, 0.367855, '1', 1473738540, 5, 'c8f7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (220, '高等数学e828', NULL, 77.6773, 77.6773, '1', 1328311555, 1, '8c59', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (221, '高等数学3aa2', NULL, NULL, 662.67, '1', 1367350632, 2, '3ef1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (222, '高等数学62db', NULL, 5.70544, 5.70544, '1', 1905308634, 3, '5277', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (223, '高等数学3499', NULL, NULL, 61.4958, '1', 1692770352, 4, '5317', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (224, '高等数学b661', NULL, 910.77, 910.77, '1', 513596128, 5, 'b052', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (225, '高等数学973c', NULL, NULL, 8.50996, '1', 5888428, 1, 'f75e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (226, '高等数学1f4a', NULL, 76.5765, 76.5765, '1', 34290019, 2, 'd428', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (227, '高等数学b9dc', NULL, NULL, 933.593, '1', 1078607176, 3, '8cce', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (228, '高等数学5cb9', NULL, 3.69708, 3.69708, '1', 518481690, 4, '2ea1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (229, '高等数学c2c2', NULL, NULL, 78.1853, '1', 65636579, 5, 'a8ec', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (230, '高等数学2117', NULL, 117.684, 117.684, '1', 184079049, 1, '78c0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (231, '高等数学e82c', NULL, NULL, 4.25761, '1', 360372, 2, 'ff38', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (232, '高等数学b904', NULL, 40.1132, 40.1132, '1', 1108467897, 3, '9b43', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (233, '高等数学951a', NULL, NULL, 214.245, '1', 377596982, 4, '3d62', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (234, '高等数学63aa', NULL, 6.46416, 6.46416, '1', 642551860, 5, 'a009', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (235, '高等数学ee61', NULL, NULL, 43.5256, '1', 789588632, 1, 'db61', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (236, '高等数学a1bc', NULL, 218.688, 218.688, '1', 2052958847, 2, '27b3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (237, '高等数学62c9', NULL, NULL, 8.4642, '1', 1742830334, 3, 'd862', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (238, '高等数学0477', NULL, 78.3813, 78.3813, '1', 1061648760, 4, 'cca2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (239, '高等数学7eff', NULL, NULL, 186.122, '1', 858020711, 5, '9e04', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (240, '高等数学80a6', NULL, 1.83095, 1.83095, '1', 1591018499, 1, '35c6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (241, '高等数学3f08', NULL, NULL, 33.7423, '1', 1481550519, 2, 'afa7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (242, '高等数学d2bb', NULL, 868.681, 868.681, '1', 1885787853, 3, 'f8e3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (243, '高等数学6b83', NULL, NULL, 4.50972, '1', 1447580103, 4, '53d4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (244, '高等数学03ad', NULL, 47.194, 47.194, '1', 767184999, 5, '550d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (245, '高等数学6ce2', NULL, NULL, 998.159, '1', 1303459521, 1, '0659', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (246, '高等数学ee48', NULL, 1.3277, 1.3277, '1', 1500805341, 2, '749a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (247, '高等数学d289', NULL, NULL, 42.2007, '1', 1755002656, 3, '07bf', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (248, '高等数学ee7d', NULL, 804.722, 804.722, '1', 1767464675, 4, '2229', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (249, '高等数学5c8e', NULL, NULL, 7.80848, '1', 657533275, 5, 'c102', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (250, '高等数学4975', NULL, 86.8959, 86.8959, '1', 976814013, 1, 'dd03', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (251, '高等数学ad7b', NULL, NULL, 538.64, '1', 249816937, 2, '5b36', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (252, '高等数学8145', NULL, 0.395276, 0.395276, '1', 1807397727, 3, 'fca6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (253, '高等数学ccc6', NULL, NULL, 44.5786, '1', 1943429546, 4, '81d8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (254, '高等数学ddf1', NULL, 723.033, 723.033, '1', 1045439557, 5, '6872', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (255, '高等数学fdab', NULL, NULL, 2.75629, '1', 1919006835, 1, '47b8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (256, '高等数学3a61', NULL, 70.7765, 70.7765, '1', 1840827726, 2, 'e943', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (257, '高等数学4669', NULL, NULL, 34.33, '1', 816471593, 3, '094c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (258, '高等数学c0b1', NULL, 3.00467, 3.00467, '1', 111083387, 4, '1b0f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (259, '高等数学b070', NULL, NULL, 14.5624, '1', 643777073, 5, '7d77', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (260, '高等数学c4ec', NULL, 803.347, 803.347, '1', 502755462, 1, '943a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (261, '高等数学bb67', NULL, NULL, 0.269865, '1', 1927021218, 2, '742d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (262, '高等数学b063', NULL, 52.9616, 52.9616, '1', 485249422, 3, '311a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (263, '高等数学d4cb', NULL, NULL, 420.038, '1', 939992805, 4, '6422', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (264, '高等数学4b0f', NULL, 3.92737, 3.92737, '1', 71101685, 5, '1dfb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (265, '高等数学6a6f', NULL, NULL, 81.5541, '1', 40198496, 1, '7755', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (266, '高等数学9d7f', NULL, 472.723, 472.723, '1', 505072645, 2, 'd403', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (267, '高等数学5ab1', NULL, NULL, 3.22153, '1', 2096814773, 3, 'e67c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (268, '高等数学bcd9', NULL, 86.227, 86.227, '1', 229467805, 4, 'a08f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (269, '高等数学a498', NULL, NULL, 368.112, '1', 162759360, 5, '3f03', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (270, '高等数学072f', NULL, 5.2614, 5.2614, '1', 126179307, 1, '9c20', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (271, '高等数学a079', NULL, NULL, 69.6351, '1', 1428909112, 2, '18ea', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (272, '高等数学7821', NULL, 869.136, 869.136, '1', 1047010723, 3, '70fb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (273, '高等数学cdda', NULL, NULL, 2.16042, '1', 516959563, 4, '6fe0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (274, '高等数学4b26', NULL, 20.1188, 20.1188, '1', 872242768, 5, 'f078', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (275, '高等数学8d6e', NULL, NULL, 407.394, '1', 880036789, 1, 'fb2b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (276, '高等数学5976', NULL, 3.12454, 3.12454, '1', 621196939, 2, '1a76', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (277, '高等数学7bdf', NULL, NULL, 14.1539, '1', 177057143, 3, '36cc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (278, '高等数学07cf', NULL, 927.042, 927.042, '1', 887820422, 4, '3584', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (279, '高等数学dae1', NULL, NULL, 9.73649, '1', 1752699874, 5, '3959', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (280, '高等数学a796', NULL, 89.0828, 89.0828, '1', 1283359111, 1, '9d45', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (281, '高等数学3a7f', NULL, NULL, 194.963, '1', 1379180010, 2, '1a68', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (282, '高等数学4b41', NULL, 5.6706, 5.6706, '1', 1410314308, 3, '9af4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (283, '高等数学7e73', NULL, NULL, 18.8169, '1', 792678834, 4, 'b702', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (284, '高等数学5ee1', NULL, 62.7972, 62.7972, '1', 149144412, 5, '7740', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (285, '高等数学9936', NULL, NULL, 9.20675, '1', 674475924, 1, '3b1f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (286, '高等数学f9de', NULL, 58.9955, 58.9955, '1', 711579415, 2, 'e9d7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (287, '高等数学4d47', NULL, NULL, 731.529, '1', 1394166747, 3, '7ba0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (288, '高等数学4e18', NULL, 4.76585, 4.76585, '1', 462355562, 4, '4201', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (289, '高等数学ff65', NULL, NULL, 92.0345, '1', 139555150, 5, '4c44', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (290, '高等数学ece4', NULL, 87.2263, 87.2263, '1', 1488699015, 1, 'ebcd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (291, '高等数学688d', NULL, NULL, 0.303362, '1', 540986185, 2, '629e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (292, '高等数学ec59', NULL, 18.5556, 18.5556, '1', 1260663200, 3, 'a884', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (293, '高等数学82a6', NULL, NULL, 132.631, '1', 1675630668, 4, '01c9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (294, '高等数学5148', NULL, 0.782383, 0.782383, '1', 238258356, 5, '05c7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (295, '高等数学9c42', NULL, NULL, 86.5306, '1', 683074418, 1, '233d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (296, '高等数学a1fc', NULL, 215.78, 215.78, '1', 737948679, 2, '0d53', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (297, '高等数学8fec', NULL, NULL, 4.58135, '1', 1651722157, 3, 'e82c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (298, '高等数学52e4', NULL, 79.4375, 79.4375, '1', 699762529, 4, '1df7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (299, '高等数学24f0', NULL, NULL, 482.823, '1', 1795012927, 5, 'd619', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (300, '高等数学058b', NULL, 3.0212, 3.0212, '1', 1970268314, 1, '9f2d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (301, '高等数学fe60', NULL, NULL, 60.8541, '1', 1536678093, 2, '6acd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (302, '高等数学07e4', NULL, 883.661, 883.661, '1', 1648919795, 3, 'e33f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (303, '高等数学8cc1', NULL, NULL, 2.13879, '1', 267209831, 4, 'c77c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (304, '高等数学c220', NULL, 85.9238, 85.9238, '1', 1619366014, 5, '7cd8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (305, '高等数学aa11', NULL, NULL, 308.838, '1', 1309516588, 1, '377d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (306, '高等数学ffb4', NULL, 7.27257, 7.27257, '1', 52693856, 2, '10fa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (307, '高等数学c02e', NULL, NULL, 85.4315, '1', 342376015, 3, 'e01a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (308, '高等数学f58a', NULL, 503.938, 503.938, '1', 746590437, 4, '9c76', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (309, '高等数学06bd', NULL, NULL, 2.31544, '1', 956515406, 5, '8b87', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (310, '高等数学531e', NULL, 30.9247, 30.9247, '1', 1742777652, 1, '2921', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (311, '高等数学0759', NULL, NULL, 310.248, '1', 1397136001, 2, '2de9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (312, '高等数学e904', NULL, 6.95241, 6.95241, '1', 97532808, 3, 'ac04', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (313, '高等数学a091', NULL, NULL, 29.1823, '1', 1540614112, 4, '964c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (314, '高等数学506f', NULL, 331.107, 331.107, '1', 88755420, 5, 'f254', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (315, '高等数学4407', NULL, NULL, 2.62609, '1', 67411685, 1, '5dac', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (316, '高等数学90c0', NULL, 30.8605, 30.8605, '1', 736630179, 2, '0bb3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (317, '高等数学9639', NULL, NULL, 182.417, '1', 13045753, 3, 'adfd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (318, '高等数学31f4', NULL, 5.12275, 5.12275, '1', 1800692935, 4, '2d2d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (319, '高等数学f3ea', NULL, NULL, 85.469, '1', 1655931719, 5, '082a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (320, '高等数学206e', NULL, 210.694, 210.694, '1', 1383080215, 1, 'e8eb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (321, '高等数学a0e3', NULL, NULL, 2.77287, '1', 391273503, 2, '434a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (322, '高等数学a45c', NULL, 26.8223, 26.8223, '1', 1286623226, 3, 'dd0d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (323, '高等数学4e60', NULL, NULL, 656.609, '1', 1437352386, 4, 'f523', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (324, '高等数学6d2d', NULL, 1.51104, 1.51104, '1', 1516151731, 5, '45f6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (325, '高等数学85e2', NULL, NULL, 28.2872, '1', 39670450, 1, '5867', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (326, '高等数学48b4', NULL, 207.434, 207.434, '1', 948277545, 2, '8647', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (327, '高等数学149c', NULL, NULL, 4.1059, '1', 92561020, 3, 'd933', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (328, '高等数学5fdb', NULL, 53.7445, 53.7445, '1', 527494920, 4, 'c969', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (329, '高等数学1b63', NULL, NULL, 265.879, '1', 520562633, 5, '083b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (330, '高等数学3fc0', NULL, 1.38699, 1.38699, '1', 1389108085, 1, 'eda1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (331, '高等数学1b72', NULL, NULL, 31.0988, '1', 2076487566, 2, '40f1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (332, '高等数学fc46', NULL, 910.202, 910.202, '1', 914794917, 3, 'affa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (333, '高等数学a1be', NULL, NULL, 9.365, '1', 678331845, 4, '975b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (334, '高等数学0cfb', NULL, 53.0132, 53.0132, '1', 2009635259, 5, '3f74', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (335, '高等数学7647', NULL, NULL, 822.928, '1', 2095195513, 1, '0d78', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (336, '高等数学a5c3', NULL, 1.83758, 1.83758, '1', 425661820, 2, 'b8c2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (337, '高等数学131d', NULL, NULL, 31.5972, '1', 1023104302, 3, 'd4a8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (338, '高等数学a091', NULL, 611.315, 611.315, '1', 1462417240, 4, '7c6f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (339, '高等数学ca90', NULL, NULL, 2.93506, '1', 1912115914, 5, '9924', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (340, '高等数学4769', NULL, 97.0006, 97.0006, '1', 1547196593, 1, 'b213', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (341, '高等数学2d61', NULL, NULL, 167.379, '1', 1772782722, 2, 'f460', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (342, '高等数学0333', NULL, 5.59969, 5.59969, '1', 860710831, 3, '1e2a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (343, '高等数学4c35', NULL, NULL, 85.9424, '1', 1455911956, 4, 'f7b9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (344, '高等数学0336', NULL, 550.946, 550.946, '1', 701548024, 5, '4f30', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (345, '高等数学7511', NULL, NULL, 8.18601, '1', 1071370366, 1, '9a69', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (346, '高等数学de84', NULL, 46.4581, 46.4581, '1', 286862922, 2, '7d21', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (347, '高等数学a746', NULL, NULL, 404.981, '1', 1081129014, 3, '4df8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (348, '高等数学ddc9', NULL, 3.16671, 3.16671, '1', 1649025976, 4, 'ecff', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (349, '高等数学25d5', NULL, NULL, 25.6331, '1', 438406090, 5, 'c919', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (350, '高等数学625f', NULL, 4.35664, 4.35664, '1', 1158178476, 1, '4052', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (351, '高等数学3c28', NULL, NULL, 5.74335, '1', 830048245, 2, 'ff0c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (352, '高等数学aed4', NULL, 73.516, 73.516, '1', 1500443775, 3, '5e80', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (353, '高等数学db0c', NULL, NULL, 620.045, '1', 1418880949, 4, '6aba', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (354, '高等数学ffb9', NULL, 0.379434, 0.379434, '1', 1775078567, 5, '1fe1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (355, '高等数学d777', NULL, NULL, 9.19151, '1', 260902521, 1, '3d5f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (356, '高等数学afbf', NULL, 170.268, 170.268, '1', 1356447555, 2, 'fb3e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (357, '高等数学dc3f', NULL, NULL, 4.74845, '1', 1562196735, 3, 'd86b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (358, '高等数学b235', NULL, 54.2301, 54.2301, '1', 1830519784, 4, '95a3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (359, '高等数学8ba3', NULL, NULL, 894.918, '1', 796999841, 5, '010d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (360, '高等数学5c29', NULL, 1.14334, 1.14334, '1', 1786664712, 1, '06c4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (361, '高等数学a9ba', NULL, NULL, 49.2079, '1', 543083232, 2, '6b9f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (362, '高等数学b4a2', NULL, 593.141, 593.141, '1', 2131746988, 3, '0fb5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (363, '高等数学6378', NULL, NULL, 8.3178, '1', 203269686, 4, '3ad9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (364, '高等数学5100', NULL, 65.1806, 65.1806, '1', 1880433352, 5, '4f1b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (365, '高等数学2ab8', NULL, NULL, 416.645, '1', 2004456179, 1, '6b46', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (366, '高等数学07b0', NULL, 3.28339, 3.28339, '1', 1354706658, 2, '33dc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (367, '高等数学c7f0', NULL, NULL, 93.0534, '1', 1545871380, 3, '7a89', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (368, '高等数学3d1e', NULL, 220.286, 220.286, '1', 1810392458, 4, '5262', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (369, '高等数学62e9', NULL, NULL, 4.49874, '1', 1534037099, 5, 'ac1c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (370, '高等数学febe', NULL, 8.57204, 8.57204, '1', 778255090, 1, '54e6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (371, '高等数学f0a6', NULL, NULL, 490.958, '1', 1545318891, 2, '521c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (372, '高等数学768f', NULL, 9.85412, 9.85412, '1', 797148848, 3, '37e0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (373, '高等数学cd93', NULL, NULL, 42.6922, '1', 1115551511, 4, '337f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (374, '高等数学0aca', NULL, 156.632, 156.632, '1', 564877572, 5, '730b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (375, '高等数学d9ed', NULL, NULL, 5.04422, '1', 1079855476, 1, '12aa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (376, '高等数学83c3', NULL, 39.5972, 39.5972, '1', 79976874, 2, 'ebef', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (377, '高等数学a18f', NULL, NULL, 417.551, '1', 737878132, 3, '0c35', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (378, '高等数学7e6a', NULL, 8.46707, 8.46707, '1', 1756278221, 4, 'baff', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (379, '高等数学76e1', NULL, NULL, 15.534, '1', 1675789946, 5, '0ad3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (380, '高等数学e520', NULL, 735.664, 735.664, '1', 1708025350, 1, 'e955', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (381, '高等数学5a6a', NULL, NULL, 6.29222, '1', 2134256729, 2, 'e682', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (382, '高等数学1ecb', NULL, 78.5215, 78.5215, '1', 771782063, 3, '79b5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (383, '高等数学cfb7', NULL, NULL, 408.126, '1', 1750500037, 4, '75c3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (384, '高等数学39aa', NULL, 7.37904, 7.37904, '1', 945827714, 5, '25b8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (385, '高等数学6003', NULL, NULL, 74.1401, '1', 30989514, 1, '5135', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (386, '高等数学a036', NULL, 674.432, 674.432, '1', 241585560, 2, '5130', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (387, '高等数学471f', NULL, NULL, 9.33576, '1', 468228697, 3, '36f7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (388, '高等数学1e4e', NULL, 58.0086, 58.0086, '1', 688553442, 4, '4bd1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (389, '高等数学ecdd', NULL, NULL, 49.9842, '1', 1246452217, 5, '4b3a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (390, '高等数学44bd', NULL, 9.204, 9.204, '1', 414218800, 1, '0471', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (391, '高等数学e37d', NULL, NULL, 87.8569, '1', 425800549, 2, '39f8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (392, '高等数学5b1f', NULL, 823.715, 823.715, '1', 1657382117, 3, 'c9f1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (393, '高等数学a015', NULL, NULL, 0.507501, '1', 848951780, 4, '54e7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (394, '高等数学4f3b', NULL, 83.6517, 83.6517, '1', 338964615, 5, '81c0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (395, '高等数学8274', NULL, NULL, 232.989, '1', 922256970, 1, 'ba89', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (396, '高等数学6498', NULL, 1.16792, 1.16792, '1', 2139147458, 2, 'a739', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (397, '高等数学749c', NULL, NULL, 34.0742, '1', 1885145372, 3, 'd537', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (398, '高等数学ea67', NULL, 361.34, 361.34, '1', 2053627350, 4, '7f08', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (399, '高等数学a773', NULL, NULL, 7.97797, '1', 2020566308, 5, '4220', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (400, '高等数学4def', NULL, 72.4889, 72.4889, '1', 769079775, 1, '78b7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (401, '高等数学9140', NULL, NULL, 966.49, '1', 371364334, 2, 'd96f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (402, '高等数学4700', NULL, 4.82015, 4.82015, '1', 807497555, 3, '92e3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (403, '高等数学7d48', NULL, NULL, 0.813272, '1', 1491731654, 4, '4747', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (404, '高等数学b4f6', NULL, 207.292, 207.292, '1', 687313915, 5, '66b8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (405, '高等数学d46c', NULL, NULL, 5.97978, '1', 1658463454, 1, '3b56', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (406, '高等数学d0fd', NULL, 80.4747, 80.4747, '1', 720804442, 2, 'f715', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (407, '高等数学feec', NULL, NULL, 115.37, '1', 1628226526, 3, '8bd6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (408, '高等数学ef86', NULL, 8.0464, 8.0464, '1', 1051799530, 4, '7e2d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (409, '高等数学b81a', NULL, NULL, 15.7259, '1', 1673699532, 5, 'b701', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (410, '高等数学536a', NULL, 963.704, 963.704, '1', 1329538098, 1, '153f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (411, '高等数学fad8', NULL, NULL, 4.82023, '1', 500888231, 2, '9190', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (412, '高等数学e0bb', NULL, 35.4451, 35.4451, '1', 1081824819, 3, '20fd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (413, '高等数学c417', NULL, NULL, 780.632, '1', 224000614, 4, '6735', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (414, '高等数学383b', NULL, 8.09766, 8.09766, '1', 1933126303, 5, '60ab', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (415, '高等数学6863', NULL, NULL, 99.3414, '1', 752327871, 1, '6ecb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (416, '高等数学41cc', NULL, 800.951, 800.951, '1', 1541049163, 2, 'c6e0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (417, '高等数学cabe', NULL, NULL, 2.4328, '1', 265225394, 3, '1eb2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (418, '高等数学ac0e', NULL, 57.0538, 57.0538, '1', 332360607, 4, '3bac', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (419, '高等数学9327', NULL, NULL, 840.01, '1', 837308033, 5, 'f27f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (420, '高等数学7b58', NULL, 6.15608, 6.15608, '1', 1990711332, 1, 'a5a5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (421, '高等数学1015', NULL, NULL, 22.5274, '1', 1265973448, 2, 'd2d1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (422, '高等数学5e20', NULL, 423.005, 423.005, '1', 1736543407, 3, 'dfc4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (423, '高等数学7bb5', NULL, NULL, 1.74325, '1', 729407380, 4, 'ab38', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (424, '高等数学f80e', NULL, 69.4772, 69.4772, '1', 1270485437, 5, 'c007', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (425, '高等数学64fb', NULL, NULL, 47.8595, '1', 1773829614, 1, '28b0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (426, '高等数学7941', NULL, 1.70263, 1.70263, '1', 468607946, 2, '6f24', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (427, '高等数学71cb', NULL, NULL, 39.6313, '1', 963066084, 3, '6197', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (428, '高等数学c2d7', NULL, 550.844, 550.844, '1', 611393819, 4, '0576', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (429, '高等数学5f54', NULL, NULL, 7.58921, '1', 1058992477, 5, '2347', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (430, '高等数学96bd', NULL, 96.372, 96.372, '1', 713047882, 1, '0d72', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (431, '高等数学94b9', NULL, NULL, 71.1329, '1', 186785309, 2, '16c8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (432, '高等数学3653', NULL, 8.63363, 8.63363, '1', 732121892, 3, '489c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (433, '高等数学a38f', NULL, NULL, 69.6536, '1', 984526484, 4, '492a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (434, '高等数学0e8e', NULL, 262.173, 262.173, '1', 1354444137, 5, '81e3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (435, '高等数学437a', NULL, NULL, 7.33214, '1', 1235088517, 1, '780a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (436, '高等数学514b', NULL, 70.6418, 70.6418, '1', 1986820503, 2, 'f5e5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (437, '高等数学3036', NULL, NULL, 909.522, '1', 1199413023, 3, 'ee8a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (438, '高等数学7e65', NULL, 4.69164, 4.69164, '1', 1487750218, 4, '4f4b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (439, '高等数学d0e2', NULL, NULL, 8.05188, '1', 1903987710, 5, '9a05', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (440, '高等数学ef46', NULL, 18.8101, 18.8101, '1', 2136965521, 1, '3819', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (441, '高等数学4229', NULL, NULL, 0.638878, '1', 614800013, 2, '1944', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (442, '高等数学1c99', NULL, 94.0036, 94.0036, '1', 2113989256, 3, '87b0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (443, '高等数学6fb2', NULL, NULL, 312.903, '1', 838657529, 4, 'c87a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (444, '高等数学e5a4', NULL, 1.33345, 1.33345, '1', 1889103036, 5, '1551', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (445, '高等数学c76b', NULL, NULL, 71.409, '1', 1480851222, 1, '590a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (446, '高等数学d723', NULL, 300.078, 300.078, '1', 1546723053, 2, '4637', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (447, '高等数学0cbc', NULL, NULL, 6.18493, '1', 86769333, 3, 'ec2d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (448, '高等数学0641', NULL, 43.1683, 43.1683, '1', 959889578, 4, '4f05', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (449, '高等数学a4b9', NULL, NULL, 68, '1', 33564746, 5, 'b22e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (450, '高等数学8ce3', NULL, 2.65172, 2.65172, '1', 1918877680, 1, '5bd4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (451, '高等数学8e13', NULL, NULL, 6.19779, '1', 1440191465, 2, '3061', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (452, '高等数学2793', NULL, 441.14, 441.14, '1', 178964313, 3, 'a6fb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (453, '高等数学07f3', NULL, NULL, 6.24497, '1', 1904894106, 4, '0d77', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (454, '高等数学dfc6', NULL, 40.6354, 40.6354, '1', 1766708324, 5, 'a3d6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (455, '高等数学4e52', NULL, NULL, 378.723, '1', 667086343, 1, 'c6f5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (456, '高等数学63a1', NULL, 9.39855, 9.39855, '1', 2054739559, 2, '85cb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (457, '高等数学4808', NULL, NULL, 31.2582, '1', 94642123, 3, '1d16', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (458, '高等数学64fb', NULL, 549.684, 549.684, '1', 1744163739, 4, '01d5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (459, '高等数学7fe0', NULL, NULL, 4.28611, '1', 1453172486, 5, '8695', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (460, '高等数学72ae', NULL, 88.6719, 88.6719, '1', 617584695, 1, '59b4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (461, '高等数学5cd5', NULL, NULL, 10.9228, '1', 2015843475, 2, '0b5d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (462, '高等数学cb6d', NULL, 7.52842, 7.52842, '1', 1665657957, 3, '9065', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (463, '高等数学575a', NULL, NULL, 31.3523, '1', 540832642, 4, '0c0c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (464, '高等数学71c0', NULL, 242.484, 242.484, '1', 1283871441, 5, 'a1e2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (465, '高等数学ea3f', NULL, NULL, 5.76745, '1', 1536174930, 1, '2a75', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (466, '高等数学b9bc', NULL, 4.98481, 4.98481, '1', 1971867197, 2, '5e44', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (467, '高等数学2d04', NULL, NULL, 412.358, '1', 1318316529, 3, '2044', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (468, '高等数学2d09', NULL, 9.98449, 9.98449, '1', 352071792, 4, '9e18', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (469, '高等数学4181', NULL, NULL, 76.2956, '1', 780719734, 5, '8065', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (470, '高等数学7170', NULL, 405.32, 405.32, '1', 1775202354, 1, 'f4ce', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (471, '高等数学5579', NULL, NULL, 8.37498, '1', 1979009773, 2, '9d96', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (472, '高等数学060d', NULL, 97.9136, 97.9136, '1', 307857304, 3, '8736', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (473, '高等数学cca6', NULL, NULL, 652.435, '1', 167204572, 4, 'df8f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (474, '高等数学2955', NULL, 5.69663, 5.69663, '1', 1210866166, 5, '2920', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (475, '高等数学99f2', NULL, NULL, 6.66341, '1', 1544374618, 1, '908d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (476, '高等数学e1d3', NULL, 235.357, 235.357, '1', 213066437, 2, 'c575', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (477, '高等数学bcf0', NULL, NULL, 4.88361, '1', 235750182, 3, '40d6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (478, '高等数学6617', NULL, 77.6617, 77.6617, '1', 1323887418, 4, 'd3fe', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (479, '高等数学9f67', NULL, NULL, 753.843, '1', 1009045962, 5, '69d9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (480, '高等数学b15c', NULL, 0.94081, 0.94081, '1', 1922009250, 1, '9c3e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (481, '高等数学92e5', NULL, NULL, 2.95222, '1', 1389990040, 2, 'fff3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (482, '高等数学494f', NULL, 474.548, 474.548, '1', 1701847925, 3, '9572', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (483, '高等数学af02', NULL, NULL, 9.7384, '1', 1025758121, 4, '0412', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (484, '高等数学56bd', NULL, 18.1503, 18.1503, '1', 391005241, 5, 'fc15', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (485, '高等数学7fe7', NULL, NULL, 809.487, '1', 1088182792, 1, 'ebec', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (486, '高等数学b9eb', NULL, 5.32897, 5.32897, '1', 894855849, 2, '63ee', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (487, '高等数学b10a', NULL, NULL, 40.3298, '1', 232130505, 3, '4184', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (488, '高等数学c5f4', NULL, 985.734, 985.734, '1', 2045848579, 4, 'bd94', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (489, '高等数学55dc', NULL, NULL, 9.28547, '1', 1444718772, 5, '1439', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (490, '高等数学f58b', NULL, 61.5204, 61.5204, '1', 906221777, 1, '48f8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (491, '高等数学500e', NULL, NULL, 193.148, '1', 1005697444, 2, '84df', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (492, '高等数学c33a', NULL, 7.75496, 7.75496, '1', 1892133740, 3, '9167', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (493, '高等数学dee9', NULL, NULL, 25.735, '1', 2084584416, 4, '9e3a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (494, '高等数学19d0', NULL, 660.091, 660.091, '1', 394296863, 5, '1c74', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (495, '高等数学3eed', NULL, NULL, 5.35763, '1', 2053148328, 1, 'ef68', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (496, '高等数学db54', NULL, 94.1256, 94.1256, '1', 914098589, 2, 'e566', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (497, '高等数学181f', NULL, NULL, 181.118, '1', 874860891, 3, '40cb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (498, '高等数学cce4', NULL, 6.61629, 6.61629, '1', 417508006, 4, '18ca', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (499, '高等数学171c', NULL, NULL, 18.0939, '1', 726289966, 5, 'f1f0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (500, '高等数学c8c6', NULL, 75.1759, 75.1759, '1', 1963110788, 1, '150f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (501, '高等数学d597', NULL, NULL, 2.63358, '1', 2071882785, 2, '7b14', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (502, '高等数学7b46', NULL, 19.0491, 19.0491, '1', 1994340072, 3, 'e429', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (503, '高等数学1942', NULL, NULL, 404.566, '1', 576825819, 4, '8549', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (504, '高等数学30b3', NULL, 3.56312, 3.56312, '1', 183204589, 5, 'fd8f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (505, '高等数学d21f', NULL, NULL, 45.7975, '1', 1894784646, 1, 'be73', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (506, '高等数学3cb9', NULL, 347.287, 347.287, '1', 1056688975, 2, '07b0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (507, '高等数学ca26', NULL, NULL, 1.83907, '1', 871564680, 3, '4f50', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (508, '高等数学4c26', NULL, 5.74482, 5.74482, '1', 1737814348, 4, 'ec46', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (509, '高等数学6ae1', NULL, NULL, 748.697, '1', 1529925606, 5, '6d70', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (510, '高等数学ad87', NULL, 0.895033, 0.895033, '1', 1944266860, 1, 'cf76', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (511, '高等数学d078', NULL, NULL, 58.3387, '1', 1161117468, 2, '6ba6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (512, '高等数学8dee', NULL, 239.984, 239.984, '1', 2059508805, 3, 'e891', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (513, '高等数学f59f', NULL, NULL, 3.44701, '1', 1470793366, 4, '96cd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (514, '高等数学ac38', NULL, 12.3438, 12.3438, '1', 257650466, 5, '0c59', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (515, '高等数学9b73', NULL, NULL, 604.802, '1', 844920471, 1, '06a6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (516, '高等数学db65', NULL, 9.53276, 9.53276, '1', 1410287553, 2, '1a36', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (517, '高等数学7922', NULL, NULL, 81.1374, '1', 354332251, 3, '0fbf', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (518, '高等数学6900', NULL, 802.55, 802.55, '1', 241068080, 4, '8bee', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (519, '高等数学637c', NULL, NULL, 0.0584106, '1', 2129581597, 5, '62d0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (520, '高等数学7d6a', NULL, 50.4841, 50.4841, '1', 785402774, 1, '3a36', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (521, '高等数学446a', NULL, NULL, 765.089, '1', 516677987, 2, '3f3c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (522, '高等数学61ff', NULL, 7.23619, 7.23619, '1', 1406389385, 3, 'a0fb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (523, '高等数学affc', NULL, NULL, 84.0848, '1', 1692096963, 4, '64fa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (524, '高等数学9394', NULL, 617.827, 617.827, '1', 1187435451, 5, '689a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (525, '高等数学c214', NULL, NULL, 0.109169, '1', 1553313902, 1, '5bcd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (526, '高等数学740e', NULL, 96.213, 96.213, '1', 1315802477, 2, '7660', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (527, '高等数学6497', NULL, NULL, 727.714, '1', 1993513026, 3, 'c2e0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (528, '高等数学6911', NULL, 5.42162, 5.42162, '1', 1916938359, 4, 'cd33', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (529, '高等数学629e', NULL, NULL, 25.2175, '1', 212756834, 5, 'b125', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (530, '高等数学a192', NULL, 138.285, 138.285, '1', 1847991263, 1, '08b4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (531, '高等数学c47b', NULL, NULL, 0.948061, '1', 711035402, 2, 'c15f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (532, '高等数学6a64', NULL, 43.5778, 43.5778, '1', 505279972, 3, '8f59', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (533, '高等数学768b', NULL, NULL, 750.726, '1', 457367872, 4, '556e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (534, '高等数学ad8b', NULL, 7.55043, 7.55043, '1', 367047062, 5, 'd8e5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (535, '高等数学7a2a', NULL, NULL, 91.1857, '1', 1045320078, 1, 'f2a6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (536, '高等数学a61a', NULL, 582.324, 582.324, '1', 1747162316, 2, '6bca', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (537, '高等数学536e', NULL, NULL, 5.66917, '1', 1554528933, 3, '8cb6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (538, '高等数学a733', NULL, 49.9607, 49.9607, '1', 1437308839, 4, '1dfc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (539, '高等数学a1cf', NULL, NULL, 658.693, '1', 297206739, 5, '82d2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (540, '高等数学5f75', NULL, 2.61774, 2.61774, '1', 877482375, 1, 'd87f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (541, '高等数学63f9', NULL, NULL, 25.8088, '1', 1317776965, 2, '2cd6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (542, '高等数学80dc', NULL, 449.756, 449.756, '1', 1512337386, 3, '0427', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (543, '高等数学6448', NULL, NULL, 5.35737, '1', 544370591, 4, 'd6f1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (544, '高等数学cccd', NULL, 34.0334, 34.0334, '1', 963359909, 5, '7aec', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (545, '高等数学ac14', NULL, NULL, 164.533, '1', 614748972, 1, '25af', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (546, '高等数学4a14', NULL, 3.76422, 3.76422, '1', 494828551, 2, 'a974', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (547, '高等数学e187', NULL, NULL, 17.0165, '1', 2033378741, 3, 'cd9b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (548, '高等数学4d60', NULL, 896.048, 896.048, '1', 564972327, 4, 'be19', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (549, '高等数学248c', NULL, NULL, 6.61841, '1', 90629744, 5, 'f29d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (550, '高等数学4a26', NULL, 58.3938, 58.3938, '1', 111863313, 1, '8a8d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (551, '高等数学45af', NULL, NULL, 321.644, '1', 569049508, 2, '359f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (552, '高等数学e32b', NULL, 4.46527, 4.46527, '1', 2072342006, 3, '4072', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (553, '高等数学e1f2', NULL, NULL, 0.850071, '1', 2067501865, 4, '14de', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (554, '高等数学1923', NULL, 979.341, 979.341, '1', 1126369212, 5, '9a47', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (555, '高等数学ebdc', NULL, NULL, 3.41547, '1', 2129948802, 1, 'eeb4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (556, '高等数学c68c', NULL, 59.5187, 59.5187, '1', 1467779551, 2, '55f0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (557, '高等数学842e', NULL, NULL, 667.7, '1', 1052097240, 3, '537e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (558, '高等数学8ccf', NULL, 3.1215, 3.1215, '1', 1205121857, 4, 'd856', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (559, '高等数学0f96', NULL, NULL, 38.955, '1', 1903737276, 5, '4e87', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (560, '高等数学9256', NULL, 162.416, 162.416, '1', 257452154, 1, '6768', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (561, '高等数学ce4f', NULL, NULL, 2.32205, '1', 508411075, 2, 'bd09', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (562, '高等数学69b2', NULL, 77.6018, 77.6018, '1', 95451871, 3, '7efa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (563, '高等数学d195', NULL, NULL, 661.526, '1', 27002555, 4, '3c6b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (564, '高等数学19aa', NULL, 1.18068, 1.18068, '1', 1395521214, 5, 'cb5b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (565, '高等数学6499', NULL, NULL, 33.1236, '1', 1746714296, 1, '2701', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (566, '高等数学8e0a', NULL, 413.678, 413.678, '1', 2119825633, 2, '9cae', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (567, '高等数学77b5', NULL, NULL, 1.32632, '1', 149547855, 3, '30fb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (568, '高等数学ae15', NULL, 88.17, 88.17, '1', 953290257, 4, '8d93', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (569, '高等数学8ea6', NULL, NULL, 148.247, '1', 1511683106, 5, '88be', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (570, '高等数学0b60', NULL, 0.165657, 0.165657, '1', 91887596, 1, 'f146', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (571, '高等数学43fa', NULL, NULL, 56.9501, '1', 1904487688, 2, '3bee', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (572, '高等数学4723', NULL, 806.941, 806.941, '1', 707574828, 3, 'aff7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (573, '高等数学a24d', NULL, NULL, 4.28509, '1', 1029498672, 4, 'f249', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (574, '高等数学47d9', NULL, 46.0545, 46.0545, '1', 456350313, 5, 'b159', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (575, '高等数学38a4', NULL, NULL, 815.445, '1', 1049857033, 1, '5483', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (576, '高等数学50d3', NULL, 9.16426, 9.16426, '1', 787385000, 2, '5c77', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (577, '高等数学1980', NULL, NULL, 10.541, '1', 1893351295, 3, 'b064', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (578, '高等数学0767', NULL, 669.137, 669.137, '1', 1815618377, 4, '7039', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (579, '高等数学8fc3', NULL, NULL, 6.02577, '1', 846891570, 5, '1110', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (580, '高等数学5e17', NULL, 20.3668, 20.3668, '1', 774358890, 1, '70dc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (581, '高等数学271c', NULL, NULL, 924.367, '1', 1210878785, 2, '891c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (582, '高等数学bcf3', NULL, 6.45655, 6.45655, '1', 604175686, 3, 'e106', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (583, '高等数学230b', NULL, NULL, 39.4751, '1', 122303421, 4, '703d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (584, '高等数学30d4', NULL, 68.3084, 68.3084, '1', 1682033738, 5, '260f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (585, '高等数学3dd9', NULL, NULL, 6.93277, '1', 1121421024, 1, '26ac', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (586, '高等数学d489', NULL, 26.5656, 26.5656, '1', 1571873655, 2, '3bfb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (587, '高等数学03ec', NULL, NULL, 15.2346, '1', 1308157600, 3, 'f6bc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (588, '高等数学234d', NULL, 7.01123, 7.01123, '1', 1775912772, 4, '358d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (589, '高等数学4148', NULL, NULL, 3.83875, '1', 1083204714, 5, '7bc6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (590, '高等数学8075', NULL, 771.113, 771.113, '1', 536709300, 1, '927e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (591, '高等数学8a1b', NULL, NULL, 0.630132, '1', 685448103, 2, 'e151', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (592, '高等数学46e4', NULL, 48.5207, 48.5207, '1', 1207993020, 3, '91f0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (593, '高等数学3e02', NULL, NULL, 794.511, '1', 1996985444, 4, 'dd54', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (594, '高等数学d630', NULL, 1.57712, 1.57712, '1', 1893834887, 5, 'a0d0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (595, '高等数学1c07', NULL, NULL, 37.164, '1', 903752998, 1, '238b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (596, '高等数学134d', NULL, 729.745, 729.745, '1', 911518906, 2, '009b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (597, '高等数学b7ee', NULL, NULL, 4.08485, '1', 229936510, 3, '2669', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (598, '高等数学4268', NULL, 89.6689, 89.6689, '1', 760423986, 4, 'bc92', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (599, '高等数学773d', NULL, NULL, 14.5323, '1', 486875081, 5, '15eb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (600, '高等数学bd88', NULL, 3.02758, 3.02758, '1', 1065951149, 1, '2922', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (601, '高等数学267c', NULL, NULL, 98.4782, '1', 1680053338, 2, 'f06e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (602, '高等数学f3b5', NULL, 682.6, 682.6, '1', 1906812212, 3, '7344', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (603, '高等数学167f', NULL, NULL, 6.10619, '1', 1470589528, 4, '0108', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (604, '高等数学101d', NULL, 97.9251, 97.9251, '1', 684042866, 5, 'c8fc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (605, '高等数学13f1', NULL, NULL, 852.174, '1', 658867133, 1, '969c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (606, '高等数学babe', NULL, 1.48442, 1.48442, '1', 2132312324, 2, 'a954', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (607, '高等数学e2bf', NULL, NULL, 93.4251, '1', 1693564342, 3, '1749', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (608, '高等数学12fe', NULL, 571.159, 571.159, '1', 409786206, 4, '3c2f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (609, '高等数学8371', NULL, NULL, 7.80364, '1', 2051118228, 5, 'ffb0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (610, '高等数学2963', NULL, 73.9526, 73.9526, '1', 719928763, 1, '2582', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (611, '高等数学4246', NULL, NULL, 83.2817, '1', 1076415691, 2, '6505', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (612, '高等数学018d', NULL, 1.55497, 1.55497, '1', 415446381, 3, '2bc6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (613, '高等数学565d', NULL, NULL, 22.5483, '1', 390669830, 4, '8072', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (614, '高等数学99db', NULL, 187.504, 187.504, '1', 61851355, 5, '4397', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (615, '高等数学99fe', NULL, NULL, 7.0921, '1', 221123825, 1, 'c768', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (616, '高等数学953b', NULL, 96.712, 96.712, '1', 855154579, 2, '2149', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (617, '高等数学334a', NULL, NULL, 233.371, '1', 1827505508, 3, '8ed8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (618, '高等数学be37', NULL, 2.75967, 2.75967, '1', 2034153578, 4, '2c2e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (619, '高等数学65f3', NULL, NULL, 6.33131, '1', 264676702, 5, 'ff93', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (620, '高等数学7157', NULL, 772.505, 772.505, '1', 2131985597, 1, '0753', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (621, '高等数学80be', NULL, NULL, 8.79529, '1', 1551349256, 2, '65b7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (622, '高等数学6cd8', NULL, 83.9011, 83.9011, '1', 1941022400, 3, '7fb1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (623, '高等数学6fbb', NULL, NULL, 862.658, '1', 572778330, 4, '75c6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (624, '高等数学c920', NULL, 7.90958, 7.90958, '1', 624832527, 5, '54b8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (625, '高等数学ab48', NULL, NULL, 37.4668, '1', 1573009696, 1, 'e093', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (626, '高等数学a3fa', NULL, 184.183, 184.183, '1', 1713071584, 2, 'd24b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (627, '高等数学95d2', NULL, NULL, 2.29908, '1', 2133747270, 3, 'a3a4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (628, '高等数学9414', NULL, 47.9643, 47.9643, '1', 1828065512, 4, 'e057', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (629, '高等数学d29d', NULL, NULL, 214.749, '1', 1830082165, 5, '98bc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (630, '高等数学5d89', NULL, 3.81204, 3.81204, '1', 156652121, 1, 'c00d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (631, '高等数学dd6c', NULL, NULL, 21.0824, '1', 1427281970, 2, '6a44', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (632, '高等数学0181', NULL, 748.859, 748.859, '1', 379388634, 3, 'c615', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (633, '高等数学6542', NULL, NULL, 0.0442285, '1', 1199727526, 4, 'adc5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (634, '高等数学2ebc', NULL, 10.7891, 10.7891, '1', 192321656, 5, '28cc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (635, '高等数学d45b', NULL, NULL, 623.372, '1', 881829047, 1, '9443', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (636, '高等数学9d19', NULL, 4.23954, 4.23954, '1', 1542231328, 2, '72c0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (637, '高等数学c76a', NULL, NULL, 83.2782, '1', 440962218, 3, 'ce80', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (638, '高等数学743e', NULL, 994.67, 994.67, '1', 543063253, 4, '6e79', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (639, '高等数学ae47', NULL, NULL, 2.42339, '1', 294137197, 5, '0ba9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (640, '高等数学beb8', NULL, 2.02881, 2.02881, '1', 332092346, 1, '9ee5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (641, '高等数学4432', NULL, NULL, 330.322, '1', 1773247313, 2, 'e35f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (642, '高等数学83cf', NULL, 6.5909, 6.5909, '1', 2146739268, 3, 'fcc4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (643, '高等数学3a02', NULL, NULL, 57.337, '1', 693442264, 4, '0c80', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (644, '高等数学3490', NULL, 147.654, 147.654, '1', 369364519, 5, 'f2f8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (645, '高等数学d21d', NULL, NULL, 7.86018, '1', 335036345, 1, '0b3f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (646, '高等数学ec43', NULL, 87.1752, 87.1752, '1', 2122079171, 2, '2270', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (647, '高等数学d766', NULL, NULL, 720.32, '1', 1129991858, 3, '31b7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (648, '高等数学c60d', NULL, 1.1056, 1.1056, '1', 459219113, 4, 'a36d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (649, '高等数学b1ce', NULL, NULL, 95.344, '1', 1957517314, 5, '8332', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (650, '高等数学509b', NULL, 545.045, 545.045, '1', 193978370, 1, '3261', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (651, '高等数学a789', NULL, NULL, 0.998417, '1', 1616745826, 2, '57fd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (652, '高等数学4573', NULL, 52.0778, 52.0778, '1', 1990048539, 3, 'ca96', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (653, '高等数学d93b', NULL, NULL, 424.787, '1', 1293924535, 4, 'e93d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (654, '高等数学4b05', NULL, 4.86111, 4.86111, '1', 71083641, 5, '71ed', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (655, '高等数学0a3d', NULL, NULL, 0.710571, '1', 220153210, 1, '02c8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (656, '高等数学e7ec', NULL, 988.567, 988.567, '1', 584526217, 2, 'afe2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (657, '高等数学a317', NULL, NULL, 7.01768, '1', 910554116, 3, '01a6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (658, '高等数学0141', NULL, 10.543, 10.543, '1', 1690412041, 4, '88e0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (659, '高等数学c593', NULL, NULL, 286.562, '1', 750066512, 5, '9473', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (660, '高等数学df6b', NULL, 2.0898, 2.0898, '1', 1136139390, 1, 'c483', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (661, '高等数学932e', NULL, NULL, 34.2223, '1', 11150044, 2, 'b865', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (662, '高等数学32b8', NULL, 522.443, 522.443, '1', 107976266, 3, '1e4e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (663, '高等数学ec75', NULL, NULL, 6.11652, '1', 791084428, 4, 'd47f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (664, '高等数学5aed', NULL, 0.965518, 0.965518, '1', 1411641395, 5, '3791', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (665, '高等数学b7e3', NULL, NULL, 811.397, '1', 114797471, 1, 'f7ad', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (666, '高等数学3cd6', NULL, 7.59617, 7.59617, '1', 908806790, 2, '22e7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (667, '高等数学bd17', NULL, NULL, 12.7367, '1', 1221444834, 3, '0a4f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (668, '高等数学cf4a', NULL, 176.499, 176.499, '1', 1605891426, 4, '0685', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (669, '高等数学a10f', NULL, NULL, 9.1677, '1', 382405415, 5, '4004', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (670, '高等数学fe7f', NULL, 96.6351, 96.6351, '1', 269608610, 1, '5f20', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (671, '高等数学cb97', NULL, NULL, 459.579, '1', 1593050208, 2, '6a7f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (672, '高等数学b093', NULL, 1.2367, 1.2367, '1', 1135655073, 3, '6a68', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (673, '高等数学1e91', NULL, NULL, 95.5353, '1', 920886437, 4, 'caf9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (674, '高等数学4624', NULL, 864.138, 864.138, '1', 750727209, 5, 'bbb1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (675, '高等数学8063', NULL, NULL, 3.45028, '1', 2117652714, 1, '1666', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (676, '高等数学131a', NULL, 72.4271, 72.4271, '1', 330386140, 2, 'fde5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (677, '高等数学4cb8', NULL, NULL, 952.349, '1', 718758145, 3, '90f7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (678, '高等数学c5ea', NULL, 8.54382, 8.54382, '1', 1286984979, 4, '1f5f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (679, '高等数学5246', NULL, NULL, 38.5883, '1', 1328843204, 5, '86fa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (680, '高等数学e0b3', NULL, 868.147, 868.147, '1', 1592559791, 1, '5e52', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (681, '高等数学9b68', NULL, NULL, 6.20096, '1', 1026082712, 2, 'bbbd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (682, '高等数学df39', NULL, 48.0285, 48.0285, '1', 1315550011, 3, 'a62f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (683, '高等数学76a4', NULL, NULL, 682.789, '1', 501194758, 4, '68c7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (684, '高等数学97d5', NULL, 5.63206, 5.63206, '1', 842031997, 5, '2f03', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (685, '高等数学7701', NULL, NULL, 91.6184, '1', 1906210170, 1, '00e8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (686, '高等数学d600', NULL, 184.205, 184.205, '1', 1533812920, 2, '8e2c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (687, '高等数学478e', NULL, NULL, 3.50291, '1', 674979676, 3, 'e36c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (688, '高等数学6da1', NULL, 64.6662, 64.6662, '1', 1397958692, 4, 'c6d7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (689, '高等数学0c65', NULL, NULL, 329.671, '1', 1698500153, 5, '0abb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (690, '高等数学94e0', NULL, 5.51882, 5.51882, '1', 1496986607, 1, '3890', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (691, '高等数学a353', NULL, NULL, 16.8556, '1', 146584820, 2, '33eb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (692, '高等数学06fb', NULL, 422.611, 422.611, '1', 1384302659, 3, '0376', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (693, '高等数学0254', NULL, NULL, 2.74281, '1', 1078131559, 4, 'ca4f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (694, '高等数学141b', NULL, 48.4961, 48.4961, '1', 1244465937, 5, '6d6b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (695, '高等数学113d', NULL, NULL, 875.287, '1', 821622956, 1, '09f8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (696, '高等数学c852', NULL, 7.9234, 7.9234, '1', 771105033, 2, '002a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (697, '高等数学8a07', NULL, NULL, 21.7514, '1', 1051079934, 3, 'dbb5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (698, '高等数学3d00', NULL, 993.198, 993.198, '1', 1795953878, 4, 'a00d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (699, '高等数学70fa', NULL, NULL, 8.51746, '1', 152351785, 5, '38a1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (700, '高等数学deca', NULL, 69.3781, 69.3781, '1', 1686127647, 1, '692e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (701, '高等数学8ad4', NULL, NULL, 424.56, '1', 1939081335, 2, '3863', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (702, '高等数学35b1', NULL, 5.4776, 5.4776, '1', 2042714009, 3, 'f4a4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (703, '高等数学60b6', NULL, NULL, 20.6784, '1', 1752460154, 4, 'a817', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (704, '高等数学148f', NULL, 916.517, 916.517, '1', 1938145090, 5, 'd67c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (705, '高等数学d927', NULL, NULL, 4.4592, '1', 208855501, 1, 'b72b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (706, '高等数学0ff6', NULL, 18.7034, 18.7034, '1', 833600079, 2, 'f9f1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (707, '高等数学0bce', NULL, NULL, 512.788, '1', 1009738869, 3, '6300', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (708, '高等数学65b4', NULL, 6.08738, 6.08738, '1', 1557390384, 4, 'abcf', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (709, '高等数学45db', NULL, NULL, 72.7656, '1', 2011566895, 5, '3333', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (710, '高等数学d2fd', NULL, 816.337, 816.337, '1', 707480463, 1, '9698', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (711, '高等数学6d5f', NULL, NULL, 6.97453, '1', 1338273601, 2, '289a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (712, '高等数学88b4', NULL, 4.25628, 4.25628, '1', 1893339303, 3, 'dc69', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (713, '高等数学b83e', NULL, NULL, 973.159, '1', 1968413943, 4, '56e7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (714, '高等数学78c6', NULL, 3.92948, 3.92948, '1', 1670613688, 5, '16c7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (715, '高等数学03ec', NULL, NULL, 84.5281, '1', 1284550222, 1, '7db8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (716, '高等数学d301', NULL, 454.128, 454.128, '1', 969209573, 2, 'f84c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (717, '高等数学477e', NULL, NULL, 1.35357, '1', 829158688, 3, 'c213', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (718, '高等数学8112', NULL, 93.786, 93.786, '1', 1871687323, 4, '1be7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (719, '高等数学cfef', NULL, NULL, 912.714, '1', 612916688, 5, '2ad7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (720, '高等数学72b5', NULL, 0.248515, 0.248515, '1', 66839820, 1, 'da9a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (721, '高等数学e008', NULL, NULL, 16.8254, '1', 875810954, 2, '7287', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (722, '高等数学a3a0', NULL, 565.651, 565.651, '1', 1089269347, 3, 'eaab', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (723, '高等数学b98d', NULL, NULL, 6.10814, '1', 1018272872, 4, '7fc1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (724, '高等数学574e', NULL, 32.0276, 32.0276, '1', 545262955, 5, 'cd8a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (725, '高等数学3f95', NULL, NULL, 916.717, '1', 84928881, 1, 'a1da', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (726, '高等数学2fb6', NULL, 9.73904, 9.73904, '1', 1335806379, 2, 'c248', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (727, '高等数学c7b1', NULL, NULL, 95.938, '1', 1273049760, 3, 'a39e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (728, '高等数学bbfc', NULL, 752.898, 752.898, '1', 497929842, 4, '1cfc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (729, '高等数学9602', NULL, NULL, 7.73415, '1', 156420267, 5, 'b807', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (730, '高等数学5844', NULL, 8.35502, 8.35502, '1', 1566658529, 1, '443c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (731, '高等数学d479', NULL, NULL, 266.435, '1', 37313390, 2, '47a6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (732, '高等数学a149', NULL, 8.85395, 8.85395, '1', 1390410384, 3, '38b7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (733, '高等数学d146', NULL, NULL, 98.1813, '1', 1103924506, 4, 'a7aa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (734, '高等数学5163', NULL, 771.572, 771.572, '1', 1199401090, 5, 'ac85', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (735, '高等数学fda2', NULL, NULL, 5.36954, '1', 770345886, 1, '4e01', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (736, '高等数学c8ec', NULL, 64.0645, 64.0645, '1', 997531789, 2, '4365', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (737, '高等数学ed9a', NULL, NULL, 714.13, '1', 735884184, 3, 'f8a5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (738, '高等数学620a', NULL, 8.87451, 8.87451, '1', 1915689882, 4, '4511', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (739, '高等数学bddd', NULL, NULL, 56.4779, '1', 834026002, 5, 'df9a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (740, '高等数学fd6d', NULL, 734.956, 734.956, '1', 1035391835, 1, '3ecf', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (741, '高等数学da87', NULL, NULL, 3.03164, '1', 713416493, 2, 'd333', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (742, '高等数学c8bc', NULL, 99.4775, 99.4775, '1', 2049824898, 3, 'd2fc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (743, '高等数学3bea', NULL, NULL, 211.587, '1', 1102293051, 4, 'f13a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (744, '高等数学7121', NULL, 9.00907, 9.00907, '1', 438497669, 5, '4948', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (745, '高等数学222f', NULL, NULL, 25.6902, '1', 2080612690, 1, '2e6d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (746, '高等数学4652', NULL, 529.416, 529.416, '1', 2027339700, 2, '327e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (747, '高等数学af02', NULL, NULL, 6.26854, '1', 2060888316, 3, '90fc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (748, '高等数学9deb', NULL, 71.6206, 71.6206, '1', 1603726966, 4, 'b924', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (749, '高等数学4652', NULL, NULL, 934.802, '1', 1617051903, 5, '577f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (750, '高等数学faa4', NULL, 3.15671, 3.15671, '1', 1199106291, 1, 'df80', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (751, '高等数学117a', NULL, NULL, 41.2691, '1', 163080701, 2, '78fa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (752, '高等数学e97a', NULL, 104.971, 104.971, '1', 1625102613, 3, '2052', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (753, '高等数学c5c0', NULL, NULL, 0.146632, '1', 899187716, 4, '0fa5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (754, '高等数学b00e', NULL, 63.1784, 63.1784, '1', 1313057962, 5, '2d1d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (755, '高等数学36e9', NULL, NULL, 987.481, '1', 891435658, 1, 'e3eb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (756, '高等数学9308', NULL, 8.27849, 8.27849, '1', 1209787593, 2, '8544', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (757, '高等数学ba6a', NULL, NULL, 12.9003, '1', 1839429045, 3, '6416', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (758, '高等数学9819', NULL, 266.255, 266.255, '1', 190245684, 4, 'e252', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (759, '高等数学c54e', NULL, NULL, 6.52207, '1', 1088050356, 5, 'b7a2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (760, '高等数学a167', NULL, 52.7356, 52.7356, '1', 78065926, 1, '643d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (761, '高等数学f5f5', NULL, NULL, 299.821, '1', 1663315960, 2, '0837', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (762, '高等数学6d3b', NULL, 2.56334, 2.56334, '1', 511005974, 3, 'af75', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (763, '高等数学cee0', NULL, NULL, 11.339, '1', 1026728909, 4, 'aa4b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (764, '高等数学f300', NULL, 144.882, 144.882, '1', 1874039153, 5, '99bf', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (765, '高等数学cae5', NULL, NULL, 0.506762, '1', 822059596, 1, 'e5a2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (766, '高等数学91e9', NULL, 25.0112, 25.0112, '1', 1171829428, 2, '2d7e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (767, '高等数学f993', NULL, NULL, 466.532, '1', 2010746347, 3, 'c7bc', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (768, '高等数学8e14', NULL, 7.75723, 7.75723, '1', 611030402, 4, '7897', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (769, '高等数学2077', NULL, NULL, 32.4979, '1', 1367366413, 5, '04c1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (770, '高等数学2035', NULL, 683.618, 683.618, '1', 1487416579, 1, '762b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (771, '高等数学7d1d', NULL, NULL, 8.93976, '1', 1651292932, 2, '5036', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (772, '高等数学8aa3', NULL, 27.8586, 27.8586, '1', 669454625, 3, '5a06', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (773, '高等数学e896', NULL, NULL, 589.401, '1', 1769623061, 4, '25e7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (774, '高等数学aee0', NULL, 2.14319, 2.14319, '1', 1804637399, 5, '4b1c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (775, '高等数学ed1b', NULL, NULL, 58.1095, '1', 1666047301, 1, '4f35', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (776, '高等数学4811', NULL, 205.945, 205.945, '1', 495215687, 2, 'b648', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (777, '高等数学693a', NULL, NULL, 7.51307, '1', 1139842457, 3, '5817', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (778, '高等数学d139', NULL, 10.2441, 10.2441, '1', 1811852092, 4, '2aa0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (779, '高等数学22a2', NULL, NULL, 604.702, '1', 624523531, 5, 'ec22', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (780, '高等数学ee84', NULL, 8.71673, 8.71673, '1', 1680065277, 1, 'ad93', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (781, '高等数学d611', NULL, NULL, 76.9128, '1', 582836740, 2, '6516', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (782, '高等数学27e6', NULL, 481.508, 481.508, '1', 511404312, 3, '93d3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (783, '高等数学f1b7', NULL, NULL, 7.97601, '1', 438283437, 4, '38e0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (784, '高等数学29bb', NULL, 62.2337, 62.2337, '1', 415530292, 5, '16c3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (785, '高等数学8da0', NULL, NULL, 84.563, '1', 683372961, 1, '682d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (786, '高等数学12b3', NULL, 7.09506, 7.09506, '1', 212486073, 2, 'eb21', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (787, '高等数学259d', NULL, NULL, 84.3175, '1', 96401541, 3, 'f461', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (788, '高等数学e15f', NULL, 628.59, 628.59, '1', 453265254, 4, '99d7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (789, '高等数学e7fd', NULL, NULL, 2.55534, '1', 1106389311, 5, '63a6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (790, '高等数学f029', NULL, 24.2086, 24.2086, '1', 258574493, 1, '1a63', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (791, '高等数学e41b', NULL, NULL, 103.923, '1', 75564915, 2, 'b972', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (792, '高等数学c0cb', NULL, 7.63032, 7.63032, '1', 1342210607, 3, 'c837', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (793, '高等数学adb9', NULL, NULL, 41.8782, '1', 239285134, 4, '734f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (794, '高等数学ce5c', NULL, 719.204, 719.204, '1', 1100250376, 5, 'cdf6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (795, '高等数学d919', NULL, NULL, 9.37856, '1', 588871171, 1, 'cbce', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (796, '高等数学9a70', NULL, 38.098, 38.098, '1', 1671642, 2, '0c33', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (797, '高等数学24c8', NULL, NULL, 461.032, '1', 1931104558, 3, '4953', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (798, '高等数学ae92', NULL, 2.06607, 2.06607, '1', 1206374122, 4, '1a32', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (799, '高等数学1a54', NULL, NULL, 50.6648, '1', 996580167, 5, 'd4dd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (800, '高等数学0223', NULL, 70.5246, 70.5246, '1', 1276630827, 1, 'd49d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (801, '高等数学190d', NULL, NULL, 0.276114, '1', 413081906, 2, 'a5e4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (802, '高等数学9063', NULL, 78.3571, 78.3571, '1', 2055718853, 3, 'c584', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (803, '高等数学b5cd', NULL, NULL, 329.45, '1', 1796493375, 4, '0d69', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (804, '高等数学b261', NULL, 6.88299, 6.88299, '1', 1446221540, 5, '30a6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (805, '高等数学159a', NULL, NULL, 74.7441, '1', 921233575, 1, '766f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (806, '高等数学5db5', NULL, 918.302, 918.302, '1', 480811401, 2, '0343', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (807, '高等数学e3a8', NULL, NULL, 0.862877, '1', 411088889, 3, '5f0d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (808, '高等数学9d45', NULL, 24.7361, 24.7361, '1', 1534960105, 4, '8153', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (809, '高等数学7f39', NULL, NULL, 303.307, '1', 934566594, 5, '1e9e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (810, '高等数学37fe', NULL, 3.22394, 3.22394, '1', 1859692062, 1, 'fa1a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (811, '高等数学0aa1', NULL, NULL, 42.4929, '1', 442697686, 2, '01bb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (812, '高等数学25b5', NULL, 473.586, 473.586, '1', 439020912, 3, '093e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (813, '高等数学c018', NULL, NULL, 2.26306, '1', 1360748813, 4, 'd957', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (814, '高等数学db0c', NULL, 22.5767, 22.5767, '1', 141346726, 5, '363f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (815, '高等数学3056', NULL, NULL, 775.14, '1', 917786384, 1, '07cb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (816, '高等数学2087', NULL, 0.969935, 0.969935, '1', 21088911, 2, 'e740', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (817, '高等数学a34c', NULL, NULL, 54.3385, '1', 1573839495, 3, '2079', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (818, '高等数学6edb', NULL, 263.477, 263.477, '1', 76453987, 4, '0fb4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (819, '高等数学f4fa', NULL, NULL, 4.24233, '1', 1297760086, 5, '278a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (820, '高等数学c47c', NULL, 19.4395, 19.4395, '1', 1177103987, 1, '4e22', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (821, '高等数学96c8', NULL, NULL, 656.878, '1', 1465027909, 2, '832c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (822, '高等数学93f7', NULL, 4.15808, 4.15808, '1', 795654854, 3, 'c121', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (823, '高等数学dbea', NULL, NULL, 35.7808, '1', 588510225, 4, 'f627', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (824, '高等数学69f3', NULL, 149.786, 149.786, '1', 479853216, 5, 'e9a5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (825, '高等数学8b60', NULL, NULL, 0.84931, '1', 1991941290, 1, '640c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (826, '高等数学133b', NULL, 69.3061, 69.3061, '1', 860464, 2, 'ae44', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (827, '高等数学7d95', NULL, NULL, 619.609, '1', 1630059341, 3, '5b50', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (828, '高等数学944b', NULL, 0.488779, 0.488779, '1', 1836205261, 4, '6ea5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (829, '高等数学8fa7', NULL, NULL, 94.1752, '1', 543924875, 5, '658c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (830, '高等数学2b8a', NULL, 506.435, 506.435, '1', 1262573144, 1, '6c65', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (831, '高等数学63f2', NULL, NULL, 1.94374, '1', 2119752956, 2, '5998', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (832, '高等数学972f', NULL, 57.4178, 57.4178, '1', 149593715, 3, '736e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (833, '高等数学a5b3', NULL, NULL, 286.561, '1', 1599885065, 4, '815c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (834, '高等数学d728', NULL, 9.16405, 9.16405, '1', 1010615484, 5, '0a70', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (835, '高等数学0bec', NULL, NULL, 66.7618, '1', 1703961259, 1, 'bce1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (836, '高等数学4b46', NULL, 717.028, 717.028, '1', 1890409818, 2, '0ea0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (837, '高等数学52bc', NULL, NULL, 7.20161, '1', 1415133246, 3, 'bc90', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (838, '高等数学47dc', NULL, 20.0022, 20.0022, '1', 1062010742, 4, '821b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (839, '高等数学9cd2', NULL, NULL, 166.23, '1', 1323032821, 5, '9cd1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (840, '高等数学b24b', NULL, 8.73002, 8.73002, '1', 1984947098, 1, 'fd26', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (841, '高等数学aacb', NULL, NULL, 85.8044, '1', 499819022, 2, 'a05f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (842, '高等数学ec9f', NULL, 428.515, 428.515, '1', 724830596, 3, 'e3b2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (843, '高等数学88a5', NULL, NULL, 3.33796, '1', 1595882976, 4, '2e0c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (844, '高等数学1b5f', NULL, 13.7076, 13.7076, '1', 179169049, 5, '88b7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (845, '高等数学bbb2', NULL, NULL, 558.919, '1', 1551648537, 1, 'e18f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (846, '高等数学32f5', NULL, 9.9662, 9.9662, '1', 363109864, 2, '948a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (847, '高等数学2c03', NULL, NULL, 34.4568, '1', 1125022239, 3, '4397', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (848, '高等数学e8b1', NULL, 864.964, 864.964, '1', 984005108, 4, '3764', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (849, '高等数学76c2', NULL, NULL, 0.375804, '1', 434577333, 5, 'f3aa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (850, '高等数学b1df', NULL, 29.5036, 29.5036, '1', 1600157653, 1, '7771', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (851, '高等数学bd43', NULL, NULL, 209.964, '1', 434665395, 2, '08d7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (852, '高等数学45b3', NULL, 8.17044, 8.17044, '1', 1975292577, 3, 'f50f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (853, '高等数学5035', NULL, NULL, 24.1028, '1', 1954359925, 4, '891a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (854, '高等数学5ff6', NULL, 967.417, 967.417, '1', 611883728, 5, 'a80b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (855, '高等数学4880', NULL, NULL, 8.81523, '1', 611566510, 1, '748a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (856, '高等数学80de', NULL, 45.1268, 45.1268, '1', 1528157096, 2, 'c2e5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (857, '高等数学dede', NULL, NULL, 116.73, '1', 376910891, 3, '019c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (858, '高等数学575a', NULL, 4.43299, 4.43299, '1', 1563400757, 4, '77d2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (859, '高等数学1c57', NULL, NULL, 90.4207, '1', 1287478453, 5, '67d2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (860, '高等数学874f', NULL, 181.459, 181.459, '1', 1767920471, 1, 'ca8a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (861, '高等数学1d60', NULL, NULL, 6.51944, '1', 463773594, 2, '2f6d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (862, '高等数学ac0a', NULL, 68.8373, 68.8373, '1', 469623202, 3, '2742', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (863, '高等数学fd2a', NULL, NULL, 623.971, '1', 991525765, 4, 'a699', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (864, '高等数学b2dc', NULL, 6.67415, 6.67415, '1', 236364881, 5, '99f0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (865, '高等数学bf2d', NULL, NULL, 81.3005, '1', 717041023, 1, '8d1f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (866, '高等数学abcb', NULL, 363.52, 363.52, '1', 1966603505, 2, '33e5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (867, '高等数学d5f9', NULL, NULL, 2.03495, '1', 1290165100, 3, 'dfad', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (868, '高等数学2d9a', NULL, 45.3214, 45.3214, '1', 816274853, 4, 'a200', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (869, '高等数学9173', NULL, NULL, 763.484, '1', 649381218, 5, 'f81f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (870, '高等数学2195', NULL, 8.33992, 8.33992, '1', 1020714975, 1, '5cdd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (871, '高等数学8f3a', NULL, NULL, 94.9988, '1', 1636893001, 2, 'cb09', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (872, '高等数学faef', NULL, 520.135, 520.135, '1', 1979605520, 3, '42f1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (873, '高等数学c2e8', NULL, NULL, 9.90115, '1', 2089892910, 4, '1c90', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (874, '高等数学ec13', NULL, 72.0165, 72.0165, '1', 1726099044, 5, 'f21a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (875, '高等数学0b6b', NULL, NULL, 708.973, '1', 308020376, 1, 'e01b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (876, '高等数学7a1a', NULL, 5.70594, 5.70594, '1', 418392245, 2, '106a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (877, '高等数学2529', NULL, NULL, 21.5411, '1', 843193636, 3, 'eaf3', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (878, '高等数学d029', NULL, 931.263, 931.263, '1', 1996260532, 4, 'c519', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (879, '高等数学2d1e', NULL, NULL, 3.2796, '1', 157832869, 5, '19e7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (880, '高等数学cd29', NULL, 10.95, 10.95, '1', 1409746063, 1, '24ab', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (881, '高等数学ddca', NULL, NULL, 225.866, '1', 2063233532, 2, '87e1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (882, '高等数学05ca', NULL, 3.73458, 3.73458, '1', 194100998, 3, '6572', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (883, '高等数学95d2', NULL, NULL, 44.39, '1', 1283459820, 4, '35d5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (884, '高等数学254e', NULL, 639.454, 639.454, '1', 2033347894, 5, '767f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (885, '高等数学6d5f', NULL, NULL, 9.94654, '1', 898402837, 1, 'da0a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (886, '高等数学e9c5', NULL, 77.3752, 77.3752, '1', 824656306, 2, '5f62', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (887, '高等数学9832', NULL, NULL, 98.3533, '1', 1881349913, 3, '6c47', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (888, '高等数学7f3c', NULL, 5.36172, 5.36172, '1', 1943553515, 4, 'cff2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (889, '高等数学678e', NULL, NULL, 72.7722, '1', 1497875246, 5, 'af05', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (890, '高等数学65b5', NULL, 311.056, 311.056, '1', 1246642474, 1, '802f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (891, '高等数学cbb7', NULL, NULL, 9.34245, '1', 1196835566, 2, '6924', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (892, '高等数学284c', NULL, 42.0557, 42.0557, '1', 298329690, 3, 'd2c5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (893, '高等数学8eda', NULL, NULL, 712.2, '1', 1977110788, 4, '8f91', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (894, '高等数学40df', NULL, 9.95852, 9.95852, '1', 2025327149, 5, 'aa12', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (895, '高等数学4a9d', NULL, NULL, 97.8141, '1', 1152622669, 1, 'ae88', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (896, '高等数学f49f', NULL, 93.8203, 93.8203, '1', 261136873, 2, 'df1c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (897, '高等数学2cd0', NULL, NULL, 0.960159, '1', 178849228, 3, '2eac', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (898, '高等数学aa69', NULL, 98.9874, 98.9874, '1', 334252373, 4, '0d95', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (899, '高等数学3221', NULL, NULL, 261.939, '1', 1631429442, 5, '2a5a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (900, '高等数学354c', NULL, 3.52059, 3.52059, '1', 79073442, 1, '9b26', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (901, '高等数学dffe', NULL, NULL, 97.7635, '1', 440867169, 2, '5d54', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (902, '高等数学7b87', NULL, 307.186, 307.186, '1', 1512133518, 3, 'f57b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (903, '高等数学3a64', NULL, NULL, 7.87881, '1', 2104738329, 4, 'a9b8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (904, '高等数学89bd', NULL, 24.6692, 24.6692, '1', 1817073248, 5, '2f47', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (905, '高等数学ec4b', NULL, NULL, 434.821, '1', 2118644265, 1, 'afc6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (906, '高等数学0c82', NULL, 5.88074, 5.88074, '1', 666267066, 2, '0865', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (907, '高等数学73e6', NULL, NULL, 59.079, '1', 1361659097, 3, '5d2b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (908, '高等数学3856', NULL, 607.165, 607.165, '1', 645344067, 4, '8b90', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (909, '高等数学f22f', NULL, NULL, 3.71339, '1', 540077168, 5, 'afc0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (910, '高等数学fa1b', NULL, 88.7172, 88.7172, '1', 567284993, 1, '7bb2', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (911, '高等数学089e', NULL, NULL, 901.455, '1', 513674688, 2, 'c1f7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (912, '高等数学2f15', NULL, 8.92334, 8.92334, '1', 1865966431, 3, '5e0c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (913, '高等数学db01', NULL, NULL, 31.0479, '1', 1541481074, 4, 'd0cd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (914, '高等数学9ccf', NULL, 667.197, 667.197, '1', 1620461292, 5, '4521', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (915, '高等数学4d51', NULL, NULL, 6.65041, '1', 2103009748, 1, 'df5f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (916, '高等数学d83d', NULL, 68.6925, 68.6925, '1', 1732294430, 2, '8a37', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (917, '高等数学40fb', NULL, NULL, 514.346, '1', 1878865129, 3, '07c4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (918, '高等数学961b', NULL, 4.39738, 4.39738, '1', 1167378540, 4, '7d29', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (919, '高等数学439e', NULL, NULL, 91.8463, '1', 826716028, 5, '6816', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (920, '高等数学69e6', NULL, 409.48, 409.48, '1', 1795656370, 1, 'b2cd', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (921, '高等数学f4a7', NULL, NULL, 0.577813, '1', 14488218, 2, '71b4', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (922, '高等数学8f32', NULL, 74.4466, 74.4466, '1', 1253928767, 3, '5628', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (923, '高等数学0a7b', NULL, NULL, 780.599, '1', 580146976, 4, 'd5a5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (924, '高等数学d5e0', NULL, 0.482003, 0.482003, '1', 349189831, 5, '4bbb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (925, '高等数学1a2b', NULL, NULL, 73.5853, '1', 1383841839, 1, '5aa1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (926, '高等数学c8ce', NULL, 408.201, 408.201, '1', 915171514, 2, '1c04', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (927, '高等数学c879', NULL, NULL, 0.592743, '1', 718566487, 3, 'e66c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (928, '高等数学d0d0', NULL, 99.1085, 99.1085, '1', 1712279610, 4, 'b142', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (929, '高等数学0a8b', NULL, NULL, 933.807, '1', 2112430294, 5, '6d16', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (930, '高等数学3743', NULL, 2.75233, 2.75233, '1', 1104052978, 1, '053a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (931, '高等数学3214', NULL, NULL, 72.8907, '1', 199205779, 2, 'f4af', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (932, '高等数学2b8b', NULL, 266.776, 266.776, '1', 884076419, 3, '9ae5', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (933, '高等数学d6ad', NULL, NULL, 8.38385, '1', 113098111, 4, 'aeae', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (934, '高等数学d7bd', NULL, 85.0292, 85.0292, '1', 1535734680, 5, '3ae6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (935, '高等数学f74e', NULL, NULL, 782.73, '1', 83479585, 1, '4664', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (936, '高等数学1cfc', NULL, 7.6252, 7.6252, '1', 415693263, 2, '37fb', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (937, '高等数学ce3a', NULL, NULL, 61.9421, '1', 1427148063, 3, 'cc78', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (938, '高等数学699c', NULL, 545.592, 545.592, '1', 1468407958, 4, 'e55c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (939, '高等数学82eb', NULL, NULL, 2.13484, '1', 448325498, 5, 'd2aa', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (940, '高等数学6883', NULL, 23.5637, 23.5637, '1', 923428859, 1, 'd656', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (941, '高等数学b263', NULL, NULL, 460.62, '1', 946781609, 2, '47d0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (942, '高等数学1015', NULL, 4.73344, 4.73344, '1', 1945954355, 3, '09ee', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (943, '高等数学957c', NULL, NULL, 12.6508, '1', 1177405609, 4, '639e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (944, '高等数学620b', NULL, 184.927, 184.927, '1', 1691520842, 5, '5b0a', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (945, '高等数学ef4a', NULL, NULL, 5.68424, '1', 945125900, 1, 'f576', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (946, '高等数学e883', NULL, 97.5142, 97.5142, '1', 1122232437, 2, 'c42d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (947, '高等数学b12a', NULL, NULL, 239.111, '1', 1607394692, 3, 'f4d6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (948, '高等数学d085', NULL, 8.98394, 8.98394, '1', 1105160484, 4, '6c6b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (949, '高等数学f6bd', NULL, NULL, 53.7872, '1', 380482589, 5, 'a066', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (950, '高等数学1c22', NULL, 329.639, 329.639, '1', 593446882, 1, 'd96b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (951, '高等数学5c6c', NULL, NULL, 2.70144, '1', 983899542, 2, '2b4b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (952, '高等数学9e74', NULL, 24.3719, 24.3719, '1', 76274372, 3, 'f148', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (953, '高等数学16da', NULL, NULL, 704.361, '1', 147450721, 4, '98b8', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (954, '高等数学0861', NULL, 3.29908, 3.29908, '1', 399736086, 5, '556d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (955, '高等数学93e1', NULL, NULL, 97.3681, '1', 70943371, 1, 'ab44', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (956, '高等数学3ac4', NULL, 17.8684, 17.8684, '1', 1424031216, 2, '3f0e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (957, '高等数学1f30', NULL, NULL, 3.6022, '1', 1264973273, 3, '336c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (958, '高等数学4033', NULL, 67.1902, 67.1902, '1', 1696175731, 4, 'a103', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (959, '高等数学dcd4', NULL, NULL, 820.703, '1', 499851329, 5, 'd82f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (960, '高等数学99f5', NULL, 9.22252, 9.22252, '1', 856385558, 1, 'a3e1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (961, '高等数学af24', NULL, NULL, 96.4985, '1', 1445513085, 2, '9317', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (962, '高等数学34d7', NULL, 345.418, 345.418, '1', 123044550, 3, 'aba7', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (963, '高等数学e943', NULL, NULL, 5.82701, '1', 1127728396, 4, '3f44', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (964, '高等数学2f6c', NULL, 47.9838, 47.9838, '1', 95580961, 5, 'd208', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (965, '高等数学1485', NULL, NULL, 728.307, '1', 321403413, 1, 'da44', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (966, '高等数学fd1d', NULL, 4.68961, 4.68961, '1', 686708971, 2, '953f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (967, '高等数学7de7', NULL, NULL, 32.1109, '1', 1950009528, 3, '32a1', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (968, '高等数学eadb', NULL, 460.636, 460.636, '1', 212960488, 4, '30a9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (969, '高等数学c288', NULL, NULL, 1.94377, '1', 518968878, 5, '9760', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (970, '高等数学f7dc', NULL, 25.9938, 25.9938, '1', 1747492825, 1, '3434', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (971, '高等数学e6cf', NULL, NULL, 536.452, '1', 878630276, 2, '6c55', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (972, '高等数学2ce3', NULL, 6.31932, 6.31932, '1', 347297699, 3, '7e8f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (973, '高等数学dce1', NULL, NULL, 70.6786, '1', 897817068, 4, 'b08c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (974, '高等数学25e4', NULL, 81.5554, 81.5554, '1', 1474467545, 5, '1fb0', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (975, '高等数学e06e', NULL, NULL, 4.81141, '1', 1446490166, 1, '1203', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (976, '高等数学21e7', NULL, 89.9717, 89.9717, '1', 1747927407, 2, '237c', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (977, '高等数学3dd9', NULL, NULL, 882.723, '1', 284410344, 3, '84a6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (978, '高等数学b37e', NULL, 7.57861, 7.57861, '1', 1207074008, 4, 'ec8f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (979, '高等数学eed8', NULL, NULL, 88.9803, '1', 643628801, 5, 'a024', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (980, '高等数学f2e7', NULL, 157.681, 157.681, '1', 440958087, 1, 'a13e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (981, '高等数学c948', NULL, NULL, 4.75421, '1', 501125248, 2, '8e37', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (982, '高等数学473f', NULL, 59.8305, 59.8305, '1', 27711849, 3, 'de60', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (983, '高等数学6a85', NULL, NULL, 631.065, '1', 1789334184, 4, '522d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (984, '高等数学bde5', NULL, 4.10206, 4.10206, '1', 1745842039, 5, 'ae83', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (985, '高等数学919f', NULL, NULL, 25.3747, '1', 176363175, 1, '3c2d', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (986, '高等数学7133', NULL, 823.254, 823.254, '1', 1156105209, 2, '1fc6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (987, '高等数学4da3', NULL, NULL, 0.346854, '1', 1244507594, 3, 'be4b', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (988, '高等数学7420', NULL, 98.5737, 98.5737, '1', 212137092, 4, 'b9a9', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (989, '高等数学78c6', NULL, NULL, 777.856, '1', 1422916356, 5, '3b21', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (990, '高等数学c969', NULL, 3.31836, 3.31836, '1', 1921002535, 1, '735f', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (991, '高等数学fc27', NULL, NULL, 89.7946, '1', 1384697229, 2, 'd107', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (992, '高等数学f2cb', NULL, 906.969, 906.969, '1', 79667890, 3, '220e', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (993, '高等数学4c02', NULL, NULL, 1.99801, '1', 469058231, 4, 'cfbe', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (994, '高等数学1bb0', NULL, 0.355782, 0.355782, '1', 1878663630, 5, '7e86', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (995, '高等数学055b', NULL, NULL, 425.219, '1', 1859350697, 1, 'ca93', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (996, '高等数学f173', NULL, 7.34228, 7.34228, '1', 1578308755, 2, '7dba', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (997, '高等数学bd92', NULL, NULL, 46.8024, '1', 435689623, 3, 'f0f6', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (998, '高等数学16c6', NULL, 975.059, 975.059, '1', 1907432578, 4, 'df96', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (999, '高等数学c687', NULL, NULL, 6.04595, '1', 1156604059, 5, 'ab79', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (1000, '高等数学4a6f', NULL, 44.847, 44.847, '1', 1327051027, 1, '5a51', 1, '2018-04-27 00:00:00', NULL);
-INSERT INTO `product` VALUES (1001, '高等数学735f', NULL, NULL, 564.608, '1', 1237882391, 2, '1919', 1, '2018-04-27 00:00:00', NULL);
 
 -- ----------------------------
 -- Table structure for seekbuy
 -- ----------------------------
 DROP TABLE IF EXISTS `seekbuy`;
-CREATE TABLE `seekbuy`  (
+CREATE TABLE `seekbuy` (
   `bid` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `description` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `uid` int(11) NULL DEFAULT NULL,
-  `createdtime` datetime(0) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` varchar(4000) NOT NULL,
+  `uid` int(11) DEFAULT NULL,
+  `status` varchar(4) DEFAULT '0',
+  `createdtime` datetime NOT NULL,
   PRIMARY KEY (`bid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
 
 SET FOREIGN_KEY_CHECKS = 1;
